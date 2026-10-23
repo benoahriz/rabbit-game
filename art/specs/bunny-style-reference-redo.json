@@ -1,0 +1,16 @@
+{
+  "id": "bunny-style-reference-redo",
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "model": "sd_turbo.safetensors",
+    "reference_files": ["/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/references/user-reference-20261023.jpeg"],
+    "reference_note": "user-supplied reference (clipboard paste, 2026-10-23): white bunny, warm brown outline, glitter-pink bow, winking open-mouth smile, blush, glossy eyes, peeking paws. Image stays local (gitignored); sha256 recorded per generation record."
+  },
+  "options": [
+    { "id": "r1-match-face-peek", "prompt": "Exactly this rabbit character from the reference image, same style and colors: white fur, thick warm brown outline, big glossy dark-brown eyes, one eye winking, happy open mouth, pink blush cheeks, glitter-pink bow on one ear, fluffy white peeking paws. Fresh clean rendering on a plain very light pink background, no text, no letters, no sticker frame, no sparkles around, character fills most of the frame." },
+    { "id": "r2-fullbody-sit", "prompt": "Full body version of exactly this rabbit character from the reference image, same style and colors: white fur, thick warm brown outline, glossy dark-brown eyes (both open, gentle happy look), tiny ω mouth, pink blush cheeks, glitter-pink bow on left ear, plump round plush body with visible small paws and round tail, sitting upright facing forward. Plain very light pink background, no text, no letters, no sticker frame, no sparkles, character fills most of the frame." },
+    { "id": "r3-fullbody-flat-matte", "prompt": "Full body version of this rabbit character from the reference image with the glitter removed: same white fur, thick warm brown outline, big glossy dark-brown eyes, one eye winking, happy open mouth, soft solid pink blush, matte flat pink bow on left ear, cozy flat pastel plush body with small paws and round tail, sitting upright. Crisp clean flat illustration for a game sprite, plain very light pink background, no text, no letters, no sticker frame, no sparkles." },
+    { "id": "r4-match-calm-wink", "prompt": "Exactly this rabbit character from the reference image in a calm cozy moment, same style and colors: white fur, thick warm brown outline, big glossy dark-brown eyes, one eye winking with a gentle smile (mouth closed ω shape), soft pink blush, glitter-pink bow on one ear, paws tucked, plump plush body. Plain very light pink background, no text, no letters, no sticker frame, no sparkles, character fills most of the frame." }
+  ]
+}

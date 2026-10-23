@@ -130,18 +130,25 @@ service worker caches. PWA manifest + SW adds scope and versioning discipline.
 ---
 ### Q-014 — Which bunny style becomes canon (options round art/calibration/bunny-style-options)?
 **Context:** User direction (2026-10-23): generate bunny style options and pick
-a favorite. A calibration round produced four style variants (flat-pastel,
-watercolor-cozy, soft-outline-sticker, cel-shaded-plush) + three tea-garden
-scene options; contact sheet served for human pick.
-> 🟢 **OPEN** — awaiting the user's pick; the chosen style updates brand-lock fur
-roles + becomes the master-character spec for v0.2 production.
+a favorite. Round-002 (nano-banana) produced four style variants; round-003
+redid the bunny FROM a user-supplied reference image (white bunny, thick warm
+brown outline, glitter-pink bow, winking open-mouth smile — archived at
+`art/calibration/bunny-style-options/references/`, sha256 in generation.json).
+> 🟢 **OPEN** — user revised the ask to the reference-redo; pick pending among
+round-003 variants (R1 face-peek wink / R2 fullbody calm / R3 fullbody matte
+bow / R4 calm peek wink) or a mix with round-002 styles. Pick gates the
+master-character spec + expression sheet.
 
 ### Q-015 — Scene art: tea garden layout (which composition + how does it fit the game stage-set layout)?
 **Context:** Scene must keep the art bible's stage-set rules: center third open
 for the resting rabbit, floor band walkable-read, water feature visible but
 non-competing. Trickle noise is synthesized (Q-013).
-> 🟢 **OPEN** — pick a scene option (A tsukubai-corner / B morning-stream /
-C bamboo-path) or request a revision round; may compose elements from two options.
+> ✅ **ANSWERED** · 2026-10-23
+**Answer:** **Scene A — tsukubai corner** (round-002, nano-banana). Carries the
+palette + water feature (bamboo spout → stone basin with ripple rings) + lantern
++ open lower-left rest space. Master round converts the cream halo vignette to
+full-bleed. Scene C (bamboo path) is kept as a full-bleed alternate to inform
+density decisions.
 
 ## Art & Audio Pipeline
 ---

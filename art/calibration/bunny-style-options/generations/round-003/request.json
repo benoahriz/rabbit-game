@@ -1,0 +1,11 @@
+{
+  "spec_id": "bunny-style-reference-redo",
+  "spec_execution": "openrouter",
+  "created_at": "2026-10-23T09:34:47.571Z",
+  "options": [
+    "r1-match-face-peek",
+    "r2-fullbody-sit",
+    "r3-fullbody-flat-matte",
+    "r4-match-calm-wink"
+  ]
+}

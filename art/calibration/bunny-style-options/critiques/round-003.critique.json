@@ -1,0 +1,47 @@
+{
+  "round": 3,
+  "critique_at": "2026-10-23T10:20:00Z",
+  "method": "agent pixel-read of every PNG in generations/round-003 (per art/adrs/ADR-0002)",
+  "context": "User provided a reference image (clipboard 2026-10-23: white bunny, thick warm brown outline, glitter-pink bow, winking open-mouth smile, blush, glossy eyes, peeking paws) and asked for the bunny to be redone against it. Cloud lane, reference attached as data URL per option. Reference stays local (gitignored, rights care); sha256 recorded per record.",
+  "verdicts": [
+    {
+      "option": "r1-match-face-peek",
+      "verdict": "ACCEPT",
+      "notes": [
+        "High-fidelity port of the reference: thick warm brown outline, glossy dark-brown eye + wink, open happy mouth with tongue, blush, glitter-pink bow, white peeking paws.",
+        "Prompt hygiene landed: plain light-pink ground, no text/letters, no sticker frame, no background sparkle noise.",
+        "Composition = upper-body peek; pairs with the full-body variants for the gameplay sprite set."
+      ],
+      "fix_type": "none-blocking"
+    },
+    {
+      "option": "r2-fullbody-sit",
+      "verdict": "ACCEPT",
+      "notes": [
+        "Same character, full body: plump plush body, tucked paws, round tail, consistent thick brown outline.",
+        "Calm variant: both glossy eyes open, tiny ω mouth — the patient-idle expression the art bible wants.",
+        "Game-ready composition (frontal compact sit); bow keeps its glitter accent."
+      ],
+      "fix_type": "none-blocking"
+    },
+    {
+      "option": "r3-fullbody-flat-matte",
+      "verdict": "ACCEPT",
+      "notes": [
+        "Glitter-free game-ready version: matte flat bow, flat fills, crisp outlines, visible paw pads on the feet, wink + open smile preserved.",
+        "Closest to the current ART-BIBLE flat rules while holding the reference character — likely the production bridge between reference style and matte asset economics."
+      ],
+      "fix_type": "none-blocking"
+    },
+    {
+      "option": "r4-match-calm-wink",
+      "verdict": "ACCEPT",
+      "notes": [
+        "Reference-true calm face: closed ω smile + wink + marshmallow cheeks; bow keeps glitter.",
+        "Small nit: right-side ear lean is slightly more angular than the reference's soft arcs; negligible."
+      ],
+      "fix_type": "none-blocking"
+    }
+  ],
+  "round_summary": "All four reference-redo variants are accept-grade and faithful to the user's reference. Remaining choice: user picks the canonical expression set (which wink/smile + glitter-vs-matte bow) and whether the fullbody pose (r2/r3) becomes the idle sprite base. Scene pick already locked: A — tsukubai corner (Q-015)."
+}

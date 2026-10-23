@@ -40,12 +40,19 @@ function openrouterKey() {
   return key;
 }
 
-/** Paid cloud generation via OpenRouter image model. Port of precursor scripts/art_generate.py::generate_openrouter. */
-async function generateOpenRouter(prompt, model = OPENROUTER_DEFAULT_MODEL) {
+/** Paid cloud generation via OpenRouter image model. Port of precursor scripts/art_generate.py::generate_openrouter.
+ *  Optional reference image paths are attached as data URLs so the model keeps a character's shape/palette. */
+async function generateOpenRouter(prompt, model = OPENROUTER_DEFAULT_MODEL, referencePaths = []) {
+  const content = [{ type: "text", text: prompt }];
+  for (const p of referencePaths) {
+    const b64 = readFileSync(p).toString("base64");
+    const mime = p.endsWith(".png") ? "image/png" : p.endsWith(".webp") ? "image/webp" : "image/jpeg";
+    content.push({ type: "image_url", image_url: { url: `data:${mime};base64,${b64}` } });
+  }
   const body = JSON.stringify({
     model,
     modalities: ["image"],
-    messages: [{ role: "user", content: [{ type: "text", text: prompt }] }],
+    messages: [{ role: "user", content }],
   });
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -113,7 +120,8 @@ for (const option of spec.options) {
   let bytes, record;
   if (execution === "openrouter") {
     const model = spec.base.cloud_model ?? OPENROUTER_DEFAULT_MODEL;
-    const { bytes: imgBytes, usage, model: servedModel } = await generateOpenRouter(option.prompt, model);
+    const refPaths = spec.base.reference_files ?? [];
+    const { bytes: imgBytes, usage, model: servedModel } = await generateOpenRouter(option.prompt, model, refPaths);
     bytes = imgBytes;
     record = {
       option: option.id,
@@ -125,6 +133,7 @@ for (const option of spec.options) {
       execution_location: "openrouter.ai",
       paid: true,
       authorization: "explicit per-session user instruction (2026-10-23 question prompt)",
+      reference_files: refPaths.map((p) => ({ path: p, sha256: sha256(readFileSync(p)) })),
       openrouter_usage: usage,
       file: `${option.id}.png`,
       sha256: sha256(bytes),

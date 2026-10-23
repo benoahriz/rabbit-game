@@ -1,85 +1,76 @@
 <!doctype html>
-<!-- rabbit-game style-option contact sheet v2 (prototypes/exploration viewer; regenerable, safe to delete).
+<!-- rabbit-game style-option contact sheet v3 (prototypes/exploration viewer; regenerable, safe to delete).
      Served at http://127.0.0.1:8321/art/calibration/contact-sheet.html
-     v2: round-001 (SD-Turbo, local) vs round-002 (nano-banana, OpenRouter — user-authorized) side by side. -->
+     v3: nano-banana outputs ONLY on the pick UI (user direction 2026-10-23); SD-Turbo round-001 kept
+     purely as an archival calibration record. Scene pick locked: A — tsukubai corner. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rabbit-game — style options v2 (model compare + pick)</title>
+<title>rabbit-game — style options v3 (nano-banana)</title>
 <style>
   body { margin: 0; padding: 24px; background: #fdf2f6; font: 14px/1.45 system-ui, sans-serif; color: #4a3b41; }
   h1 { font-size: 18px; margin: 0 0 4px; }
   h2 { font-size: 15px; margin: 30px 0 10px; border-bottom: 2px solid #f3cdd8; padding-bottom: 6px; }
   .note { color: #7a656d; max-width: 78ch; }
-  table { border-collapse: collapse; width: 100%; }
-  td { vertical-align: top; padding: 10px; background: #fff; border-radius: 12px; }
-  td img { width: 100%; border-radius: 8px; display: block; }
-  td.old { opacity: .62; }
-  .lbl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #a08690; margin-bottom: 6px; }
-  .name { font-weight: 700; margin-top: 10px; }
-  .critic { color: #7a656da0; font-size: 12.5px; margin-top: 4px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  figure { margin: 0; background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 2px 10px #4a3b4114; }
+  img { width: 100%; border-radius: 10px; display: block; }
+  figcaption { margin-top: 10px; }
+  .name { font-weight: 700; }
+  .critic { color: #99838b; font-size: 12.5px; margin-top: 4px; }
   .tag { display: inline-block; font-weight: 600; font-size: 11px; padding: 2px 8px; border-radius: 999px; margin-right: 6px; }
-  .accept { background: #d9f0d9; } .lane { background: #dbe8f7; } .revise { background: #fde9c8; }
+  .accept { background: #d9f0d9; } .picked { background: #f7c8d8; }
 </style>
 </head>
 <body>
-  <h1>rabbit-game — style options v2 (model compare)</h1>
-  <p class="note">Left = round-001 (SD-Turbo, the weak local model — kept as the calibration record).
-     Right = <b>round-002 (nano-banana via OpenRouter, user-authorized, 7 images ≈ $0.27)</b> — same prompts.
-     Pick by name, e.g. <i>"bunny: A, scene: A"</i> — or mix ("scene: C but with A's basin closer").</p>
+  <h1>rabbit-game — style options v3 (nano-banana only)</h1>
+  <p class="note">All options below are <b>nano-banana</b> (Gemini 2.5 Flash Image via OpenRouter, user-authorized).
+     The earlier SD-Turbo round is archived as calibration only — never shipped, never on a pick sheet again.</p>
 
-  <h2>BUNNY — pick a style</h2>
-  <table>
-    <tr>
-      <td class="old" style="width:33%"><div class="lbl">round-001 · sd-turbo</div><img src="bunny-style-options/generations/round-001/option-a-flat-pastel.png" alt="A old"></td>
-      <td style="width:50%"><div class="lbl">round-002 · nano-banana</div><img src="bunny-style-options/generations/round-002/option-a-flat-pastel.png" alt="A new"></td>
-      <td style="width:17%"><span class="tag accept">ACCEPT</span><div class="name">A — flat pastel</div>
-        <div class="critic">Canon-ready: clean ground, warm thin outline, neat paws — every round-001 issue fixed.</div></td>
-    </tr>
-    <tr>
-      <td class="old" style="width:33%"><div class="lbl">round-001 · sd-turbo</div><img src="bunny-style-options/generations/round-001/option-b-watercolor-cozy.png" alt="B old"></td>
-      <td style="width:50%"><div class="lbl">round-002 · nano-banana</div><img src="bunny-style-options/generations/round-002/option-b-watercolor-cozy.png" alt="B new"></td>
-      <td style="width:17%"><span class="tag lane">ACCEPT-LANE</span><div class="name">B — watercolor cozy</div>
-        <div class="critic">Content face now; lovely paper-wash texture — allowed only if you choose the painterly style.</div></td>
-    </tr>
-    <tr>
-      <td class="old" style="width:33%"><div class="lbl">round-001 · sd-turbo</div><img src="bunny-style-options/generations/round-001/option-c-soft-outline-sticker.png" alt="C old"></td>
-      <td style="width:50%"><div class="lbl">round-002 · nano-banana</div><img src="bunny-style-options/generations/round-002/option-c-soft-outline-sticker.png" alt="C new"></td>
-      <td style="width:17%"><span class="tag revise">REVISE</span><div class="name">C — marshmallow sticker</div>
-        <div class="critic">Warm outline ✓ blob charm ✓; would drop the sticker border + scarf blob, add limbs.</div></td>
-    </tr>
-    <tr>
-      <td class="old" style="width:33%"><div class="lbl">round-001 · sd-turbo</div><img src="bunny-style-options/generations/round-001/option-d-cel-shaded-plush.png" alt="D old"></td>
-      <td style="width:50%"><div class="lbl">round-002 · nano-banana</div><img src="bunny-style-options/generations/round-002/option-d-cel-shaded-plush.png" alt="D new"></td>
-      <td style="width:17%"><span class="tag revise">REVISE</span><div class="name">D — cel-shaded plush</div>
-        <div class="critic">Proper cel-shade now; would drop the baked moon/clouds backdrop + heart, calm the mood.</div></td>
-    </tr>
-  </table>
+  <h2>BUNNY set 1 — style options (same brief, four styles)</h2>
+  <div class="grid">
+    <figure><img src="bunny-style-options/generations/round-002/option-a-flat-pastel.png" alt="A">
+      <figcaption><span class="tag accept">ACCEPT</span><div class="name">A — flat pastel</div>
+      <div class="critic">Cream + pink plush, warm thin outline, content ω mouth. The art-bible read.</div></figcaption></figure>
+    <figure><img src="bunny-style-options/generations/round-002/option-b-watercolor-cozy.png" alt="B">
+      <figcaption><span class="tag accept">ACCEPT-LANE</span><div class="name">B — watercolor cozy</div>
+      <div class="critic">Painterly paper-wash; needs the flat rule amended if picked.</div></figcaption></figure>
+    <figure><img src="bunny-style-options/generations/round-002/option-c-soft-outline-sticker.png" alt="C">
+      <figcaption><span class="tag accept">REVISE</span><div class="name">C — marshmallow sticker</div>
+      <div class="critic">Blob charm; would drop sticker border + scarf, add limbs.</div></figcaption></figure>
+    <figure><img src="bunny-style-options/generations/round-002/option-d-cel-shaded-plush.png" alt="D">
+      <figcaption><span class="tag accept">REVISE</span><div class="name">D — cel-shaded plush</div>
+      <div class="critic">Glossy eyes + paw pads; would drop baked moon/clouds + heart.</div></figcaption></figure>
+  </div>
 
-  <h2>TEA-GARDEN SCENE — pick a direction</h2>
-  <table>
-    <tr>
-      <td class="old" style="width:33%"><div class="lbl">round-001 · sd-turbo</div><img src="scene-tea-garden-options/generations/round-001/scene-a-tsukubai-corner.png" alt="A old"></td>
-      <td style="width:50%"><div class="lbl">round-002 · nano-banana</div><img src="scene-tea-garden-options/generations/round-002/scene-a-tsukubai-corner.png" alt="A new"></td>
-      <td style="width:17%"><span class="tag accept">ACCEPT</span><div class="name">A — tsukubai corner</div>
-        <div class="critic">Trickling bamboo spout + basin + lantern + moss + cherry branch; open ground where the rabbit rests. Master round converts the cream halo to full-bleed.</div></td>
-    </tr>
-    <tr>
-      <td class="old" style="width:33%"><div class="lbl">round-001 · sd-turbo</div><img src="scene-tea-garden-options/generations/round-001/scene-b-morning-stream.png" alt="B old"></td>
-      <td style="width:50%"><div class="lbl">round-002 · nano-banana</div><img src="scene-tea-garden-options/generations/round-002/scene-b-morning-stream.png" alt="B new"></td>
-      <td style="width:17%"><span class="tag lane">REVISE</span><div class="name">B — morning stream</div>
-        <div class="critic">Pretty but busy: stream + stones + basin stack the center; spout grew a tiny face.</div></td>
-    </tr>
-    <tr>
-      <td class="old" style="width:33%"><div class="lbl">round-001 · sd-turbo</div><img src="scene-tea-garden-options/generations/round-001/scene-c-bamboo-path.png" alt="C old"></td>
-      <td style="width:50%"><div class="lbl">round-002 · nano-banana</div><img src="scene-tea-garden-options/generations/round-002/scene-c-bamboo-path.png" alt="C new"></td>
-      <td style="width:17%"><span class="tag lane">ACCEPT-LANE</span><div class="name">C — bamboo path</div>
-        <div class="critic">Full-bleed garden as-is: fence, petal path, pond with spout. Water feature smaller, mid-left.</div></td>
-    </tr>
-  </table>
+  <h2>BUNNY set 2 — redone FROM YOUR reference image (brown outline + pink bow)</h2>
+  <div class="grid">
+    <figure><img src="bunny-style-options/generations/round-003/r1-match-face-peek.png" alt="R1">
+      <figcaption><span class="tag accept">ACCEPT</span><div class="name">R1 — face peek + wink</div>
+      <div class="critic">Reference-faithful: wink + open smile + glitter bow, clean ground, paws peeking.</div></figcaption></figure>
+    <figure><img src="bunny-style-options/generations/round-003/r2-fullbody-sit.png" alt="R2">
+      <figcaption><span class="tag accept">ACCEPT</span><div class="name">R2 — full body, calm</div>
+      <div class="critic">Same character full-body; both eyes open, patient ω idle face — game-ready.</div></figcaption></figure>
+    <figure><img src="bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png" alt="R3">
+      <figcaption><span class="tag accept">ACCEPT</span><div class="name">R3 — full body, matte bow</div>
+      <div class="critic">Glitter removed, flat fills, visible paw pads — art-bible + reference hybrid.</div></figcaption></figure>
+    <figure><img src="bunny-style-options/generations/round-003/r4-match-calm-wink.png" alt="R4">
+      <figcaption><span class="tag accept">ACCEPT</span><div class="name">R4 — calm peek + wink</div>
+      <div class="critic">Reference-true closed ω smile + wink, marshmallow cheeks.</div></figcaption></figure>
+  </div>
+
+  <h2>SCENE — <span class="tag picked">PICKED: A</span></h2>
+  <div class="grid">
+    <figure><img src="scene-tea-garden-options/generations/round-002/scene-a-tsukubai-corner.png" alt="Scene A — picked">
+      <figcaption><span class="tag picked">PICKED · 2026-10-23</span><div class="name">A — tsukubai corner</div>
+      <div class="critic">Master round next: vignette → full-bleed, matte matte texture held; rabbit rest space lower-left.</div></figcaption></figure>
+    <figure><img src="scene-tea-garden-options/generations/round-002/scene-c-bamboo-path.png" alt="Scene C — alternate">
+      <figcaption><span class="tag accept">kept as alternate</span><div class="name">C — bamboo path</div>
+      <div class="critic">Full-bleed garden alternate; can inform the master round's background density.</div></figcaption></figure>
+  </div>
 
   <p class="note">Provenance per art/adrs/ADR-0002: sha256 + prompts + usage in each round's generation.json;
-     pixel-read verdicts in critiques/round-00N.json. PNGs stay local (gitignored); hashes are committed.</p>
+     reference image archived (gitignored, hash recorded); pixel verdicts in critiques/round-00N.json.</p>
 </body>
 </html>

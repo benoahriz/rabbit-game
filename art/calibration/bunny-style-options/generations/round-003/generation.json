@@ -1,0 +1,176 @@
+{
+  "spec_id": "bunny-style-reference-redo",
+  "created_at": "2026-10-23T09:34:47.573Z",
+  "engine": "OpenRouter image model (sd_turbo.safetensors) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "r1-match-face-peek",
+      "prompt": "Exactly this rabbit character from the reference image, same style and colors: white fur, thick warm brown outline, big glossy dark-brown eyes, one eye winking, happy open mouth, pink blush cheeks, glitter-pink bow on one ear, fluffy white peeking paws. Fresh clean rendering on a plain very light pink background, no text, no letters, no sticker frame, no sparkles around, character fills most of the frame.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/references/user-reference-20261023.jpeg",
+          "sha256": "10f31c02aaf38973f24b268d4235953627e8010fd7c6c0dea3f4178c5bc79e54"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1378,
+        "completion_tokens": 1298,
+        "total_tokens": 2676,
+        "cost": 0.038742066,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391334,
+          "upstream_inference_prompt_cost": 0.0004134,
+          "upstream_inference_completions_cost": 0.03872
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "r1-match-face-peek.png",
+      "sha256": "c87fc46d2bd7c44b95ebfc95c70fcb836e20324076d193dce71bbc362a8cab98"
+    },
+    {
+      "option": "r2-fullbody-sit",
+      "prompt": "Full body version of exactly this rabbit character from the reference image, same style and colors: white fur, thick warm brown outline, glossy dark-brown eyes (both open, gentle happy look), tiny ω mouth, pink blush cheeks, glitter-pink bow on left ear, plump round plush body with visible small paws and round tail, sitting upright facing forward. Plain very light pink background, no text, no letters, no sticker frame, no sparkles, character fills most of the frame.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/references/user-reference-20261023.jpeg",
+          "sha256": "10f31c02aaf38973f24b268d4235953627e8010fd7c6c0dea3f4178c5bc79e54"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1388,
+        "completion_tokens": 1306,
+        "total_tokens": 2694,
+        "cost": 0.038764836,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391564,
+          "upstream_inference_prompt_cost": 0.0004164,
+          "upstream_inference_completions_cost": 0.03874
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "r2-fullbody-sit.png",
+      "sha256": "34c9791ce662ed2d54d0270b56ece1ea9db81790d9b4cfb691a66e79b46c6808"
+    },
+    {
+      "option": "r3-fullbody-flat-matte",
+      "prompt": "Full body version of this rabbit character from the reference image with the glitter removed: same white fur, thick warm brown outline, big glossy dark-brown eyes, one eye winking, happy open mouth, soft solid pink blush, matte flat pink bow on left ear, cozy flat pastel plush body with small paws and round tail, sitting upright. Crisp clean flat illustration for a game sprite, plain very light pink background, no text, no letters, no sticker frame, no sparkles.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/references/user-reference-20261023.jpeg",
+          "sha256": "10f31c02aaf38973f24b268d4235953627e8010fd7c6c0dea3f4178c5bc79e54"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1387,
+        "completion_tokens": 1302,
+        "total_tokens": 2689,
+        "cost": 0.038754639,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391461,
+          "upstream_inference_prompt_cost": 0.0004161,
+          "upstream_inference_completions_cost": 0.03873
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "r3-fullbody-flat-matte.png",
+      "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+    },
+    {
+      "option": "r4-match-calm-wink",
+      "prompt": "Exactly this rabbit character from the reference image in a calm cozy moment, same style and colors: white fur, thick warm brown outline, big glossy dark-brown eyes, one eye winking with a gentle smile (mouth closed ω shape), soft pink blush, glitter-pink bow on one ear, paws tucked, plump plush body. Plain very light pink background, no text, no letters, no sticker frame, no sparkles, character fills most of the frame.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/references/user-reference-20261023.jpeg",
+          "sha256": "10f31c02aaf38973f24b268d4235953627e8010fd7c6c0dea3f4178c5bc79e54"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1383,
+        "completion_tokens": 1308,
+        "total_tokens": 2691,
+        "cost": 0.038768301,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391599,
+          "upstream_inference_prompt_cost": 0.0004149,
+          "upstream_inference_completions_cost": 0.038745
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "r4-match-calm-wink.png",
+      "sha256": "5a2dd4fc655dad184351488cdb4b1a3ad8dbce3e9ffa1e395922188594e1978b"
+    }
+  ]
+}
