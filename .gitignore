@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+.playwright-mcp/
+
+# v0.2 art pipeline: heavy round PNGs stay local; specs, critiques, hashes, and
+# manifests are committed (docs/design/rabbit-game/art/adrs/ADR-0002 — precursor policy).
+art/production/**/generations/**/output.png
+art/calibration/**/*.png

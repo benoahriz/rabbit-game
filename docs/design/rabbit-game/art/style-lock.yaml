@@ -1,0 +1,36 @@
+# style-lock.yaml — rabbit-game (STUB)
+# Machine-readable companion to art/ART-BIBLE.md.
+# Status: stub — roles listed, values TBD pending SHOTKIT brand-lock extraction (Q-002 gate).
+# Fill after: SHOTKIT/ reference research + brand-lock extraction rounds complete.
+# Provenance convention follows the precursor repo:
+#   space-adventure-prototype/docs/design/space-adventure-prototype/art/style-lock.yaml
+
+meta:
+  design: rabbit-game
+  version: 0.2-kawaii-direction   # Q-002 answered 2026-10-23: smooth kawaii illustration
+  updated: 2026-10-23
+  locked: false                    # unlocks only after brand-lock extraction
+  brand_lock_ref: ../SHOTKIT/brand-lock.md   # not yet extracted
+
+canvas:
+  logical_viewport: null      # TBD: chosen during calibration round (art/calibration/)
+  scale_mode: "smooth"        # kawaii: bilinear resample; NEVER nearest-neighbor (art/ART-BIBLE.md §2)
+  background: null            # hex
+
+palette_roles:               # role -> hex; every entry must be named + pinned
+  background: null
+  surface: null               # rabbit resting surface
+  rabbit_fur_primary: null
+  rabbit_fur_shade: null
+  rabbit_inner_ear: null
+  rabbit_eye: null
+  rabbit_nose: null
+  carrot_primary: null
+  carrot_leaf: null
+  ui_accent: null
+  fur_swap: {}                # reserved per IDEA-007: variant primary/shade/inner_ear sets
+
+style_flags:
+  outlines: "soft"            # thin soft-tinted or none; never uniform black ink (provisional until brand-lock)
+  bloom_glow: false           # hard false per art bible
+  texture: "flat"             # flat clean fills; no noise/grain/photoreal (provisional until brand-lock)

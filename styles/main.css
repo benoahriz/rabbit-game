@@ -1,0 +1,21 @@
+/* rabbit-game v0 — empty-scene shell. Vanilla CSS only (docs/design/rabbit-game).
+   Colors below are PROVISIONAL; real palette arrives via brand-lock → art/style-lock.yaml in v0.2. */
+:root {
+  --bg: #fdf2f6;          /* provisional kawaii cream-pink */
+  --floor: #f7e3ec;       /* provisional slightly deeper floor tone */
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  overscroll-behavior: none;
+}
+#stage { height: 100dvh; }
+#scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none; /* pet/feed gestures own this surface (v0.1) */
+}
