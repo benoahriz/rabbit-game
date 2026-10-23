@@ -1,6 +1,8 @@
 {
   "id": "scene-tea-garden-options",
   "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
     "model": "sd_turbo.safetensors",
     "steps": 5,
     "cfg": 1.2,

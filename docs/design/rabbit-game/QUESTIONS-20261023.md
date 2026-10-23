@@ -152,6 +152,17 @@ illustration output) — choosing early wastes generations.
 **Blocking?** Yes for generation-start (ADR-0003-equivalent).
 **Resolution direction:** After Q-002 style decision, run a small model-compare
 calibration round with 2–3 candidate models before pinning.
+> ✅ **ANSWERED** · 2026-10-23
+**Answer:** Model-compare ran as an A/B on identical prompts (recorded in
+`art/calibration/*/critiques/round-002.critique.json`): local SD-Turbo
+(round-001) vs **nano-banana `google/gemini-2.5-flash-image` via OpenRouter**
+(round-002, paid, explicitly user-authorized per rule #4 — 7 images ≈ $0.27).
+Nano-banana was decisively better: flat fills, warm outlines, patient faces,
+clean grounds; every SD-Turbo critique fix landed with no prompt changes.
+**Canon image lane = nano-banana via OpenRouter (paid, per-session explicit
+authorization); local ComfyUI/SD-Turbo remains the zero-cost calibration and
+fallback lane.** Cost + usage are recorded per generation in
+`generations/round-002/generation.json`.
 ---
 ### Q-012 — Sprite derivation format: spritesheet layout spec?
 **Context:** Browser renderer wants one PNG spritesheet + JSON frame manifest.

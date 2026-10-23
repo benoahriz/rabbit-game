@@ -1,0 +1,152 @@
+{
+  "spec_id": "bunny-style-options",
+  "created_at": "2026-10-23T09:22:25.317Z",
+  "engine": "OpenRouter image model (sd_turbo.safetensors) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "option-a-flat-pastel",
+      "prompt": "flat pastel illustration of a cute kawaii rabbit sitting upright, plush rounded shapes, minimal face, glossy dot eyes, tiny mouth, soft pink and cream palette, clean smooth storybook animal character, simple soft background",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "openrouter_usage": {
+        "prompt_tokens": 41,
+        "completion_tokens": 1299,
+        "total_tokens": 1340,
+        "cost": 0.038347452,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0387348,
+          "upstream_inference_prompt_cost": 0.0000123,
+          "upstream_inference_completions_cost": 0.0387225
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "option-a-flat-pastel.png",
+      "sha256": "668232a1daa6e702e267bc6e7d279db1285aa35a93c12d4e38a9aa0c6e929ae9"
+    },
+    {
+      "option": "option-b-watercolor-cozy",
+      "prompt": "cozy watercolor storybook illustration of a gentle fluffy bunny, soft hand-painted washes, warm pastel cream pink, tiny blush cheeks, sleepy content expression, plush proportions",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "openrouter_usage": {
+        "prompt_tokens": 33,
+        "completion_tokens": 1290,
+        "total_tokens": 1323,
+        "cost": 0.038322801,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0387099,
+          "upstream_inference_prompt_cost": 0.0000099,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "option-b-watercolor-cozy.png",
+      "sha256": "325655d198744b82e124264310c77893048f7ba86edb0821f0fc381c79c92b86"
+    },
+    {
+      "option": "option-c-soft-outline-sticker",
+      "prompt": "cute chubby rabbit mascot sticker art, rounded geometric shapes, thin warm-tinted outline, flat matte pastel fills, big head small body, simple dot eyes, kawaii sticker design on plain background",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "openrouter_usage": {
+        "prompt_tokens": 38,
+        "completion_tokens": 1302,
+        "total_tokens": 1340,
+        "cost": 0.038353986,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0387414,
+          "upstream_inference_prompt_cost": 0.0000114,
+          "upstream_inference_completions_cost": 0.03873
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "option-c-soft-outline-sticker.png",
+      "sha256": "dea83339ebdb615af98e5099e27da0d0e5da2bf7939442097791a0ff01d1942a"
+    },
+    {
+      "option": "option-d-cel-shaded-plush",
+      "prompt": "soft cel shaded kawaii bunny, two-step shading, rounded plush toy proportions, calm smile, cream pink palette with brown eyes, cozy children's book animal art, smooth clean finish",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "openrouter_usage": {
+        "prompt_tokens": 37,
+        "completion_tokens": 1302,
+        "total_tokens": 1339,
+        "cost": 0.038353689,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0387411,
+          "upstream_inference_prompt_cost": 0.0000111,
+          "upstream_inference_completions_cost": 0.03873
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "option-d-cel-shaded-plush.png",
+      "sha256": "e59afbaa217475d131992ae8fae3967e5903ca4b0f608b864bb825fddc60a25b"
+    }
+  ]
+}

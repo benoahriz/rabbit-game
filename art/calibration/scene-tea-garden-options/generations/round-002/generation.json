@@ -1,0 +1,116 @@
+{
+  "spec_id": "scene-tea-garden-options",
+  "created_at": "2026-10-23T09:22:44.736Z",
+  "engine": "OpenRouter image model (sd_turbo.safetensors) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "scene-a-tsukubai-corner",
+      "prompt": "cozy japanese tea garden corner, flat pastel storybook illustration, small stone water basin with bamboo spout trickling water, round moss mounds, stepping stones, tiny wooden lantern, cherry blossom branch overhead, warm cream and muted green palette, simple shapes, no people",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "openrouter_usage": {
+        "prompt_tokens": 52,
+        "completion_tokens": 1290,
+        "total_tokens": 1342,
+        "cost": 0.038328444,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0387156,
+          "upstream_inference_prompt_cost": 0.0000156,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "scene-a-tsukubai-corner.png",
+      "sha256": "01e75025d23369bbada3cf4c3f2c9162c691d7e41f2b2b1c6f7107a40d87705d"
+    },
+    {
+      "option": "scene-b-morning-stream",
+      "prompt": "japanese tea garden at soft morning light, kawaii storybook style, gentle stream with round stepping stones, mossy bank, bamboo water spout pouring into granite basin with ripple rings, maple saplings, pastel matte colors, minimal detail, empty and peaceful, no people",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "openrouter_usage": {
+        "prompt_tokens": 52,
+        "completion_tokens": 1307,
+        "total_tokens": 1359,
+        "cost": 0.038370519,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0387581,
+          "upstream_inference_prompt_cost": 0.0000156,
+          "upstream_inference_completions_cost": 0.0387425
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "scene-b-morning-stream.png",
+      "sha256": "85c831ddec1126be7a4889953d1e70130fb780257325ebb4161caade19e93494"
+    },
+    {
+      "option": "scene-c-bamboo-path",
+      "prompt": "cozy flat illustration of a quiet japanese tea garden path, bamboo fence, stone pathway, small round pond with trickling bamboo fountain, scattered petals, soft pastel pink green cream palette, warm gentle light, storybook matte art, no people",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "openrouter_usage": {
+        "prompt_tokens": 48,
+        "completion_tokens": 1312,
+        "total_tokens": 1360,
+        "cost": 0.038381706,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0387694,
+          "upstream_inference_prompt_cost": 0.0000144,
+          "upstream_inference_completions_cost": 0.038755
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "scene-c-bamboo-path.png",
+      "sha256": "4d530eb5a2aa8bf0edd5d303ea7e3ea44fb1a3914ab111ca7f8c74cfb35c0b81"
+    }
+  ]
+}
