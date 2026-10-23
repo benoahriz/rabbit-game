@@ -1,0 +1,9 @@
+{
+  "spec_id": "scene-pink-room-master",
+  "spec_execution": "openrouter",
+  "created_at": "2026-10-23T10:03:15.318Z",
+  "options": [
+    "room-a-rug-heart",
+    "room-b-wallpaper-window"
+  ]
+}

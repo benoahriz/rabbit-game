@@ -1,0 +1,48 @@
+{
+  "policy": "assets/ holds ONLY pipeline-promoted finals with provenance (ADR-0002). Placeholders live in assets/placeholder/ and may never appear in a v1 release.",
+  "promoted": [
+    {
+      "role": "scene/background",
+      "file": "assets/scene/background.png",
+      "sha256": "6c6c62a3277a79928a77a9d969f374811ddf7e4e32053ecb5b8bca14c144d7ca",
+      "source": "art/production/scene-tea-garden-master/generations/round-001/variant-a-restspace-left.png",
+      "source_sha": "see source round generation.json (variant-a-restspace-left)",
+      "picked": "user pick 2026-10-23 (Master A — rest-space left)",
+      "provenance_note": "style reference = picked canon character (records in spec.json + round generation.json); water feature per user amendment: rock formation + koi pool + bubbling/overflowing bubbler + meandering stream beside the pathway",
+      "provenance_files": [
+        "art/production/scene-tea-garden-master/spec.json",
+        "art/production/scene-tea-garden-master/generations/round-001/generation.json",
+        "art/production/scene-tea-garden-master/generations/round-001.critique.json"
+      ]
+    },
+    {
+      "role": "character/idle (full body, calm base of Q-014 canon look)",
+      "file": "assets/character/rabbit-idle.png",
+      "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb",
+      "source": "art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+      "source_sha": "see source round generation.json (r3-fullbody-flat-matte)",
+      "picked": "user pick 2026-10-23 (Q-014: reference-redo R3)",
+      "provenance_note": "derived from user-supplied reference image (archived gitignored at art/calibration/bunny-style-options/references/, sha256 recorded in round-003 generation.json)",
+      "provenance_files": [
+        "art/specs/bunny-style-reference-redo.json",
+        "art/calibration/bunny-style-options/generations/round-003/generation.json",
+        "art/calibration/bunny-style-options/critiques/round-003.critique.json"
+      ]
+    {
+      "role": "scene/pink-room (second environment)",
+      "file": "assets/scene/pink-room.png",
+      "sha256": "67d161954ff3dacf4790a436999f88553cb54e1373b428750ee9f55bf5a8d495",
+      "source": "art/production/scene-pink-room-master/generations/round-001/room-a-rug-heart.png",
+      "source_sha": "see source round generation.json (room-a-rug-heart)",
+      "picked": "critic ACCEPT per spec acceptance criteria (user-directed content; alternate room-b-wallpaper-window archived as REVISE)",
+      "provenance_note": "user direction 2026-10-23: pastel pink 'original idea' room, character centered; style reference = canon character; consumed behind the ESC settings menu (scripts/menu.js)",
+      "provenance_files": [
+        "art/production/scene-pink-room-master/spec.json",
+        "art/production/scene-pink-room-master/generations/round-001/generation.json",
+        "art/production/scene-pink-room-master/generations/round-001.critique.json"
+      ]
+    }
+  ],
+  "renderer_consumption": "scripts/render.js loads both at boot; opaque sprite is chroma-keyed at runtime (border flood-fill; deliberate v0.2-alpha ceiling — pre-baked cutouts arrive with the expression sheet).",
+  "updated": "2026-10-23"
+}

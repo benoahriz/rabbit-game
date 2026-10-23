@@ -6,6 +6,7 @@
   <meta name="color-scheme" content="light">
   <!-- Title provisional: final name pending QUESTIONS Q-001 -->
   <title>rabbit</title>
+  <link rel="icon" type="image/png" href="assets/character/rabbit-idle.png">
   <meta name="description" content="A tiny virtual-pet toy: feed the rabbit carrots, pet it, hear cute noises.">
   <link rel="stylesheet" href="styles/main.css">
 </head>
@@ -41,6 +42,21 @@
       </svg>
     </button>
     <span id="fed" class="fed-count" aria-live="polite">0 fed</span>
+  </div>
+
+  <!-- Settings menu (v0.2): ESC toggles; picking the Setting swaps the environment art -->
+  <div id="menu" class="menu" hidden role="dialog" aria-modal="true" aria-labelledby="menu-title">
+    <div class="menu-card">
+      <h2 id="menu-title">Settings</h2>
+      <p class="menu-hint">press esc to close</p>
+      <fieldset class="menu-row">
+        <legend>Setting</legend>
+        <div class="setting-opts">
+          <button id="opt-garden" class="setting-opt" type="button" data-setting="garden" aria-pressed="false">Garden <small>(outside)</small></button>
+          <button id="opt-room" class="setting-opt" type="button" data-setting="room" aria-pressed="false">Pink room <small>(inside)</small></button>
+        </div>
+      </fieldset>
+    </div>
   </div>
 
   <noscript><p class="noscript-note">This toy needs JavaScript to bring the rabbit to life.</p></noscript>

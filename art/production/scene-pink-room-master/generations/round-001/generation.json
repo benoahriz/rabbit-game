@@ -1,0 +1,92 @@
+{
+  "spec_id": "scene-pink-room-master",
+  "created_at": "2026-10-23T10:03:15.320Z",
+  "engine": "OpenRouter image model (sd_turbo.safetensors) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "room-a-rug-heart",
+      "prompt": "Interior room illustration in EXACTLY the flat matte style of the reference character: thick warm brown outlines, flat matte pink fills, soft rounded cozy shapes. Content: a cozy pastel pink room interior, no animals, no people, no text: pale pink walls, warm cream-pink wooden floor, a big round pale rug in the center of the floor (empty on it), a small pet bed with a soft cushion in the corner, a low shelf with tiny plant pots, a small window with soft cream curtains showing pale sky, a warm little lamp. Front-facing composition like a dollhouse diorama, gentle even light, calm cozy mood, character fills the frame edge to edge so it can be cropped full-bleed.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1436,
+        "completion_tokens": 1290,
+        "total_tokens": 2726,
+        "cost": 0.038739492,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391308,
+          "upstream_inference_prompt_cost": 0.0004308,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "room-a-rug-heart.png",
+      "sha256": "67d161954ff3dacf4790a436999f88553cb54e1373b428750ee9f55bf5a8d495"
+    },
+    {
+      "option": "room-b-wallpaper-window",
+      "prompt": "Interior room illustration in EXACTLY the flat matte style of the reference character: thick warm brown outline lines, flat matte pastel fills. Content: cozy pastel pink room interior, no animals, no people, no text: soft pink wall with tiny heart motifs wallpaper, cream floor, round empty rug dead center on the floor, a wooden window on one side with cream curtains and pale morning light, floating shelves with a tiny cactus and books, a small clock on the wall, warm lamp glow replaced by soft light—no glow effects, just flat warm light. Front-facing dollhouse composition, symmetric, generous empty rug space in the center for a character to sit, full-bleed crop safe.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1429,
+        "completion_tokens": 1311,
+        "total_tokens": 2740,
+        "cost": 0.038789388,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391812,
+          "upstream_inference_prompt_cost": 0.0004287,
+          "upstream_inference_completions_cost": 0.0387525
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "room-b-wallpaper-window.png",
+      "sha256": "964e0a1a76248862adb4b028344b55e3c0d7d97e0195efac601c08581d62dc16"
+    }
+  ]
+}

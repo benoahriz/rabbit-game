@@ -1,0 +1,21 @@
+{
+  "id": "scene-pink-room-master",
+  "purpose": "v0.2 second environment: cozy PINK ROOM interior (user direction 2026-10-23: the pastel-pink 'original idea' feel, keep the new character; ESC menu switches garden ⇄ room)",
+  "style_reference_note": "Reference image = the picked canon character (art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png). Match its illustration style (thick warm brown outline, flat matte pastel pastel fills). The character must NOT appear; center of the room stays EMPTY for the rabbit.",
+  "acceptance_criteria": [
+    "Cozy interior room read (walls + floor + at least furniture cues), pastel pink dominant",
+    "Style-matched to the character (brown outlines, matte fills, same palette family)",
+    "Rug / open floor panel in the CENTER where the rabbit sits (empty there; rabbit renders on top)",
+    "No animals, no people, no text; small square format OK (cover-crop safe)"
+  ],
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "model": "sd_turbo.safetensors",
+    "reference_files": ["/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png"]
+  },
+  "options": [
+    { "id": "room-a-rug-heart", "prompt": "Interior room illustration in EXACTLY the flat matte style of the reference character: thick warm brown outlines, flat matte pink fills, soft rounded cozy shapes. Content: a cozy pastel pink room interior, no animals, no people, no text: pale pink walls, warm cream-pink wooden floor, a big round pale rug in the center of the floor (empty on it), a small pet bed with a soft cushion in the corner, a low shelf with tiny plant pots, a small window with soft cream curtains showing pale sky, a warm little lamp. Front-facing composition like a dollhouse diorama, gentle even light, calm cozy mood, character fills the frame edge to edge so it can be cropped full-bleed." },
+    { "id": "room-b-wallpaper-window", "prompt": "Interior room illustration in EXACTLY the flat matte style of the reference character: thick warm brown outline lines, flat matte pastel fills. Content: cozy pastel pink room interior, no animals, no people, no text: soft pink wall with tiny heart motifs wallpaper, cream floor, round empty rug dead center on the floor, a wooden window on one side with cream curtains and pale morning light, floating shelves with a tiny cactus and books, a small clock on the wall, warm lamp glow replaced by soft light—no glow effects, just flat warm light. Front-facing dollhouse composition, symmetric, generous empty rug space in the center for a character to sit, full-bleed crop safe." }
+  ]
+}

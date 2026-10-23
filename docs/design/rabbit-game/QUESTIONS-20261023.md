@@ -102,6 +102,20 @@ aware. If synthesis reads flat after the scene art lands, record or generate a
 proper loop via the pipeline and promote it through ADR-0002 with a `sound/`
 variant (revisit in v0.2 polish).
 
+### Q-016 — Environment system: two selectable settings + ESC menu?
+**Context:** User direction (2026-10-23): "make the background choosable"; keep
+the garden (rabbit off-center left) and add the pastel-pink "original idea"
+room (rabbit CENTERED), behind an ESC settings menu.
+> ✅ **ANSWERED** · 2026-10-23
+**Answer:** Shipped in v0.2-alpha: `scripts/menu.js` + `#menu` card (ESC
+toggle, backdrop click close); store gains persisted `setting` ("garden" |
+"room", validated on load); renderer keeps both scene images and switches
+placement rules per environment (garden: x=0.30w baseline 0.80h; room: centered
+x=0.5w, baseline 0.90h — feet on the rug). Pink-room master promoted from
+`art/production/scene-pink-room-master` (room-a-rug-heart). Open TODO: touch
+devices have no ESC — explicit menu button lands with the mobile pass (ROADMAP
+v0.2/v1 visual passes).
+
 ## Testing & Release
 ---
 ### Q-008 — Test tooling for the browser toy?

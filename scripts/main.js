@@ -3,6 +3,7 @@ import { RabbitState } from "./rabbit-state.js";
 import { InputController } from "./input.js";
 import { SoundEngine } from "./sound.js";
 import { Store } from "./store.js";
+import { SettingsMenu } from "./menu.js";
 import { Renderer } from "./render.js";
 
 const canvas = document.getElementById("scene");
@@ -65,6 +66,21 @@ muteBtn.addEventListener("click", () => {
 // battery politeness: no audio while the tab is backgrounded
 document.addEventListener("visibilitychange", () => sound.setHidden(document.hidden));
 
+// --- settings menu (ESC) + environment picker (user direction 2026-10-23) ---
+const menu = new SettingsMenu(document.getElementById("menu"), {
+  getSetting: () => store.data.setting,
+  onSettingChange: (id) => {
+    store.save({ setting: id });
+    renderer.setSetting(id);
+    sound.soft(); // tiny acknowledgment blip
+  },
+});
+menu.init();
+renderer.setSetting(store.data.setting); // restore persisted environment
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") menu.toggle();
+});
+
 // --- sizing + main loop ---
 const fit = () => renderer.resize(canvas.clientWidth, canvas.clientHeight);
 if ("ResizeObserver" in window) new ResizeObserver(fit).observe(document.documentElement);
@@ -72,6 +88,9 @@ else window.addEventListener("resize", fit);
 fit();
 syncFed();
 syncMute();
+
+// real-art load (v0.2): promoted pipeline assets; draw() shows the labeled placeholder until ready
+renderer.load();
 
 let last = performance.now();
 const frame = () => {

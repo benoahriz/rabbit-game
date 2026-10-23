@@ -97,11 +97,16 @@ running beside the stone pathway**. Moss
 mounds, stone lantern, cherry accents, muted moss greens + dusty pinks + cream
 hush. The ambience audio (Q-013 ✓) reads as this scene's trickle + bubbling.
 
-Single scene, full-bleed background. Center-left/rest band kept open and quiet
-for the resting rabbit; water feature sits mid-right as the interest anchor
-(and the visual anchor for the trickling-water ambience, Q-013 ✓). Feed
-affordance (carrot) must be findable within 2 seconds by a first-time phone
-visitor. No competing characters, objects, or weather in v1.
+Single scene **per environment** (two-environment system, user scope amendment
+2026-10-23): the **garden** — full-bleed, quiet rest band center-left, water
+feature mid-right as the interest anchor (and the visual anchor of the
+trickling ambience, Q-013 ✓) — and the **pink room** (`assets/scene/pink-room.png`,
+Q-env: interior with empty center rug; rabbit CENTERED there vs off-center left
+in the garden). Switched via the ESC settings menu (PRD UC-6). Within each
+environment the composition rules stay strict: quiet rest space for the rabbit,
+below-neutral noise elsewhere. Feed affordance (carrot) must be findable within
+2 seconds by a first-time phone visitor. No competing characters, objects, or
+weather in v1.
 
 ## 7. Non-Negotiables (carried from PRD/AGENTS)
 
