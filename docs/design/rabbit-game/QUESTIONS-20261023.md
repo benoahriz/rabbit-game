@@ -116,6 +116,19 @@ x=0.5w, baseline 0.90h — feet on the rug). Pink-room master promoted from
 devices have no ESC — explicit menu button lands with the mobile pass (ROADMAP
 v0.2/v1 visual passes).
 
+### Q-017 — Adopt external skill workflows into our practice?
+**Context:** User direction (2026-10-23): installed the `threejs-game-skills`
+suite (see ADOPT-20261023) and asked to fold some of its workflows/principles
+into this project's practice, without changing the stack.
+> ✅ **ANSWERED** · 2026-10-23
+**Answer:** Adopted 15 process/feel rules + a 6-category visual scorecard
+(doc-level only; see `ADOPT-20261023.md` for the full map and the Feel rule).
+Rejected the suite's stack (Vite/TS/Three.js/npm harness) per AGENTS rule 1 and
+its paid asset lanes (Tripo/ElevenLabs) per rule 4. Two feel ideas queued:
+IDEA-008 (synth variance), IDEA-009 (overshoot easing). Core-loop contract
+added to PRD §1. Sequel hooks: declared-evidence + motion-capture habits feed
+the planned scripted Playwright suite (ROADMAP).
+
 ## Testing & Release
 ---
 ### Q-008 — Test tooling for the browser toy?
