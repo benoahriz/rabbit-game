@@ -10,6 +10,7 @@ export class Renderer {
     this.ctx = canvas.getContext("2d");
     if (!this.ctx) throw new Error("Canvas 2D unavailable — this toy requires it.");
     this.rabbitRect = { x: 0, y: 0, w: 0, h: 0 };
+    this.headRect = { x: 0, y: 0, w: 0, h: 0 };
     this.reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
   }
 
@@ -21,8 +22,11 @@ export class Renderer {
     this.w = w; this.h = h;
   }
 
-  /** CSS-pixel rect around the rabbit (for input hit-testing). */
+  /** CSS-pixel rect around the rabbit's whole body (drag-feed drop target). */
   getRabbitRect() { return this.rabbitRect; }
+
+  /** CSS-pixel rect around the rabbit's head + ears (pet target — petting the head only, user direction 2026-10-23). */
+  getHeadRect() { return this.headRect; }
 
   draw(state) {
     const { ctx, w, h } = this;
@@ -170,12 +174,18 @@ export class Renderer {
       ctx.restore();
     }
 
-    // record hit rect (CSS px)
+    // record hit rects (CSS px): body (feed/drag target) and head (pet target)
     this.rabbitRect = {
       x: cx - bodyR * 1.4,
       y: headY - headR * 2.2,
       w: bodyR * 2.8,
       h: baseY - headY + headR * 2.4,
+    };
+    this.headRect = {
+      x: hx - headR * 1.15,
+      y: headY - headR * 2.45, // includes both ears' tops
+      w: headR * 2.3,
+      h: headR * 3.0,
     };
   }
 

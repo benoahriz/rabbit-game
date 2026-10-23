@@ -9,7 +9,7 @@ export const AMBIENT = {
   BLINK_MS: 180,
   EAR_MS: 1200,          // ear twitch duration
   PET_THRESHOLD: 3,      // accumulated pet heat that triggers a happy hop
-  PET_DECAY_PER_S: 0.8,  // pet heat decay per second
+  PET_DECAY_PER_S: 0.6,  // pet heat decay per second (head-only strokes accumulate slower than full-body did)
   MIN_STROKE: 28,        // pointer travel that turns a touch into a stroke (px)
 };
 

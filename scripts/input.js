@@ -19,13 +19,14 @@ export function pointInRect(x, y, r) {
 
 /**
  * Gestures:
- * - Stroke ON the rabbit                  -> onPetTick() while moving (immediate wiggle), onPetDone("pet") on release
- * - Plain tap on the rabbit               -> onPetDone("tap") (a gentle pet)
+ * - Stroke STARTING ON THE RABBIT'S HEAD  -> onPetTick() while moving (immediate wiggle), onPetDone("pet") on release
+ * - Plain tap on the head                 -> onPetDone("tap") (a gentle head-pet)
+ * - Strokes that start on the body        -> ignored (petting is a head ritual; non-punishing no-op)
  * - Tap the carrot button                 -> onFeed()
- * - Pointer down on carrot, release over rabbit -> onFeed()
+ * - Pointer down on carrot, release over rabbit (body rect) -> onFeed()
  * - Any first gesture                     -> onInteract() (audio unlock, mandatory before sound)
- * callbacks: { onPetTick, onPetDone, onFeed, onInteract, getRabbitRect }
- * getRabbitRect() -> {x,y,w,h} in CSS pixels (from the renderer).
+ * callbacks: { onPetTick, onPetDone, onFeed, onInteract, getHeadRect, getRabbitRect }
+ * getHeadRect()/getRabbitRect() -> {x,y,w,h} in CSS pixels (from the renderer).
  */
 export class InputController {
   constructor(surface, carrotButton, callbacks) {
@@ -43,8 +44,8 @@ export class InputController {
   attach() {
     this._on(this.surface, "pointerdown", (e) => {
       this.cb.onInteract?.();
-      const r = this.cb.getRabbitRect?.();
-      this.samples = pointInRect(e.clientX, e.clientY, r) ? [{ x: e.clientX, y: e.clientY, t: e.timeStamp }] : [];
+      const head = this.cb.getHeadRect?.();
+      this.samples = pointInRect(e.clientX, e.clientY, head) ? [{ x: e.clientX, y: e.clientY, t: e.timeStamp }] : [];
       this.strokeAccum = 0;
     });
 

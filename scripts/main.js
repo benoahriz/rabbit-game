@@ -23,7 +23,10 @@ const syncMute = () => {
 };
 
 // --- interaction plumbing ---
-const onInteract = () => sound.unlock(); // once; browsers require a gesture before audio
+const onInteract = () => {
+  sound.unlock();
+  sound.startAmbience(); // tea-garden trickle bed begins after the audio-unlock gesture
+};
 
 const playFeed = ({ hiccup }) => {
   if (hiccup) sound.soft();
@@ -47,15 +50,20 @@ new InputController(canvas, carrotBtn, {
   onPetDone,
   onFeed,
   onInteract,
-  getRabbitRect: () => renderer.getRabbitRect(),
+  getRabbitRect: () => renderer.getRabbitRect(), // drag-feed drop target (whole body)
+  getHeadRect: () => renderer.getHeadRect(),    // pet target (head + ears only)
 }).attach();
 
 muteBtn.addEventListener("click", () => {
   onInteract(); // allow unmuting-by-click to also be the audio unlock gesture
   store.save({ muted: !store.data.muted });
+  sound.setAmbienceMuted(store.data.muted);
   sound.lastChirrup = 0;
   syncMute();
 });
+
+// battery politeness: no audio while the tab is backgrounded
+document.addEventListener("visibilitychange", () => sound.setHidden(document.hidden));
 
 // --- sizing + main loop ---
 const fit = () => renderer.resize(canvas.clientWidth, canvas.clientHeight);
