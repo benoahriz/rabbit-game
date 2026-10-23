@@ -91,6 +91,17 @@ the shipped artifact: `index.html` + `styles/` + `scripts/*.js` (native ES modul
 **Blocking?** No.
 **Resolution direction:** Defer name input to v2 (simpler a11y in v1).
 ---
+### Q-013 — Ambience: synthesized vs recorded trickling water?
+**Context:** User direction (2026-10-23): cozy Japanese tea garden scene with a
+small water feature and "cozy trickling water background noise." Q-004 set the
+v1 audio approach to WebAudio synthesis; ambient water is the first ambience need.
+> ✅ **ANSWERED** · 2026-10-23
+**Answer:** Synthesized (v0.2 build): brown-noise trickle bed + bandpassed random
+droplet accents from `scripts/sound.js`. Zero assets, mute-aware, tab-hidden -
+aware. If synthesis reads flat after the scene art lands, record or generate a
+proper loop via the pipeline and promote it through ADR-0002 with a `sound/`
+variant (revisit in v0.2 polish).
+
 ## Testing & Release
 ---
 ### Q-008 — Test tooling for the browser toy?
@@ -117,6 +128,21 @@ service worker caches. PWA manifest + SW adds scope and versioning discipline.
 **Blocking?** No.
 **Resolution direction:** 🔴 OUT OF SCOPE for v1; DEFERRED to v2. Revisit PRD §7.
 ---
+### Q-014 — Which bunny style becomes canon (options round art/calibration/bunny-style-options)?
+**Context:** User direction (2026-10-23): generate bunny style options and pick
+a favorite. A calibration round produced four style variants (flat-pastel,
+watercolor-cozy, soft-outline-sticker, cel-shaded-plush) + three tea-garden
+scene options; contact sheet served for human pick.
+> 🟢 **OPEN** — awaiting the user's pick; the chosen style updates brand-lock fur
+roles + becomes the master-character spec for v0.2 production.
+
+### Q-015 — Scene art: tea garden layout (which composition + how does it fit the game stage-set layout)?
+**Context:** Scene must keep the art bible's stage-set rules: center third open
+for the resting rabbit, floor band walkable-read, water feature visible but
+non-competing. Trickle noise is synthesized (Q-013).
+> 🟢 **OPEN** — pick a scene option (A tsukubai-corner / B morning-stream /
+C bamboo-path) or request a revision round; may compose elements from two options.
+
 ## Art & Audio Pipeline
 ---
 ### Q-011 — Do we pin the same ComfyUI model (SD-Turbo) as the precursor repo?

@@ -1,0 +1,18 @@
+{
+  "id": "bunny-style-options",
+  "base": {
+    "model": "sd_turbo.safetensors",
+    "steps": 5,
+    "cfg": 1.2,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "size": { "width": 512, "height": 512 },
+    "negative": "photorealistic, harsh black outlines, neon colors, text, watermark, cluttered background, scary, ugly"
+  },
+  "options": [
+    { "id": "option-a-flat-pastel", "prompt": "flat pastel illustration of a cute kawaii rabbit sitting upright, plush rounded shapes, minimal face, glossy dot eyes, tiny mouth, soft pink and cream palette, clean smooth storybook animal character, simple soft background", "seed": 2026102301 },
+    { "id": "option-b-watercolor-cozy", "prompt": "cozy watercolor storybook illustration of a gentle fluffy bunny, soft hand-painted washes, warm pastel cream pink, tiny blush cheeks, sleepy content expression, plush proportions", "seed": 2026102302 },
+    { "id": "option-c-soft-outline-sticker", "prompt": "cute chubby rabbit mascot sticker art, rounded geometric shapes, thin warm-tinted outline, flat matte pastel fills, big head small body, simple dot eyes, kawaii sticker design on plain background", "seed": 2026102303 },
+    { "id": "option-d-cel-shaded-plush", "prompt": "soft cel shaded kawaii bunny, two-step shading, rounded plush toy proportions, calm smile, cream pink palette with brown eyes, cozy children's book animal art, smooth clean finish", "seed": 2026102304 }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "scene-tea-garden-options",
+  "base": {
+    "model": "sd_turbo.safetensors",
+    "steps": 5,
+    "cfg": 1.2,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "size": { "width": 640, "height": 400 },
+    "negative": "photorealistic, people, harsh black outlines, neon, text, watermark, cluttered, dark moody lighting, rain"
+  },
+  "options": [
+    { "id": "scene-a-tsukubai-corner", "prompt": "cozy japanese tea garden corner, flat pastel storybook illustration, small stone water basin with bamboo spout trickling water, round moss mounds, stepping stones, tiny wooden lantern, cherry blossom branch overhead, warm cream and muted green palette, simple shapes, no people", "seed": 2026102311 },
+    { "id": "scene-b-morning-stream", "prompt": "japanese tea garden at soft morning light, kawaii storybook style, gentle stream with round stepping stones, mossy bank, bamboo water spout pouring into granite basin with ripple rings, maple saplings, pastel matte colors, minimal detail, empty and peaceful, no people", "seed": 2026102312 },
+    { "id": "scene-c-bamboo-path", "prompt": "cozy flat illustration of a quiet japanese tea garden path, bamboo fence, stone pathway, small round pond with trickling bamboo fountain, scattered petals, soft pastel pink green cream palette, warm gentle light, storybook matte art, no people", "seed": 2026102313 }
+  ]
+}

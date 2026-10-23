@@ -1,0 +1,73 @@
+<!doctype html>
+<!-- rabbit-game style-option contact sheet (prototypes/exploration viewer; regenerable, safe to delete).
+     Served at http://127.0.0.1:8321/art/calibration/contact-sheet.html -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rabbit-game — style options (pick one)</title>
+<style>
+  body { margin: 0; padding: 24px; background: #fdf2f6; font: 14px/1.45 system-ui, sans-serif; color: #4a3b41; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 28px 0 10px; border-bottom: 2px solid #f3cdd8; padding-bottom: 6px; }
+  .note { color: #4a3b4180; max-width: 70ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  figure { margin: 0; background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 2px 10px #4a3b4114; }
+  img { width: 100%; border-radius: 10px; display: block; }
+  figcaption { margin-top: 10px; }
+  .tag { display: inline-block; font-weight: 600; font-size: 12px; padding: 2px 8px; border-radius: 999px; margin-right: 6px; }
+  .accept { background: #d9f0d9; } .revise { background: #fde9c8; } .reject { background: #f8d7d7; }
+  .critic { color: #4a3b41a0; font-size: 12.5px; margin-top: 6px; }
+</style>
+</head>
+<body>
+  <h1>rabbit-game — style options round-001</h1>
+  <p class="note">Pick what you like by name (e.g. "bunny: A" or "scene: C, but with the basin from A").
+     Critic notes are my pixel-read, not your limitation — any option can be re-run with fixes.</p>
+
+  <h2>Choose the BUNNY style</h2>
+  <div class="grid">
+    <figure>
+      <img src="bunny-style-options/generations/round-001/option-a-flat-pastel.png" alt="Option A — flat pastel bunny">
+      <figcaption><span class="tag accept">critic: ACCEPT (lead)</span><b>Option A — flat pastel</b>
+        <div class="critic">Matches the brand direction best. Revisions queued for master round: clean transparent ground, softer warm outline, neater paws.</div></figcaption>
+    </figure>
+    <figure>
+      <img src="bunny-style-options/generations/round-001/option-b-watercolor-cozy.png" alt="Option B — watercolor bunny">
+      <figcaption><span class="tag revise">critic: REVISE</span><b>Option B — watercolor cozy</b>
+        <div class="critic">Lovely paint feel, but textured fur + melancholy face sit outside the flat-kawaii rules.</div></figcaption>
+    </figure>
+    <figure>
+      <img src="bunny-style-options/generations/round-001/option-c-soft-outline-sticker.png" alt="Option C — sticker bunny">
+      <figcaption><span class="tag revise">critic: REVISE</span><b>Option C — sticker style</b>
+        <div class="critic">Cute sticker charm, but hard black badge outline + head-only; needs warm outline + full body.</div></figcaption>
+    </figure>
+    <figure>
+      <img src="bunny-style-options/generations/round-001/option-d-cel-shaded-plush.png" alt="Option D — plush bunny">
+      <figcaption><span class="tag reject">critic: REJECT</span><b>Option D — plush-real bunny</b>
+        <div class="critic">Photoreal teddy fuzz + saturated scarf — outside the never-list; shown for range.</div></figcaption>
+    </figure>
+  </div>
+
+  <h2>Choose the TEA-GARDEN scene direction</h2>
+  <div class="grid">
+    <figure>
+      <img src="scene-tea-garden-options/generations/round-001/scene-a-tsukubai-corner.png" alt="Scene A — tsukubai corner">
+      <figcaption><span class="tag revise">critic: REVISE</span><b>Scene A — tsukubai corner</b>
+        <div class="critic">Correct content: stone basin + bamboo spout + lantern + blossoms. Greens too saturated; center too busy for the resting rabbit.</div></figcaption>
+    </figure>
+    <figure>
+      <img src="scene-tea-garden-options/generations/round-001/scene-b-morning-stream.png" alt="Scene B — morning stream">
+      <figcaption><span class="tag reject">critic: REJECT</span><b>Scene B — morning stream</b>
+        <div class="critic">Photoreal stream, dark + moody — the "stream" word pulls realism; wrong lane.</div></figcaption>
+    </figure>
+    <figure>
+      <img src="scene-tea-garden-options/generations/round-001/scene-c-bamboo-path.png" alt="Scene C — bamboo path">
+      <figcaption><span class="tag revise">critic: REVISE (palette lantern)</span><b>Scene C — bamboo path</b>
+        <div class="critic">Best palette match (dusty pink + moss + cream, flat matte fills). Missing water feature; plan: C's palette + A's basin, rebuilt for the stage-set layout.</div></figcaption>
+    </figure>
+  </div>
+
+  <p class="note">Provenance is recorded per art/adrs/ADR-0002 (sha256 in each round's generation.json; PNGs stay local).</p>
+</body>
+</html>

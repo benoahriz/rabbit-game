@@ -1,0 +1,80 @@
+{
+  "spec_id": "bunny-style-options",
+  "created_at": "2026-10-23T09:12:57.862Z",
+  "engine": "ComfyUI 0.34.0 (local, MPS)",
+  "execution_note": "local checkpoint; deterministic only where the backend exposes seeds",
+  "records": [
+    {
+      "option": "option-a-flat-pastel",
+      "prompt": "flat pastel illustration of a cute kawaii rabbit sitting upright, plush rounded shapes, minimal face, glossy dot eyes, tiny mouth, soft pink and cream palette, clean smooth storybook animal character, simple soft background",
+      "seed": 2026102301,
+      "comfy_prompt_id": "e00e1c51-67df-4dee-981f-a6a821d9bd95",
+      "model": "sd_turbo.safetensors",
+      "steps": 5,
+      "cfg": 1.2,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "execution": "local",
+      "file": "option-a-flat-pastel.png",
+      "sha256": "7abca48906cb5aa9fb08ef4e27b48e5d80ffb197edc44d56a193c5fa39520609"
+    },
+    {
+      "option": "option-b-watercolor-cozy",
+      "prompt": "cozy watercolor storybook illustration of a gentle fluffy bunny, soft hand-painted washes, warm pastel cream pink, tiny blush cheeks, sleepy content expression, plush proportions",
+      "seed": 2026102302,
+      "comfy_prompt_id": "ced4db6e-533e-4d6b-a4b1-9c8e4b927666",
+      "model": "sd_turbo.safetensors",
+      "steps": 5,
+      "cfg": 1.2,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "execution": "local",
+      "file": "option-b-watercolor-cozy.png",
+      "sha256": "0e415c11063c01a780fe6fe15baf561faf89bff44ad01286d74d4ab6f0d9550f"
+    },
+    {
+      "option": "option-c-soft-outline-sticker",
+      "prompt": "cute chubby rabbit mascot sticker art, rounded geometric shapes, thin warm-tinted outline, flat matte pastel fills, big head small body, simple dot eyes, kawaii sticker design on plain background",
+      "seed": 2026102303,
+      "comfy_prompt_id": "385326fe-b69f-4cc6-933b-7b254e42ffa5",
+      "model": "sd_turbo.safetensors",
+      "steps": 5,
+      "cfg": 1.2,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "execution": "local",
+      "file": "option-c-soft-outline-sticker.png",
+      "sha256": "006a0e2bc2710e3ede5ab664ab5c84bc564471c203dbcb33f91ebafdad9b084d"
+    },
+    {
+      "option": "option-d-cel-shaded-plush",
+      "prompt": "soft cel shaded kawaii bunny, two-step shading, rounded plush toy proportions, calm smile, cream pink palette with brown eyes, cozy children's book animal art, smooth clean finish",
+      "seed": 2026102304,
+      "comfy_prompt_id": "a0cd9e0a-9593-48ee-be23-ba88ea00b890",
+      "model": "sd_turbo.safetensors",
+      "steps": 5,
+      "cfg": 1.2,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "execution": "local",
+      "file": "option-d-cel-shaded-plush.png",
+      "sha256": "205e2340a66208b4f95c9cd7bd3ce433342af75c138304f6a3983b5e575ecc64"
+    }
+  ]
+}

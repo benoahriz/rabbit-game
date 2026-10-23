@@ -1,0 +1,62 @@
+{
+  "spec_id": "scene-tea-garden-options",
+  "created_at": "2026-10-23T09:15:27.051Z",
+  "engine": "ComfyUI 0.34.0 (local, MPS)",
+  "execution_note": "local checkpoint; deterministic only where the backend exposes seeds",
+  "records": [
+    {
+      "option": "scene-a-tsukubai-corner",
+      "prompt": "cozy japanese tea garden corner, flat pastel storybook illustration, small stone water basin with bamboo spout trickling water, round moss mounds, stepping stones, tiny wooden lantern, cherry blossom branch overhead, warm cream and muted green palette, simple shapes, no people",
+      "seed": 2026102311,
+      "comfy_prompt_id": "0a712dbe-8bbd-4ac4-8a32-d2d620cb6aae",
+      "model": "sd_turbo.safetensors",
+      "steps": 5,
+      "cfg": 1.2,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "size": {
+        "width": 640,
+        "height": 400
+      },
+      "execution": "local",
+      "file": "scene-a-tsukubai-corner.png",
+      "sha256": "df0887eabe463b63f1946589a9c35b42fd29a4f0126933753397f68e61770de2"
+    },
+    {
+      "option": "scene-b-morning-stream",
+      "prompt": "japanese tea garden at soft morning light, kawaii storybook style, gentle stream with round stepping stones, mossy bank, bamboo water spout pouring into granite basin with ripple rings, maple saplings, pastel matte colors, minimal detail, empty and peaceful, no people",
+      "seed": 2026102312,
+      "comfy_prompt_id": "8d6a2b87-e39f-449d-8bf7-5606dcb1cd4c",
+      "model": "sd_turbo.safetensors",
+      "steps": 5,
+      "cfg": 1.2,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "size": {
+        "width": 640,
+        "height": 400
+      },
+      "execution": "local",
+      "file": "scene-b-morning-stream.png",
+      "sha256": "5c7348bf04e89c04f39d9e76c35d352cfe3aff13066bb9942d879579674d6bca"
+    },
+    {
+      "option": "scene-c-bamboo-path",
+      "prompt": "cozy flat illustration of a quiet japanese tea garden path, bamboo fence, stone pathway, small round pond with trickling bamboo fountain, scattered petals, soft pastel pink green cream palette, warm gentle light, storybook matte art, no people",
+      "seed": 2026102313,
+      "comfy_prompt_id": "51ec8a4d-b1a6-464a-bff1-02dd2f6d16a0",
+      "model": "sd_turbo.safetensors",
+      "steps": 5,
+      "cfg": 1.2,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "size": {
+        "width": 640,
+        "height": 400
+      },
+      "execution": "local",
+      "file": "scene-c-bamboo-path.png",
+      "sha256": "3c472ffc124b93c092655d50ed8f5aa769421bc66ae21d5216574299a5ad3c2b"
+    }
+  ]
+}

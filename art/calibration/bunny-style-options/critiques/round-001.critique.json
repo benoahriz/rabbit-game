@@ -1,0 +1,51 @@
+{
+  "round": 1,
+  "critique_at": "2026-10-23T09:12:00Z",
+  "method": "agent pixel-read of every PNG in generations/round-001 (images viewed; verdicts grounded in pixels, per art/adrs/ADR-0002)",
+  "context": "Style calibration for the canonical bunny look (user asked for options to pick from). This round informs a master-character spec; these files are not promoted.",
+  "verdicts": [
+    {
+      "option": "option-a-flat-pastel",
+      "verdict": "ACCEPT",
+      "notes": [
+        "Flat pastel read matches brand direction: plush rounded volumes, big soft head, glossy dot eyes, blush cheeks, tiny content mouth — patient-happy mood present.",
+        "Nearest to ART-BIBLE §2 of the four; palette lands close to extracted fur roles (cream-pink body, pale highlights).",
+        "Issue (fix at master round): background speckle texture — final master must use a clean/transparent ground.",
+        "Issue (fix at master round): outline mixes dark + white bands, slightly heavy at the ears; soften to warm-tinted thin per brand-lock soft-inked rule.",
+        "Issue (fix at master round): paw/foot shapes read blobby; muzzle pinch slightly tight."
+      ],
+      "fix_type": "revise-at-master-round"
+    },
+    {
+      "option": "option-b-watercolor-cozy",
+      "verdict": "REVISE",
+      "notes": [
+        "Genuine hand-painted wash feel, warm; technically attractive.",
+        "Off-brand: heavy fur texture (paint strokes) violates flat-pastel fills; face reads melancholy, not patient-happy; red-tinged ear rims pull saturation.",
+        "Could revisit as a background-texture lane only if the user prefers painterly; not canon for the character as-is."
+      ],
+      "fix_type": "revise"
+    },
+    {
+      "option": "option-c-soft-outline-sticker",
+      "verdict": "REVISE",
+      "notes": [
+        "Charmful sticker proportions (big head, tiny body implied); blush + round menu-style eyes are on-brand cute.",
+        "Off-brand: BLACK uniform outline violates soft-inked rule; head-only composition needs a full-body variant for gameplay sprite use; confetti background must go.",
+        "Worth a round-002 revision with warm-tinted thin outline + full body IF the user gravitates to sticker style."
+      ],
+      "fix_type": "revise"
+    },
+    {
+      "option": "option-d-cel-shaded-plush",
+      "verdict": "REJECT",
+      "notes": [
+        "Photoreal-leaning teddy-fuzz rendering; saturated scarf; muddy tan ground — closest of the four to the never-list (photorealism, texture, urgency-saturation).",
+        "Also carries a watermark artifact bottom-right.",
+        "Instructive for calibration: SD-Turbo leans realistic; flat-style prompts need stronger anti-texture terms in round-002."
+      ],
+      "fix_type": "reject"
+    }
+  ],
+  "round_summary": "Option A leads toward the canon look; C is a viable alternate lane; B/D off-style. Round-002 (after user pick) fixes A's background/outline issues with transparency + soft warm outline vocabulary, then proceeds to master spec."
+}

@@ -1,0 +1,39 @@
+{
+  "round": 1,
+  "critique_at": "2026-10-23T09:16:00Z",
+  "method": "agent pixel-read of every PNG in generations/round-001 (per art/adrs/ADR-0002)",
+  "context": "Style calibration for the canonical scene: cozy Japanese tea garden with a small water feature (user direction 2026-10-23). Not promoted; informs the scene master round.",
+  "verdicts": [
+    {
+      "option": "scene-a-tsukubai-corner",
+      "verdict": "REVISE",
+      "notes": [
+        "Brief delivered: stone water basin + bamboo spout + lantern + cherry blossom + stone path all present and charming.",
+        "Off-palette: greens saturated toward toy-grass intensity; brand calls for muted moss + dusty pinks.",
+        "Composition: fountain sits dead-center with high object density — needs stage-set layout (lower band walkable, center third open for the rabbit).",
+        "Texture: semi-painterly noise; acceptable for a scene master if reduced."
+      ],
+      "fix_type": "revise"
+    },
+    {
+      "option": "scene-b-morning-stream",
+      "verdict": "REJECT",
+      "notes": [
+        "Photoreal-leaning stream with heavy stone textures and dark water — violates flat pastel + cozy-hush rules; mood inverted (moody bright water).",
+        "Instructive: 'stream' vocabulary pulls the model toward photorealism on this checkpoint; prefer 'basin/spout/rings' vocabulary."
+      ],
+      "fix_type": "reject"
+    },
+    {
+      "option": "scene-c-bamboo-path",
+      "verdict": "REVISE",
+      "notes": [
+        "Strongest palette match of the three: dusty pink + moss green + cream, matte flat fills, cozy hush — closest to brand-lock.",
+        "Missing the REQUIRED water feature entirely; tea-house scale dominates; path composition promising.",
+        "Revise direction: keep this palette + flatness, shrink the tea house to a far-back element, add the tsukubai with bamboo spout as the mid-right interaction zone, keep center third open."
+      ],
+      "fix_type": "revise"
+    }
+  ],
+  "round_summary": "C is the palette/style lantern to follow; A carries the correct water-feature content; round-002 should fuse them: C's palette+flatness, A's well content, art-bible stage-set composition, muted saturation."
+}
