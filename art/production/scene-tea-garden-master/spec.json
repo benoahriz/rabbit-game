@@ -1,0 +1,23 @@
+{
+  "id": "scene-tea-garden-master",
+  "purpose": "v0.2 full-bleed game background; canonical single scene",
+  "style_reference_note": "Reference image = the PICKED canon character (art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png). Match its illustration style (thick warm brown outline, flat matte pastel fills, soft pink/green/cream palette). The character itself must NOT appear in the background.",
+  "acceptance_criteria": [
+    "Full-bleed wide landscape composition (rabbit rest space reads open and quiet center-left / lower-left)",
+    "Water feature = rock formation with bubbling/overflowing bubbler feeding a small koi pool (koi visible)",
+    "Meandering shallow stream runs beside the stone pathway",
+    "Moss mounds, stone lantern, cherry accents; muted moss + dusty pink + cream palette",
+    "Matte flat fills matching the character style; no photoreal texture, no bloom",
+    "No animals, no people, no text"
+  ],
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "model": "sd_turbo.safetensors",
+    "reference_files": ["/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png"]
+  },
+  "options": [
+    { "id": "variant-a-restspace-left", "prompt": "Wide 16:9 landscape illustration in EXACTLY the flat matte illustration style of the reference character: thick warm brown outlines, flat matte pastel fills, clean smooth shapes, soft dusty pink + muted moss green + cream palette. Content: a cozy empty japanese tea garden with NO animals, NO people, NO text. On the right-mid: a small rock formation water feature where clear water bubbles up and overflows gently from stacked rocks into a small round koi pool with two or three tiny orange koi swimming. A shallow meandering stream winds beside a stone pathway across the garden. Round moss mounds, a small stone lantern, cherry blossom branch accents overhead, scattered fallen petals. Left-lower area is quiet open grass for a character to sit, nothing placed there. Warm soft cream sky, cozy phush calm mood, storybook matte finish." },
+    { "id": "variant-b-path-curve", "prompt": "Wide 16:9 landscape illustration in EXACTLY the flat matte illustration style of the reference character: thick warm brown outlines, flat matte pastel fills, clean smooth rounded shapes, muted moss green + dusty pink + cream palette. Content: an empty cozy japanese tea garden, no animals, no people, no text. Water feature right-of-center: stacked rock formation with a bubbler, water bubbling over the rocks and trickling into a small koi pond below with tiny orange koi; ripple rings on the pond surface. From the pond, a gentle meandering stream flows alongside a winding stone pathway that curves from the lower-left toward the upper-right. Moss mounds and simple grass tufts, one small stone lantern by the stream, cherry branches framing the top corners, a few drifting petals. Center-left grass stays open and quiet. Cream soft hush background, warm cozy storybook mood." }
+  ]
+}

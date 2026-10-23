@@ -134,10 +134,11 @@ a favorite. Round-002 (nano-banana) produced four style variants; round-003
 redid the bunny FROM a user-supplied reference image (white bunny, thick warm
 brown outline, glitter-pink bow, winking open-mouth smile — archived at
 `art/calibration/bunny-style-options/references/`, sha256 in generation.json).
-> 🟢 **OPEN** — user revised the ask to the reference-redo; pick pending among
-round-003 variants (R1 face-peek wink / R2 fullbody calm / R3 fullbody matte
-bow / R4 calm peek wink) or a mix with round-002 styles. Pick gates the
-master-character spec + expression sheet.
+> ✅ **ANSWERED** · 2026-10-23
+**Answer:** **`r3-fullbody-flat-matte` (round-003)** — full-body sit, wink +
+open-mouth smile, matte pink bow (no glitter), flat fills, visible paw pads.
+Canon identity documented in ART-BIBLE §5; downstream: character master
+(cutout) + expression sheet derive from this look.
 
 ### Q-015 — Scene art: tea garden layout (which composition + how does it fit the game stage-set layout)?
 **Context:** Scene must keep the art bible's stage-set rules: center third open
@@ -149,6 +150,15 @@ palette + water feature (bamboo spout → stone basin with ripple rings) + lante
 + open lower-left rest space. Master round converts the cream halo vignette to
 full-bleed. Scene C (bamboo path) is kept as a full-bleed alternate to inform
 density decisions.
+
+**AMENDED (same day, user direction):** the master background regenerates
+**in the picked character's style** (reference = the picked
+`r3-fullbody-flat-matte.png`; background stays EMPTY of characters), and the
+water feature is redefined — NOT the bamboo-spout tsukubai. Required content:
+a **rock formation with a koi pool** fed by a **bubbler that bubbles and
+overflows water from the rocks** into the pond, plus a **meandering stream
+running beside the stone pathway**. A-round composition values (open rest
+space, lantern, moss, cherry accents) remain the layout intent.
 
 ## Art & Audio Pipeline
 ---

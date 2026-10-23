@@ -1,37 +1,54 @@
-# style-lock.yaml — rabbit-game (STUB)
+# style-lock.yaml — rabbit-game
 # Machine-readable companion to art/ART-BIBLE.md.
-# Status: stub — roles listed, values TBD pending SHOTKIT brand-lock extraction (Q-002 gate).
-# Fill after: SHOTKIT/ reference research + brand-lock extraction rounds complete.
+# Status: canon picks recorded (Q-014 rabbit R3 + Q-015 scene, both 2026-10-23).
+# Hexes for the NEW canon character/scene palettes are auto-sampled at master
+# acceptance (tools/sample_palette.mjs, TODO at promotion) — the v0.1 build
+# roles below remain valid for page chrome (CSS) until the renderer swap.
 # Provenance convention follows the precursor repo:
 #   space-adventure-prototype/docs/design/space-adventure-prototype/art/style-lock.yaml
 
 meta:
   design: rabbit-game
-  version: 0.3-brand-extracted   # palette extracted from live v0.1 build; see SHOTKIT/brand-lock.md
+  version: "0.4-canon-picked"
   updated: 2026-10-23
-  locked: false                    # unlocks after user confirms 'needs confirmation' values; snapshot hashes follow
+  locked: false                    # unlocks at master acceptance with sampled hexes; snapshot hashes follow
   brand_lock_ref: ../SHOTKIT/brand-lock.md
 
 canvas:
-  logical_viewport: responsive    # game fills viewport; generation boards default 16:9 (brand-lock)
+  logical_viewport: responsive    # game fills viewport; scene master must survive wide-viewport cover crop
   scale_mode: "smooth"        # kawaii: bilinear resample; NEVER nearest-neighbor (art/ART-BIBLE.md §2)
-  background: "#FDF2F6"       # brand-lock Background role (provisional from v0.1 build)
+  background: "#FDF2F6"       # page chrome
 
-palette_roles:               # role -> hex; extracted from the live v0.1 build (brand-lock 2026-10-23)
-  background: "#FDF2F6"       # wall/primary canvas
-  surface: "#F7E3EC"          # floor band (brand-lock Floor)
-  rabbit_fur_primary: "#F7DFE7"
-  rabbit_fur_shade: "#F3CDD8" # ear backs / soft inner shading (brand-lock Inner ear)
-  rabbit_inner_ear: "#FBD9E3" # deeper inner-ear tone (placeholder build)
-  rabbit_fur_highlight: "#FFF2F5" # belly/paws
-  rabbit_eye: "#4A3B41"       # soft dark plum-brown ink — never black
-  rabbit_nose: "#E88CA4"      # base; blush renders at reduced opacity
+character_identity:          # Q-014 pick: round-003 r3-fullbody-flat-matte
+  ref: art/production/character-rabbit-master   # master spec (cutout pending)
+  fur: white (cream-warm)         # hex sampled at master acceptance
+  outline: thick warm brown       # hex sampled at master acceptance; replaces soft-outline lean (user override)
+  bow: matte flat pink (no glitter at game scale)
+  eyes: glossy dark brown; blush: soft pink
+  signature_face: "wink + open-mouth smile (reward); calm ω idle"
+
+scene_identity:             # Q-015 pick + same-day amendment
+  ref: art/production/scene-tea-garden-master
+  composition: "full-bleed tea garden; rabbit rest space quiet center-left; water feature right-of-center"
+  water_feature: "rock formation + koi pool fed by bubbling/overflowing bubbler; meandering stream beside the stone pathway"
+  accents: "moss mounds, stone lantern, cherry branches, drifting petals"
+  palette_family: "muted moss greens + dusty pinks + cream hush (hexes sampled at master acceptance)"
+
+palette_roles:               # page chrome + v0.1 placeholder build (survives until renderer swap)
+  background: "#FDF2F6"
+  surface: "#F7E3EC"
+  rabbit_fur_primary: "#F7DFE7"      # LEGACY pink-furred placeholder (replaced by character_identity at swap)
+  rabbit_fur_shade: "#F3CDD8"
+  rabbit_inner_ear: "#FBD9E3"
+  rabbit_fur_highlight: "#FFF2F5"
+  rabbit_eye: "#4A3B41"
+  rabbit_nose: "#E88CA4"
   carrot_primary: "#F2803C"   # the ONLY warm accent pop per frame
   carrot_leaf: "#6BBF59"
-  ui_accent: "#4A3B41"        # UI strokes follow Ink role
+  ui_accent: "#4A3B41"
   fur_swap: {}                # reserved per IDEA-007: variant primary/shade/inner_ear sets
 
 style_flags:
-  outlines: "soft"            # thin soft-tinted or none; never uniform black ink (provisional until brand-lock)
+  outlines: "soft-or-warm-brown-thick"   # character canon = thick warm brown (Q-014 override); never pure black
   bloom_glow: false           # hard false per art bible
-  texture: "flat"             # flat clean fills; no noise/grain/photoreal (provisional until brand-lock)
+  texture: "flat"             # flat clean fills; no noise/grain/photoreal

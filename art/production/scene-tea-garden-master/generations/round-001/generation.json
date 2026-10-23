@@ -1,0 +1,92 @@
+{
+  "spec_id": "scene-tea-garden-master",
+  "created_at": "2026-10-23T09:45:51.384Z",
+  "engine": "OpenRouter image model (sd_turbo.safetensors) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "variant-a-restspace-left",
+      "prompt": "Wide 16:9 landscape illustration in EXACTLY the flat matte illustration style of the reference character: thick warm brown outlines, flat matte pastel fills, clean smooth shapes, soft dusty pink + muted moss green + cream palette. Content: a cozy empty japanese tea garden with NO animals, NO people, NO text. On the right-mid: a small rock formation water feature where clear water bubbles up and overflows gently from stacked rocks into a small round koi pool with two or three tiny orange koi swimming. A shallow meandering stream winds beside a stone pathway across the garden. Round moss mounds, a small stone lantern, cherry blossom branch accents overhead, scattered fallen petals. Left-lower area is quiet open grass for a character to sit, nothing placed there. Warm soft cream sky, cozy phush calm mood, storybook matte finish.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1458,
+        "completion_tokens": 1306,
+        "total_tokens": 2764,
+        "cost": 0.038785626,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391774,
+          "upstream_inference_prompt_cost": 0.0004374,
+          "upstream_inference_completions_cost": 0.03874
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "variant-a-restspace-left.png",
+      "sha256": "6c6c62a3277a79928a77a9d969f374811ddf7e4e32053ecb5b8bca14c144d7ca"
+    },
+    {
+      "option": "variant-b-path-curve",
+      "prompt": "Wide 16:9 landscape illustration in EXACTLY the flat matte illustration style of the reference character: thick warm brown outlines, flat matte pastel fills, clean smooth rounded shapes, muted moss green + dusty pink + cream palette. Content: an empty cozy japanese tea garden, no animals, no people, no text. Water feature right-of-center: stacked rock formation with a bubbler, water bubbling over the rocks and trickling into a small koi pond below with tiny orange koi; ripple rings on the pond surface. From the pond, a gentle meandering stream flows alongside a winding stone pathway that curves from the lower-left toward the upper-right. Moss mounds and simple grass tufts, one small stone lantern by the stream, cherry branches framing the top corners, a few drifting petals. Center-left grass stays open and quiet. Cream soft hush background, warm cozy storybook mood.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1471,
+        "completion_tokens": 1309,
+        "total_tokens": 2780,
+        "cost": 0.038796912,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391888,
+          "upstream_inference_prompt_cost": 0.0004413,
+          "upstream_inference_completions_cost": 0.0387475
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "variant-b-path-curve.png",
+      "sha256": "6a2aae01efee02a585faec9cfa65879258f81581b0bcbbcf46db18a6f0918343"
+    }
+  ]
+}

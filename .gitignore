@@ -6,6 +6,7 @@ node_modules/
 # manifests are committed (docs/design/rabbit-game/art/adrs/ADR-0002 — precursor policy).
 art/production/**/generations/**/output.png
 art/calibration/**/*.png
+art/production/**/generations/*.png
 # user-supplied reference images stay local (rights); sha256 recorded in generation.json
 art/calibration/*/references/*.jpeg
 art/calibration/*/references/*.jpg
