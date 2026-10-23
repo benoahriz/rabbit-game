@@ -32,14 +32,16 @@ export class SoundEngine {
 
   _blip({ freq, to = freq, dur = 0.12, type = "sine", vol = 0.14, when = 0 }) {
     if (!this.ctx || this.getMuted()) return;
+    // Feel rule #4 (ADOPT-20261023 / IDEA-008): small detune+gain jitter keeps repeats alive
+    const det = 1 + (Math.random() * 2 - 1) * 0.05;
     const t0 = this.ctx.currentTime + when;
     const osc = this.ctx.createOscillator();
     const g = this.ctx.createGain();
     osc.type = type;
-    osc.frequency.setValueAtTime(freq, t0);
-    if (to !== freq) osc.frequency.exponentialRampToValueAtTime(to, t0 + dur);
+    osc.frequency.setValueAtTime(freq * det, t0);
+    if (to !== freq) osc.frequency.exponentialRampToValueAtTime(to * det, t0 + dur);
     g.gain.setValueAtTime(0.0001, t0);
-    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(vol * (0.85 + Math.random() * 0.3), t0 + 0.02);
     g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
     osc.connect(g); g.connect(this.master);
     osc.start(t0); osc.stop(t0 + dur + 0.05);
@@ -66,13 +68,15 @@ export class SoundEngine {
     src.start(t0);
   }
 
-  /** Happier eating: three crunches + tiny swallow blip. */
+  /** Happier eating: three crunches + tiny swallow blip (spacing/level jitter per IDEA-008). */
   munch() {
     if (!this.ctx || this.getMuted()) return;
-    this._crunch(0);
-    this._crunch(0.11);
-    this._crunch(0.22);
-    this._blip({ freq: 520, to: 430, dur: 0.09, vol: 0.07, when: 0.38 });
+    let when = 0;
+    for (let i = 0; i < 3; i++) {
+      this._crunch(when);
+      when += 0.11 + (Math.random() * 2 - 1) * 0.02;
+    }
+    this._blip({ freq: 520, to: 430, dur: 0.09, vol: 0.07, when: when + 0.16 });
   }
 
   /** Content rising two-tone (petting a happy rabbit). Min gap so it never annoys. */

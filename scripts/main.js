@@ -17,7 +17,19 @@ const state = new RabbitState({ fed: store.data.fed });
 const renderer = new Renderer(canvas);
 
 // --- HUD state ---
-const syncFed = () => { fedEl.textContent = `${state.fed} fed`; };
+let lastFedText = null;
+const syncFed = () => {
+  const txt = `${state.fed} fed`;
+  if (txt !== lastFedText) { // pop on change only (boot is quiet)
+    lastFedText = txt;
+    fedEl.textContent = txt;
+    fedEl.classList.remove("pop");
+    void fedEl.offsetWidth; // restart the animation on back-to-back feeds
+    fedEl.classList.add("pop");
+  } else {
+    fedEl.textContent = txt;
+  }
+};
 const syncMute = () => {
   muteBtn.setAttribute("aria-pressed", String(store.data.muted));
   muteBtn.classList.toggle("is-muted", store.data.muted);

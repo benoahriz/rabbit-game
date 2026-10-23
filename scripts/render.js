@@ -5,6 +5,16 @@
 // flat matte ground — replace with pre-baked transparent cutouts when the expression sheet lands.
 // If assets fail to load, falls back to the labeled v0.1 code-drawn placeholder (dev fallback only).
 
+/**
+ * Face anchors as fractions of the canon sprite frame (r3-fullbody-flat-matte),
+ * pixel-measured in-browser 2026-10-23: open-eye dark-blob centroid + tongue-pink
+ * centroid. Overlays (blink lid, carrot-at-mouth, crumbs) draw at these fractions.
+ */
+const SPRITE_FACE = {
+  eye: [0.392, 0.477], // the one OPEN eye (the other is the canon wink)
+  mouth: [0.505, 0.525],
+};
+
 export class Renderer {
   constructor(canvas) {
     this.canvas = canvas;
@@ -20,6 +30,8 @@ export class Renderer {
     this.rabbitSprite = null;   // ImageBitmap, ground keyed to transparent
     this.artFailed = false;
     this._loadPromise = null;
+    this._fx = [];            // transient reward particles (crumbs/heart), purge-wrapped
+    this._lastState = "idle"; // transition detector for crumb/heart spawns
   }
 
   /** Load promoted art assets. Call once at boot; draw() degrades to placeholder until it resolves. */
@@ -158,21 +170,32 @@ export class Renderer {
     ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
   }
 
-  /** Canon bunny sprite on the quiet left lawn (master A composition: rest space center-left). */
+  /**
+   * Canon bunny sprite + overlay juice (all canvas-drawn, canon palette; no new assets):
+   * blink lid over the open eye, petting wiggle, damped happy hop, carrot-in-mouth +
+   * crumb/heart particles during the rewards. Face anchors are fractions of the sprite
+   * frame, pixel-measured from the canon master (r3-fullbody-flat-matte, 2026-10-23).
+   */
   _drawRabbit(s, t) {
     const { ctx, w, h, reducedMotion } = this;
     const box = this._rabbitBox();
     const baseY = box.y + box.h;
+    const dt = Math.min(0.05, (t - (this._lastT || t)) / 1000);
+    this._lastT = t;
 
-    // sprite-level motion (expression-sheet frames will refine: faces/chomps/ear work)
+    // sprite-level motion
     let bounce = 0, breathe = 1, tilt = 0;
     if (s.state === "happy") {
       const p = s.progress();
-      bounce = reducedMotion ? 0 : -Math.abs(Math.sin(p * Math.PI * 4)) * box.h * 0.10;
-      tilt = reducedMotion ? 0 : Math.sin(p * Math.PI * 8) * 0.05;
+      // damped hop: one big jump, a small recoil, then rest (Feel rule #2/#3)
+      bounce = reducedMotion ? 0 : -box.h * 0.12 * Math.exp(-2.2 * p) * Math.abs(Math.sin(p * Math.PI * 2.2));
+      tilt = reducedMotion ? 0 : Math.sin(p * Math.PI * 6) * 0.05;
     } else if (s.state === "eating") {
       const p = s.progress();
       breathe = 1 - (reducedMotion ? 0 : Math.abs(Math.sin(p * Math.PI * 6)) * 0.045);
+    } else if (s.petHeat > 0.06 && !reducedMotion) {
+      // wiggle under the hand while being petted (heat resets on entering happy, so no overlap)
+      tilt = Math.sin(t / 1000 * 9) * 0.045 * Math.min(1, s.petHeat * 2);
     } else {
       breathe = 1 + (reducedMotion ? 0 : Math.sin(t / 1000 * 1.6) * 0.015);
     }
@@ -184,6 +207,41 @@ export class Renderer {
     ctx.drawImage(this.rabbitSprite, -dw / 2, -dh, dw, dh);
     ctx.restore();
 
+    // face anchors in screen space (fractions from the canon master)
+    const ex = box.x + SPRITE_FACE.eye[0] * box.w, ey = box.y + SPRITE_FACE.eye[1] * box.h;
+    const mx = box.x + SPRITE_FACE.mouth[0] * box.w, my = box.y + SPRITE_FACE.mouth[1] * box.h;
+
+    // blink lid: the canon face has one open eye (the other is always winking) —
+    // cover the open eye with fur white and draw a closed lash curve
+    if (s.blink() > 0.6) {
+      const r = box.w * 0.032;
+      ctx.fillStyle = "#ffffff"; // measured fur on the master (#fefffe)
+      ctx.beginPath();
+      ctx.ellipse(ex, ey, r, r * 0.82, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#6b301d"; // measured canon eye brown
+      ctx.lineWidth = box.h * 0.012;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(ex - r * 0.72, ey + r * 0.12);
+      ctx.quadraticCurveTo(ex, ey + r * 0.44, ex + r * 0.72, ey + r * 0.12);
+      ctx.stroke();
+    }
+
+    // eating: carrot held at the mouth with a nibble bob + crumb burst on the first bite
+    if (s.state === "eating") {
+      const p = s.progress();
+      const nib = reducedMotion ? 0 : Math.sin(p * Math.PI * 8);
+      this._carrotAtMouth(mx, my, box, nib);
+      if (this._lastState !== "eating") this._spawnCrumbs(mx, my, box);
+    }
+    // happy entry: one heart poof (reward clarifies state — Feel rule #5)
+    if (s.state === "happy" && this._lastState !== "happy" && !reducedMotion) {
+      this._fx.push({ kind: "heart", x: box.x + box.w * 0.68, y: box.y + box.h * 0.22,
+                      vx: 0, vy: -box.h * 0.07, born: t, life: 900 });
+    }
+    this._updateFx(t, dt, box.w);
+
     // record hit rects (CSS px): body (feed/drop target) and head (pet target)
     // fractions measured from the canon master (r3-fullbody-flat-matte): head+ears occupy
     // roughly x 0.20–0.80, y 0.02–0.58 of the sprite frame
@@ -194,10 +252,96 @@ export class Renderer {
       w: 0.60 * box.w,
       h: 0.56 * box.h,
     };
-    // mouth anchor for drag-feed snap: face center of the canon sprite (eyes ~0.30h,
-    // chin ~0.58h → mouth at ~0.44h of the sprite frame, horizontally centered)
-    this.mouthPoint = { x: box.x + box.w * 0.50, y: box.y + box.h * 0.44 };
+    this.mouthPoint = { x: mx, y: my };
+    this._lastState = s.state;
   }
+
+  /** Canon-palette carrot held at the mouth's right corner while eating
+   *  (pivot outside the muzzle silhouette; nib = chomp phase). */
+  _carrotAtMouth(mx, my, box, nib) {
+    const ctx = this.ctx;
+    const l = box.h * 0.11, r = l * 0.26;
+    ctx.save();
+    ctx.translate(box.x + box.w * 0.65, my + box.h * 0.005 + nib * box.h * 0.005);
+    ctx.rotate(0.72);
+    ctx.fillStyle = "#f2803c";
+    this._capsule(0, -l, r, l);
+    ctx.strokeStyle = "#d9662a";
+    ctx.lineWidth = Math.max(1, r * 0.22);
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.35, -l * 0.72); ctx.lineTo(r * 0.4, -l * 0.62);
+    ctx.moveTo(-r * 0.3, -l * 0.42); ctx.lineTo(r * 0.4, -l * 0.32);
+    ctx.stroke();
+    ctx.fillStyle = "#6bbf59";
+    ctx.beginPath();
+    ctx.ellipse(-r * 0.55, -l * 1.12, r * 0.55, r * 0.3, -0.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#7fca70";
+    ctx.beginPath();
+    ctx.ellipse(r * 0.45, -l * 1.08, r * 0.5, r * 0.28, 0.6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  /** 6 carrot crumbs pop out of the mouth on the first bite (visible size). */
+  _spawnCrumbs(mx, my, box) {
+    for (let i = 0; i < 6; i++) {
+      this._fx.push({
+        kind: "crumb",
+        x: mx + (Math.random() - 0.5) * box.w * 0.08,
+        y: my + box.h * 0.02,
+        vx: (Math.random() - 0.35) * box.w * 0.14,
+        vy: -box.h * (0.10 + Math.random() * 0.10),
+        born: performance.now(),
+        life: 650 + Math.random() * 250,
+        c: i % 2 ? "#f2803c" : "#d9662a",
+      });
+    }
+  }
+
+  /** Tiny particle pool (crumbs + heart); crumbs get gravity, the heart floats and fades. */
+  _updateFx(t, dt, boxW) {
+    const { ctx } = this;
+    for (let i = this._fx.length - 1; i >= 0; i--) {
+      const f = this._fx[i];
+      const age = t - f.born;
+      if (age > f.life) { this._fx.splice(i, 1); continue; }
+      const p = age / f.life;
+      f.x += f.vx * dt;
+      f.y += f.vy * dt;
+      if (f.kind === "crumb") f.vy += boxW * 0.9 * dt; // gravity, scaled to the canvas
+      ctx.save();
+      ctx.globalAlpha = 1 - p * p;
+      if (f.kind === "crumb") {
+        ctx.fillStyle = f.c;
+        const r = Math.max(2.5, boxW * 0.013);
+        ctx.beginPath();
+        ctx.ellipse(f.x, f.y, r, r * 0.75, p * 4, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        this._heartPath(f.x, f.y, boxW * 0.03);
+        ctx.fillStyle = "#f08fae";
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = Math.max(1.5, boxW * 0.005);
+        ctx.lineJoin = "round";
+        ctx.stroke(); // white halo first, so the heart reads on pink rooms + the bow
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  /** Small kawaii heart path (bow-pink family), centered at (x, y) — caller strokes/fills. */
+  _heartPath(x, y, s) {
+    const ctx = this.ctx;
+    ctx.beginPath();
+    ctx.moveTo(x, y + s * 0.95);
+    ctx.bezierCurveTo(x - s * 1.5, y - s * 0.2, x - s * 0.55, y - s * 1.05, x, y - s * 0.3);
+    ctx.bezierCurveTo(x + s * 0.55, y - s * 1.05, x + s * 1.5, y - s * 0.2, x, y + s * 0.95);
+    ctx.closePath();
+  }
+
 
   /** Sprite placement per environment: garden = quiet left lawn on the grass band;
    *  room = centered, feet ON the center rug (lower baseline — the room's floor sits
