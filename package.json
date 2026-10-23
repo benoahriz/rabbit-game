@@ -1,0 +1,10 @@
+{
+  "name": "rabbit-game",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tiny pure-HTML virtual-pet toy (no framework, no build, no runtime deps).",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\""
+  }
+}
