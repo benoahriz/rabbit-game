@@ -25,14 +25,10 @@ export class SettingsMenu {
 
   toggle() { this.isOpen ? this.close() : this.open(); }
 
+  /** ESC handling is owned by the host (main.js calls toggle()); the menu never binds keys itself,
+   *  so toggle and close can never race. */
   open() {
     this.root.hidden = false;
-    if (!this._escBound) {
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && this.isOpen) { e.preventDefault(); this.close(); }
-      });
-      this._escBound = true;
-    }
     const first = this.root.querySelector(".setting-opt");
     if (first) first.focus();
   }
