@@ -42,14 +42,55 @@ research) NOT STARTED; extraction itself awaits Q-002 (art style decision).
 
 ## 3. Reference research
 
-NOT STARTED. Plan (once Q-002 style question is answered or answered by this research):
+Fetched 2026-10-23, in service of Q-002 (resolved: smooth kawaii illustration, option B).
 
-- Collect 2–3 interaction-style exemplars per candidate direction (pixel-art handheld
-  pets vs smooth kawaii pet apps), noting source links and fetch dates.
-- Extract brand-lock (palette roles, mood, character rules) with the
-  brand-lock-extractor skill, writing `SHOTKIT/brand-lock.md`.
-- Snapshot a hash-locked copy at `SHOTKIT/brand-lock.snapshot.md` (precursor pattern)
-  for round reproducibility; record runs in `SHOTKIT/run.json` when generation begins.
+### Tamagotchi (Bandai, released 23 Nov 1996)
+
+Sources: Wikipedia `en.wikipedia.org/wiki/Tamagotchi` (fetched 2026-10-23); Japan House LA,
+"How Tamagotchi Changed Digital Design" (Apr 2026, 30th-anniversary context).
+
+- The original digital pet: egg-shaped keychain form, tiny screen; noted for its
+  **simple design** and the novel act of "raising a digital pet."
+- **We deliberately diverge** on its core loop: Tamagotchi's need-pressure and loss
+  states are exactly what our PRD forbids (§7–8). The exemplar supports the
+  "digital pet companion" framing, and our never-list gets sharper against it —
+  "patient not demanding" is defined in contrast to Tamagotchi's nagging loop.
+
+### Neko Atsume: Kitty Collector (Hit-Point, 2014)
+
+Sources: NYT, "Why Am I Obsessed With a Cellphone Game About Collecting Cats?"
+(2016-02-18); Google Play listing (fetched 2026-10-23); game-design breakdown
+(alexiamandeville.medium.com, "The Simplicity of Neko Atsume").
+
+- The closest published analog to our toy's intent: a single soft scene, flat
+  pastel illustration, and famously **low pressure** — the NYT calls it
+  "barely a game at all." The appeal is ambient companionship + tiny delight
+  loops, identical to our idle loop and reaction cadence.
+- Supports our color-grade anchor: flat, light-filled rooms (see brand-lock).
+
+### Kawaii design principles (cross-source)
+
+Sources: Kittl "Kawaii design: 5 characteristics" (`kittl.com/blogs/kawaii-design-guide`,
+fetched 2026-10-23); Wikipedia "Kawaii" (fetched 2026-10-23); IASDR design-research
+paper on kawaii as interface grammar (stroke weight/curvature → perceived softness).
+
+- Five core elements: **roundness and softness; minimal facial features; pastel
+  palettes; whimsical typography; (sub-genre restraint)** — our ART-BIBLE §2 rules
+  map 1:1 onto these.
+- Kawaii palette geometry: soft pastel pink/blue/white dominant, rounded shapes,
+  vulnerability-evoking (baby-schema) features — supports our large head-to-body
+  ratio and glossy dot eyes.
+- The curvature/stroke-weight finding backs the "soft-inked not black-lined" rule
+  and the soft-outline style flag.
+
+## 3.1 Extraction status
+
+`SHOTKIT/brand-lock.md` is WRITTEN (v1.0, 2026-10-23) per brand-lock-extractor:
+- Palette: extracted from the live v0.1 placeholder build (real source hexes).
+- Several fur tones + typography flagged `needs confirmation` — optional user
+  review before the v0.2 generation rounds.
+- `brand-lock.snapshot.md` (hash-locked copy) is created only after flagged
+  values are confirmed — right before the first storyboard/generation run.
 
 ## 4. Generator/format notes (carried from precursor run.json)
 

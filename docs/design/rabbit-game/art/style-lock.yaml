@@ -7,27 +7,28 @@
 
 meta:
   design: rabbit-game
-  version: 0.2-kawaii-direction   # Q-002 answered 2026-10-23: smooth kawaii illustration
+  version: 0.3-brand-extracted   # palette extracted from live v0.1 build; see SHOTKIT/brand-lock.md
   updated: 2026-10-23
-  locked: false                    # unlocks only after brand-lock extraction
-  brand_lock_ref: ../SHOTKIT/brand-lock.md   # not yet extracted
+  locked: false                    # unlocks after user confirms 'needs confirmation' values; snapshot hashes follow
+  brand_lock_ref: ../SHOTKIT/brand-lock.md
 
 canvas:
-  logical_viewport: null      # TBD: chosen during calibration round (art/calibration/)
+  logical_viewport: responsive    # game fills viewport; generation boards default 16:9 (brand-lock)
   scale_mode: "smooth"        # kawaii: bilinear resample; NEVER nearest-neighbor (art/ART-BIBLE.md §2)
-  background: null            # hex
+  background: "#FDF2F6"       # brand-lock Background role (provisional from v0.1 build)
 
-palette_roles:               # role -> hex; every entry must be named + pinned
-  background: null
-  surface: null               # rabbit resting surface
-  rabbit_fur_primary: null
-  rabbit_fur_shade: null
-  rabbit_inner_ear: null
-  rabbit_eye: null
-  rabbit_nose: null
-  carrot_primary: null
-  carrot_leaf: null
-  ui_accent: null
+palette_roles:               # role -> hex; extracted from the live v0.1 build (brand-lock 2026-10-23)
+  background: "#FDF2F6"       # wall/primary canvas
+  surface: "#F7E3EC"          # floor band (brand-lock Floor)
+  rabbit_fur_primary: "#F7DFE7"
+  rabbit_fur_shade: "#F3CDD8" # ear backs / soft inner shading (brand-lock Inner ear)
+  rabbit_inner_ear: "#FBD9E3" # deeper inner-ear tone (placeholder build)
+  rabbit_fur_highlight: "#FFF2F5" # belly/paws
+  rabbit_eye: "#4A3B41"       # soft dark plum-brown ink — never black
+  rabbit_nose: "#E88CA4"      # base; blush renders at reduced opacity
+  carrot_primary: "#F2803C"   # the ONLY warm accent pop per frame
+  carrot_leaf: "#6BBF59"
+  ui_accent: "#4A3B41"        # UI strokes follow Ink role
   fur_swap: {}                # reserved per IDEA-007: variant primary/shade/inner_ear sets
 
 style_flags:

@@ -26,18 +26,27 @@ Decision (Q-002 ✅ · 2026-10-23): smooth kawaii illustration — pixel art is 
 - **Expression economics:** eyes are simple glossy dots/ovals; mouth tiny "ω"/"u" curves; charm from proportions (large head-to-body ratio) over detail.
 - **Texture:** flat clean fills; no noise, no painterly grain, no photorealism, no 3D-render sheen.
 
-## 3. Palette — TBD
+## 3. Palette (extracted 2026-10-23 — provisional from v0.1 build)
 
-To be extracted via brand-lock from reference exemplars — kawaii pet apps and
-plush-style illustrations (see `../SHOTKIT/input-brief.md` §3) — then encoded in
-`style-lock.yaml` with named color roles. Known required roles from the game design:
+Extracted from the live v0.1 build by the brand phase; every hex lives in
+[`../SHOTKIT/brand-lock.md`](../SHOTKIT/brand-lock.md). Canonical machine copy: [`style-lock.yaml`](style-lock.yaml).
 
-- Background (page/scene surface)
-- Rabbit primary fur + fur shading + inner-ear
-- Rabbit accent (eyes/nose) — including a reserved **fur-swap role set** for the
-  IDEA-007 palette-swap concept (decide roles during extraction even if v1 ships one variant)
-- Carrot primary / carrot leaf
-- Interaction highlight (outline/glow substitute — note: PRD-esque soft highlight, not "bloom")
+| Role | Hex |
+|---|---|
+| Background (wall) | `#FDF2F6` |
+| Floor | `#F7E3EC` |
+| Rabbit fur primary | `#F7DFE7` |
+| Rabbit fur highlight (belly/paws) | `#FFF2F5` |
+| Inner ear / soft shade | `#F3CDD8` (backs), `#FBD9E3` (deep inner) |
+| Ink (eyes/mouth — soft plum-brown, never black) | `#4A3B41` |
+| Nose base | `#E88CA4` (blush = same family at reduced opacity) |
+| Carrot (ONLY warm accent per frame) | `#F2803C` |
+| Carrot leaf | `#6BBF59` |
+
+Known required roles from the game design (all now covered):
+- Background/scene surface ✓, rabbit fur set ✓, accent set ✓
+- Reserved **fur-swap role set** for the IDEA-007 palette-swap concept (empty until v2)
+- Interaction highlight = the Ink role; no glow substitutes (bloom hard-false)
 
 ## 4. Lighting
 
