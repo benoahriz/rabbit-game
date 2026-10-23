@@ -7,7 +7,7 @@ import { SettingsMenu } from "./menu.js";
 import { Renderer } from "./render.js";
 
 const canvas = document.getElementById("scene");
-const carrotBtn = document.getElementById("carrot");
+const basketBtn = document.getElementById("basket"); // drag one of its carrots to the rabbit's mouth
 const muteBtn = document.getElementById("mute");
 const fedEl = document.getElementById("fed");
 
@@ -46,13 +46,14 @@ const playPetTick = () => {
 const onFeed = () => { playFeed(state.feed()); };
 const onPetDone = () => playPetTick();
 
-new InputController(canvas, carrotBtn, {
+new InputController(canvas, basketBtn, {
   onPetTick: playPetTick,
   onPetDone,
   onFeed,
   onInteract,
   getRabbitRect: () => renderer.getRabbitRect(), // drag-feed drop target (whole body)
-  getHeadRect: () => renderer.getHeadRect(),    // pet target (head + ears only)
+  getHeadRect: () => renderer.getHeadRect(),     // pet target (head + ears only)
+  getMouthPoint: () => renderer.getMouthPoint(), // ghost-carrot snap target on a successful drop
 }).attach();
 
 muteBtn.addEventListener("click", () => {

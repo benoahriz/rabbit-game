@@ -12,6 +12,7 @@ export class Renderer {
     if (!this.ctx) throw new Error("Canvas 2D unavailable — this toy requires it.");
     this.rabbitRect = { x: 0, y: 0, w: 0, h: 0 };
     this.headRect = { x: 0, y: 0, w: 0, h: 0 };
+    this.mouthPoint = { x: 0, y: 0 };
     this.reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     this.sceneImg = null;
     this.roomImg = null;        // pink-room master (second environment)
@@ -132,6 +133,9 @@ export class Renderer {
   /** CSS-pixel rect around the rabbit's head + ears (pet target — petting the head only, user direction 2026-10-23). */
   getHeadRect() { return this.headRect; }
 
+  /** CSS-pixel mouth position (drag-feed snap target for the carried carrot ghost). */
+  getMouthPoint() { return this.mouthPoint; }
+
   draw(state) {
     const { ctx, w, h } = this;
     const t = performance.now();
@@ -190,6 +194,9 @@ export class Renderer {
       w: 0.60 * box.w,
       h: 0.56 * box.h,
     };
+    // mouth anchor for drag-feed snap: face center of the canon sprite (eyes ~0.30h,
+    // chin ~0.58h → mouth at ~0.44h of the sprite frame, horizontally centered)
+    this.mouthPoint = { x: box.x + box.w * 0.50, y: box.y + box.h * 0.44 };
   }
 
   /** Sprite placement per environment: garden = quiet left lawn on the grass band;
@@ -366,5 +373,6 @@ export class Renderer {
       w: headR * 2.3,
       h: headR * 3.0,
     };
+    this.mouthPoint = { x: hx, y: eyeY + headR * 0.30 };
   }
 }

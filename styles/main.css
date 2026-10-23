@@ -78,10 +78,10 @@ button:focus-visible {
   align-items: center;
   gap: 4px;
 }
-#carrot {
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
+#basket {
+  width: 84px;
+  height: 66px;
+  border-radius: 18px;
   background: var(--chip);
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 8px rgba(90, 70, 80, 0.16);
@@ -89,10 +89,31 @@ button:focus-visible {
   place-items: center;
   transition: transform 0.12s ease; /* reduced-motion users: transform off via media rule */
   touch-action: none;
+  user-select: none;
   cursor: grab;
 }
-#carrot:active { transform: scale(0.92); }
-#carrot svg { width: 30px; height: 30px; pointer-events: none; }
+#basket:active,
+#basket.grabbing { cursor: grabbing; }
+#basket.grabbing { transform: scale(0.95); }
+#basket .carrot { transition: opacity 0.14s ease; }
+#basket.grabbing .c-mid { opacity: 0; } /* the carrot being carried leaves the basket */
+#basket svg { width: 70px; height: 61px; pointer-events: none; }
+
+/* floating carrot that follows the pointer during a drag-feed (created by scripts/input.js) */
+#drag-ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 38px;
+  z-index: 30;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 4px rgba(90, 70, 80, 0.3));
+  will-change: transform;
+}
+#drag-ghost svg { display: block; width: 100%; height: 100%; }
+#drag-ghost.snapping,
+#drag-ghost.returning { transition: transform 0.2s ease-out, opacity 0.2s ease-out; opacity: 0; }
 
 .fed-count {
   font-size: 11px;
@@ -172,6 +193,9 @@ button:focus-visible {
 .setting-opt:active { transform: scale(0.97); }
 
 @media (prefers-reduced-motion: reduce) {
-  #carrot { transition: none; }
+  #basket { transition: none; }
+  #basket .carrot { transition: none; }
+  #drag-ghost.snapping,
+  #drag-ghost.returning { transition: none; }
   .setting-opt { transition: none; }
 }
