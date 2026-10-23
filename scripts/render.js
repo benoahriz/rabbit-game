@@ -1,14 +1,18 @@
-// rabbit-game v0.2-alpha — canvas renderer driven by REAL pipeline art (ADR-0002 promoted assets):
-//   assets/scene/background.png   — canon tea-garden master (Q-015 + amendment)
+// rabbit-game v0.2 — canvas renderer driven by REAL pipeline art (ADR-0002 promoted assets):
+//   assets/scene/background.png     — canon tea-garden master (Q-015 + amendment)
+//   assets/scene/pink-room.png      — second environment (ESC menu)
 //   assets/character/rabbit-idle.png — canon bunny master (Q-014; opaque; chroma-keyed at load)
-// The sprite key is a deliberate simplification (lean-ctx ceiling): runtime border flood-fill on the
-// flat matte ground — replace with pre-baked transparent cutouts when the expression sheet lands.
+//   assets/character/rabbit-{blink,ear-twitch,chomp-closed,happy}.png — expression frames
+//     (position/palette-frozen swaps per the expression-sheet round critiques)
+// The runtime border flood-fill key is a deliberate simplification (lean-ctx ceiling): it now
+// runs per frame at boot; upgrade to pre-baked alpha cutouts via an offline mechanical key.
 // If assets fail to load, falls back to the labeled v0.1 code-drawn placeholder (dev fallback only).
 
 /**
  * Face anchors as fractions of the canon sprite frame (r3-fullbody-flat-matte),
  * pixel-measured in-browser 2026-10-23: open-eye dark-blob centroid + tongue-pink
- * centroid. Overlays (blink lid, carrot-at-mouth, crumbs) draw at these fractions.
+ * centroid. Overlays (carrot-at-mouth, crumbs) draw at these fractions; blink is
+ * a promoted expression frame now, not an overlay.
  */
 const SPRITE_FACE = {
   eye: [0.392, 0.477], // the one OPEN eye (the other is the canon wink)
@@ -28,6 +32,8 @@ export class Renderer {
     this.roomImg = null;        // pink-room master (second environment)
     this.setting = "garden";    // current environment: "garden" | "room"
     this.rabbitSprite = null;   // ImageBitmap, ground keyed to transparent
+    this.frames = null;         // keyed expression frames: { blink, ear, chompClosed, happy }
+    this._spriteUsed = "idle"; // debug/verification: which frame the last draw picked
     this.artFailed = false;
     this._loadPromise = null;
     this._fx = [];            // transient reward particles (crumbs/heart), purge-wrapped
@@ -39,16 +45,27 @@ export class Renderer {
     sceneSrc = "assets/scene/background.png",
     roomSrc = "assets/scene/pink-room.png",
     rabbitSrc = "assets/character/rabbit-idle.png",
+    frameSrcs = {
+      blink: "assets/character/rabbit-blink.png",
+      ear: "assets/character/rabbit-ear-twitch.png",
+      chompClosed: "assets/character/rabbit-chomp-closed.png",
+      happy: "assets/character/rabbit-happy.png",
+    },
   } = {}) {
     this._loadPromise = (async () => {
-      const [scene, room, opaque] = await Promise.all([
+      const frameKeys = Object.keys(frameSrcs);
+      const [scene, room, opaque, ...frameImgs] = await Promise.all([
         this._loadImg(sceneSrc),
         this._loadImg(roomSrc).catch(() => null), // room is optional until promoted; garden keeps working
         this._loadImg(rabbitSrc),
+        ...frameKeys.map((k) => this._loadImg(frameSrcs[k]).catch(() => null)),
       ]);
       this.sceneImg = scene;
       if (room) this.roomImg = room;
       this.rabbitSprite = await this._keyRabbit(opaque);
+      // expression frames: same border flood-fill key; a failed frame just skips that swap
+      const keyed = await Promise.all(frameImgs.map((img) => (img ? this._keyRabbit(img) : null)));
+      this.frames = Object.fromEntries(frameKeys.map((k, i) => [k, keyed[i]]));
     })();
     try {
       await this._loadPromise;
@@ -171,9 +188,10 @@ export class Renderer {
   }
 
   /**
-   * Canon bunny sprite + overlay juice (all canvas-drawn, canon palette; no new assets):
-   * blink lid over the open eye, petting wiggle, damped happy hop, carrot-in-mouth +
-   * crumb/heart particles during the rewards. Face anchors are fractions of the sprite
+   * Canon bunny sprite + overlay juice. Expression frames (position/palette-frozen art,
+   * manifest-provenance swaps) cover blink / ear-twitch / chomp cycle / happy joy; the
+   * canvas overlays that remain are juice, not anatomy: petting wiggle, damped happy hop,
+   * carrot-at-mouth + crumb/heart particles. Face anchors are fractions of the sprite
    * frame, pixel-measured from the canon master (r3-fullbody-flat-matte, 2026-10-23).
    */
   _drawRabbit(s, t) {
@@ -200,38 +218,32 @@ export class Renderer {
       breathe = 1 + (reducedMotion ? 0 : Math.sin(t / 1000 * 1.6) * 0.015);
     }
 
+    // expression frame swap — priority: happy joy > eating chomp cycle (the idle master's
+    // open smile is the cycle's OPEN phase) > blink (skipped while eating so the mouth owns
+    // the face) > ear twitch > idle master. Missing frames fall through to idle.
+    const nib = s.state === "eating" && !reducedMotion ? Math.sin(s.progress() * Math.PI * 8) : 0;
+    let sprite = this.rabbitSprite, used = "idle";
+    const F = this.frames;
+    if (F) {
+      if (s.state === "happy" && F.happy) { sprite = F.happy; used = "happy"; }
+      else if (s.state === "eating" && nib > 0 && F.chompClosed) { sprite = F.chompClosed; used = "chompClosed"; }
+      else if (s.blink() > 0.6 && s.state !== "eating" && F.blink) { sprite = F.blink; used = "blink"; }
+      else if (s.state !== "eating" && Math.abs(s.earTwitch()) > 0.3 && F.ear) { sprite = F.ear; used = "ear"; }
+    }
+    this._spriteUsed = used; // browser-assert hook (paired with globalThis.__rabbit_game)
+
     const dw = box.w, dh = (box.h) * breathe;
     ctx.save();
     ctx.translate(box.x + box.w / 2, baseY + bounce);
     ctx.rotate(tilt);
-    ctx.drawImage(this.rabbitSprite, -dw / 2, -dh, dw, dh);
+    ctx.drawImage(sprite, -dw / 2, -dh, dw, dh);
     ctx.restore();
 
-    // face anchors in screen space (fractions from the canon master)
-    const ex = box.x + SPRITE_FACE.eye[0] * box.w, ey = box.y + SPRITE_FACE.eye[1] * box.h;
+    // face anchor in screen space (fraction from the canon master)
     const mx = box.x + SPRITE_FACE.mouth[0] * box.w, my = box.y + SPRITE_FACE.mouth[1] * box.h;
-
-    // blink lid: the canon face has one open eye (the other is always winking) —
-    // cover the open eye with fur white and draw a closed lash curve
-    if (s.blink() > 0.6) {
-      const r = box.w * 0.032;
-      ctx.fillStyle = "#ffffff"; // measured fur on the master (#fefffe)
-      ctx.beginPath();
-      ctx.ellipse(ex, ey, r, r * 0.82, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = "#6b301d"; // measured canon eye brown
-      ctx.lineWidth = box.h * 0.012;
-      ctx.lineCap = "round";
-      ctx.beginPath();
-      ctx.moveTo(ex - r * 0.72, ey + r * 0.12);
-      ctx.quadraticCurveTo(ex, ey + r * 0.44, ex + r * 0.72, ey + r * 0.12);
-      ctx.stroke();
-    }
 
     // eating: carrot held at the mouth with a nibble bob + crumb burst on the first bite
     if (s.state === "eating") {
-      const p = s.progress();
-      const nib = reducedMotion ? 0 : Math.sin(p * Math.PI * 8);
       this._carrotAtMouth(mx, my, box, nib);
       if (this._lastState !== "eating") this._spawnCrumbs(mx, my, box);
     }

@@ -1,0 +1,12 @@
+{
+  "spec_id": "rabbit-expression-sheet",
+  "spec_execution": "openrouter",
+  "created_at": "2026-10-23T22:44:39.057Z",
+  "options": [
+    "blink-lash-closed",
+    "ear-twitch-fold",
+    "chomp-mouth-closed",
+    "chomp-mouth-open",
+    "happy-joy-face"
+  ]
+}

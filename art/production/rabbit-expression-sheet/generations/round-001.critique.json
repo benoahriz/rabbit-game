@@ -1,0 +1,91 @@
+{
+  "round": 1,
+  "critique_at": "2026-10-23T16:20:00Z",
+  "method": "programmatic pixel-probe in-browser (per ADR-0002 pixel-verified critique; agent image-read unavailable this session — harness model has no image input): content bbox/centroid vs master, corner-background uniformity, invariant palette samples (fur/bow), body-region cross-correlation alignment (±10px search), expression-region dark-cluster geometry (count/band height) against master baseline, tongue-pink presence",
+  "context": "v0.2 expression sheet for the promoted canon bunny (hero 2→3 on the ADOPT scorecard). Frames must be position/palette-frozen swaps for the canon idle master; single change per frame per storyboard.md beats.",
+  "baseline": {
+    "master_bg_rgb": [249, 225, 228],
+    "master_eye_dark_n": 872,
+    "master_mouth_dark_n": 466,
+    "master_mouth_band_h_frac": 0.078,
+    "master_tongue_pink_n": 161
+  },
+  "style_alignment_check": {
+    "outline_match": "PASS (all 5) — warm brown outline family continuous with the master (dark-cluster colors + fur/bow palette samples within tolerance)",
+    "palette_match": "PASS (all 5) — fur white and bow pink invariant samples match; background RGB 249,225,228 matches on every frame",
+    "matte_fills": "PASS (all 5) — flat matte; corners + edge midpoints uniform on every frame",
+    "character_absent": "n/a — character IS the subject"
+  },
+  "verdicts": [
+    {
+      "option": "blink-lash-closed",
+      "verdict": "REVISE",
+      "evidence": {
+        "eye_dark_n": 330, "eye_band_h": 0.041, "align_dxy": [2, -1], "body_residual_frac": 0.04,
+        "mouth_dark_n": 259, "mouth_band": [0.499, 0.53], "tongue_pink_n": 0
+      },
+      "notes": [
+        "Eye closes correctly: dark mass 872→330 (62% removed), band height 0.072→0.041; alignment (2,-1) within tolerance.",
+        "SINGLE-CHANGE VIOLATION: the mouth also closed (466→259, band 0.493-0.571 → 0.499-0.530) and the tongue vanished — stats nearly identical to chomp-mouth-closed. A blink swap would flip her open smile to a closed mouth every BLINK_MS.",
+        "Round-002 revise ordered: same eye edit with mouth-preservation hard constraint."
+      ],
+      "fix_type": "revise-round-002"
+    },
+    {
+      "option": "ear-twitch-fold",
+      "verdict": "ACCEPT",
+      "evidence": {
+        "earR_diff_frac": 0.289, "content_top_shift_px": 10, "content_right_shift_px": 42,
+        "eye_dark_n": 847, "mouth_dark_n": 1111, "tongue_pink_n": 162,
+        "align_dxy": [4, 0], "body_residual_frac": 0.028, "bow_px": 20940
+      },
+      "notes": [
+        "Genuine ear fold: ear-zone diff 0.289 with content top +10px (ear shortened) and right edge +42px (fold extends) — geometry matches a bent ear, not a drift.",
+        "Face frozen: eye/mouth dark counts and tongue presence ≈ master baseline.",
+        "Alignment (4,0) = ~1.5px at game scale on a solo (non-alternating) frame — acceptable; bow mass -26% consistent with the bow shifting with the ear fold (still present, 74% of master pixels)."
+      ],
+      "fix_type": "none-blocking"
+    },
+    {
+      "option": "chomp-mouth-closed",
+      "verdict": "ACCEPT",
+      "evidence": {
+        "mouth_dark_n": 261, "mouth_band": [0.495, 0.534], "tongue_pink_n": 0,
+        "align_dxy": [0, 0], "body_residual_frac": 0.028, "eye_dark_n": 863
+      },
+      "notes": [
+        "Genuine closed content mouth: mouth dark 466→261 (-44%), band 78px→40px, tongue gone; eye frozen at master baseline.",
+        "PERFECT frame coherence: alignment (0,0) on the body cross-correlation — the cycle's closed phase swaps in-place."
+      ],
+      "fix_type": "none-blocking"
+    },
+    {
+      "option": "chomp-mouth-open",
+      "verdict": "ARCHIVE",
+      "evidence": {
+        "mouth_dark_n": 486, "mouth_band": [0.493, 0.585], "tongue_pink_n": 140,
+        "align_dxy": [6, -1], "body_residual_frac": 0.043
+      },
+      "notes": [
+        "Weak edit: mouth dark 466→486 (+4%), band 78→94px — the 'wide O chomp mouth' barely landed.",
+        "Alignment (6,-1): alternating with chomp-mouth-closed (0,0) would shimmer ~2.2px at game scale.",
+        "REDUNDANT under the cycle design: the canon master's open smile (with tongue) IS the cycle's open phase — master ↔ chomp-mouth-closed gives the bite cycle without this frame."
+      ],
+      "fix_type": "none (not promoted)"
+    },
+    {
+      "option": "happy-joy-face",
+      "verdict": "ACCEPT",
+      "evidence": {
+        "eye_dark_n": 474, "eye_band_h": 0.049, "mouth_dark_n": 493, "mouth_band": [0.479, 0.565],
+        "tongue_pink_n": 123, "align_dxy": [1, 0], "body_residual_frac": 0.017
+      },
+      "notes": [
+        "Both eyes → joyful arcs (dark 872→474, band halved) with a wider delighted smile (band 78→86px, tongue present).",
+        "Best frame coherence of the round: alignment (1,0), body residual 0.017."
+      ],
+      "fix_type": "none-blocking"
+    }
+  ],
+  "round_summary": "3 ACCEPT (ear-twitch-fold, chomp-mouth-closed, happy-joy-face), 1 REVISE (blink: mouth must stay open — round-002), 1 ARCHIVE (chomp-mouth-open: weak change + 6px drift; the master serves as the cycle's open phase). Round cost $0.1937 (5 × ~$0.0387, nano-banana lane)."
+}

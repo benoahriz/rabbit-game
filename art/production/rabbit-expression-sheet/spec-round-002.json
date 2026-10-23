@@ -1,0 +1,20 @@
+{
+  "id": "rabbit-expression-sheet",
+  "purpose": "round-002 REVISE of blink-lash-closed (round-001 critique: eye edit correct but the mouth also closed — single-change violation). Keep the master's open smile exactly; close ONLY the eye.",
+  "acceptance_criteria": [
+    "Eye dark mass drops ~60% vs master with a thin lash band (as round-001 blink achieved)",
+    "Mouth dark count and band height stay at master baseline (466 ± 60; band ~0.49-0.57) with tongue pink present (~160)",
+    "Body alignment within ±2px of master; background + palette invariants unchanged"
+  ],
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "reference_files": ["/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png"]
+  },
+  "options": [
+    {
+      "id": "blink-lash-closed-v2",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical pose and body proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, new objects, or characters. Single change only: her one OPEN eye closes into a simple closed-eye lash curve — a small soft downward-curved brown line, matching the closed-eye wink line already on her other eye. CRITICAL — HER MOUTH MUST STAY EXACTLY AS IN THE REFERENCE: the same open smiling mouth with the small pink tongue inside, same shape, same size, same position, unchanged. Everything else (wink eye, smile, blush, bow, ears, body) stays pixel-identical."
+    }
+  ]
+}

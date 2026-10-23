@@ -28,6 +28,7 @@
         "art/calibration/bunny-style-options/generations/round-003/generation.json",
         "art/calibration/bunny-style-options/critiques/round-003.critique.json"
       ]
+    },
     {
       "role": "scene/pink-room (second environment)",
       "file": "assets/scene/pink-room.png",
@@ -41,8 +42,64 @@
         "art/production/scene-pink-room-master/generations/round-001/generation.json",
         "art/production/scene-pink-room-master/generations/round-001.critique.json"
       ]
+    },
+    {
+      "role": "character/blink (expression frame: open eye closed to lash line)",
+      "file": "assets/character/rabbit-blink.png",
+      "sha256": "016799d2c4478420d4499af2ededc1b7f25127378535ca75d7398b48b35f83ec",
+      "source": "art/production/rabbit-expression-sheet/generations/round-002/blink-lash-closed-v2.png",
+      "source_sha": "see source round generation.json (blink-lash-closed-v2)",
+      "picked": "critique ACCEPT per spec acceptance criteria (revise round: eye-only change, mouth preserved; pixel-probe alignment (0,0), eye dark 872→303, mouth band held)",
+      "provenance_note": "expression sheet round-002 (round-001 blink REVISE: mouth had closed too); trigger: state blink() > 0.6, duration BLINK_MS",
+      "provenance_files": [
+        "art/production/rabbit-expression-sheet/spec-round-002.json",
+        "art/production/rabbit-expression-sheet/generations/round-002/generation.json",
+        "art/production/rabbit-expression-sheet/generations/round-002.critique.json"
+      ]
+    },
+    {
+      "role": "character/ear-twitch (expression frame: one ear folded mid-way)",
+      "file": "assets/character/rabbit-ear-twitch.png",
+      "sha256": "f4625d33aa8753a45a1269660863b00cd73b512623ba14db62a4541790509f11",
+      "source": "art/production/rabbit-expression-sheet/generations/round-001/ear-twitch-fold.png",
+      "source_sha": "see source round generation.json (ear-twitch-fold)",
+      "picked": "critique ACCEPT per spec acceptance criteria (pixel-probe: ear-zone diff 0.289 with fold geometry, face frozen, align (4,0))",
+      "provenance_note": "first visible ear reaction since the placeholder era; trigger: earTwitch() active, duration EAR_MS",
+      "provenance_files": [
+        "art/production/rabbit-expression-sheet/spec.json",
+        "art/production/rabbit-expression-sheet/generations/round-001/generation.json",
+        "art/production/rabbit-expression-sheet/generations/round-001.critique.json"
+      ]
+    },
+    {
+      "role": "character/chomp-closed (expression frame: content closed-mouth chew)",
+      "file": "assets/character/rabbit-chomp-closed.png",
+      "sha256": "6eedac95811c703e1ee083f52c5b31765b778f59db107fc7117e0b826baabfb9",
+      "source": "art/production/rabbit-expression-sheet/generations/round-001/chomp-mouth-closed.png",
+      "source_sha": "see source round generation.json (chomp-mouth-closed)",
+      "picked": "critique ACCEPT per spec acceptance criteria (pixel-probe: mouth dark 466→261 with band 78→40px, tongue gone, PERFECT align (0,0))",
+      "provenance_note": "the eating cycle's CLOSED phase; the canon idle master (open smile + tongue) is the cycle's OPEN phase — round-001 chomp-mouth-open ARCHIVED (weak change + 6px drift)",
+      "provenance_files": [
+        "art/production/rabbit-expression-sheet/spec.json",
+        "art/production/rabbit-expression-sheet/generations/round-001/generation.json",
+        "art/production/rabbit-expression-sheet/generations/round-001.critique.json"
+      ]
+    },
+    {
+      "role": "character/happy (expression frame: joyful arc eyes + wide smile)",
+      "file": "assets/character/rabbit-happy.png",
+      "sha256": "d85e8237ceb10101751b3d3ca600492a36a805cb441c59bf832eff3c22351c35",
+      "source": "art/production/rabbit-expression-sheet/generations/round-001/happy-joy-face.png",
+      "source_sha": "see source round generation.json (happy-joy-face)",
+      "picked": "critique ACCEPT per spec acceptance criteria (pixel-probe: eye dark 872→474 arcs, wider smile, align (1,0), body residual 0.017)",
+      "provenance_note": "pays off the happy hop: previously happy reused the idle face; trigger: state === happy, duration HAPPY_MS",
+      "provenance_files": [
+        "art/production/rabbit-expression-sheet/spec.json",
+        "art/production/rabbit-expression-sheet/generations/round-001/generation.json",
+        "art/production/rabbit-expression-sheet/generations/round-001.critique.json"
+      ]
     }
   ],
-  "renderer_consumption": "scripts/render.js loads both at boot; opaque sprite is chroma-keyed at runtime (border flood-fill; deliberate v0.2-alpha ceiling — pre-baked cutouts arrive with the expression sheet).",
+  "renderer_consumption": "scripts/render.js loads all five character frames at boot and swaps them per FSM signals (blink / ear-twitch / eating chomp cycle: idle-open ↔ chomp-closed / happy); each opaque frame is chroma-keyed at runtime with the same border flood-fill (pre-baked alpha cutouts remain a future mechanical-key upgrade). Scene backgrounds load per environment setting.",
   "updated": "2026-10-23"
 }

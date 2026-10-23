@@ -1,0 +1,218 @@
+{
+  "spec_id": "rabbit-expression-sheet",
+  "created_at": "2026-10-23T22:44:39.073Z",
+  "engine": "OpenRouter image model (sd_turbo.safetensors) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "blink-lash-closed",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical pose and body proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, new objects, or characters. Single change only: her one open eye closes into a simple closed-eye lash curve — a small soft downward-curved brown line, matching the closed-eye wink line already on her other eye. Everything else (wink eye, smile, blush, bow, ears, body) stays pixel-identical.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1433,
+        "completion_tokens": 1290,
+        "total_tokens": 2723,
+        "cost": 0.038738601,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391299,
+          "upstream_inference_prompt_cost": 0.0004299,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "blink-lash-closed.png",
+      "sha256": "56fc8d3993e4aa6f769834160bdbe4668f3347add52c72d8ddacace6778c849d"
+    },
+    {
+      "option": "ear-twitch-fold",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical pose and body proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, new objects, or characters. Single change only: one of her tall upright ears bends sideways at the middle with a soft rounded fold, like a quick cute ear twitch. Her face (open eye, wink, smile, blush), bow, body, and everything else stay pixel-identical.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1423,
+        "completion_tokens": 1290,
+        "total_tokens": 2713,
+        "cost": 0.038735631,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391269,
+          "upstream_inference_prompt_cost": 0.0004269,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "ear-twitch-fold.png",
+      "sha256": "f4625d33aa8753a45a1269660863b00cd73b512623ba14db62a4541790509f11"
+    },
+    {
+      "option": "chomp-mouth-closed",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical pose and body proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, new objects, or characters. Single change only: her open smiling mouth closes into a small content closed-mouth smile — a single soft curved brown line like she is peacefully mid-chew. Eyes, wink, blush, bow, ears, and body stay pixel-identical.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1421,
+        "completion_tokens": 1290,
+        "total_tokens": 2711,
+        "cost": 0.038735037,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391263,
+          "upstream_inference_prompt_cost": 0.0004263,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "chomp-mouth-closed.png",
+      "sha256": "6eedac95811c703e1ee083f52c5b31765b778f59db107fc7117e0b826baabfb9"
+    },
+    {
+      "option": "chomp-mouth-open",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical pose and body proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, new objects, or characters. Single change only: her mouth opens into a round open chomp mouth mid-bite — a wide open O-shaped mouth with a small pink tongue inside. Cheeks, eyes, wink, blush, bow, ears, and body stay pixel-identical.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1423,
+        "completion_tokens": 1290,
+        "total_tokens": 2713,
+        "cost": 0.038735631,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391269,
+          "upstream_inference_prompt_cost": 0.0004269,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "chomp-mouth-open.png",
+      "sha256": "17a725d4f68e5bf3e5c650c691eed10a199082c7c94e622bc61f0b9d3c7cba66"
+    },
+    {
+      "option": "happy-joy-face",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical pose and body proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, new objects, or characters. Single change only: her whole face becomes pure joy — both eyes close into happy upward arc lines ( ^ ^ shaped joyful closed eyes) and her mouth becomes a wide open delighted smile with a small pink tongue. Ears stay upright, body, pose, and palette stay pixel-identical.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1428,
+        "completion_tokens": 1290,
+        "total_tokens": 2718,
+        "cost": 0.038737116,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391284,
+          "upstream_inference_prompt_cost": 0.0004284,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "happy-joy-face.png",
+      "sha256": "d85e8237ceb10101751b3d3ca600492a36a805cb441c59bf832eff3c22351c35"
+    }
+  ]
+}

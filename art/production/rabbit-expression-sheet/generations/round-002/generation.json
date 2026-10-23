@@ -1,0 +1,50 @@
+{
+  "spec_id": "rabbit-expression-sheet",
+  "created_at": "2026-10-23T22:51:25.692Z",
+  "engine": "OpenRouter image model (google/gemini-2.5-flash-image) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "blink-lash-closed-v2",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical pose and body proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, new objects, or characters. Single change only: her one OPEN eye closes into a simple closed-eye lash curve — a small soft downward-curved brown line, matching the closed-eye wink line already on her other eye. CRITICAL — HER MOUTH MUST STAY EXACTLY AS IN THE REFERENCE: the same open smiling mouth with the small pink tongue inside, same shape, same size, same position, unchanged. Everything else (wink eye, smile, blush, bow, ears, body) stays pixel-identical.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/art/calibration/bunny-style-options/generations/round-003/r3-fullbody-flat-matte.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1471,
+        "completion_tokens": 1290,
+        "total_tokens": 2761,
+        "cost": 0.038749887,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391413,
+          "upstream_inference_prompt_cost": 0.0004413,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "blink-lash-closed-v2.png",
+      "sha256": "016799d2c4478420d4499af2ededc1b7f25127378535ca75d7398b48b35f83ec"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "round": 2,
+  "critique_at": "2026-10-23T16:34:00Z",
+  "method": "same programmatic pixel-probe as round-001 (dark-cluster geometry per region, body cross-correlation alignment, corner uniformity, tongue-pink presence)",
+  "context": "REVISE round for blink-lash-closed (round-001 verdict: eye edit correct, mouth incorrectly closed too). Round-002 adds the mouth-preservation hard constraint.",
+  "verdicts": [
+    {
+      "option": "blink-lash-closed-v2",
+      "verdict": "ACCEPT",
+      "evidence": {
+        "eye_dark_n": 303, "eye_band": [0.475, 0.51],
+        "mouth_dark_n": 392, "mouth_band": [0.487, 0.562],
+        "tongue_pink_n": 36, "align_dxy": [0, 0], "body_residual_frac": 0.002, "bg_uniform": true
+      },
+      "notes": [
+        "Eye closes correctly: dark 872→303 (65% removed), thin lash band 0.475-0.510 — matching the round-001 blink eye behavior.",
+        "Mouth preserved this time: band 0.487-0.562 (76px) vs master 0.493-0.571 (78px) — the open smile shape held; mouth dark -16% and tongue-pink 36/163 noted as tongue re-render hue wobble (non-blocking at game scale).",
+        "PERFECT alignment (0,0), body residual 0.002 — best frame coherence of the entire set."
+      ],
+      "fix_type": "none-blocking"
+    }
+  ],
+  "round_summary": "blink-lash-closed-v2 ACCEPTED; promoted as assets/character/rabbit-blink.png. Total expression-sheet spend: $0.2324 (6 images: round-001 $0.1937 + round-002 $0.0387, nano-banana lane)."
+}
