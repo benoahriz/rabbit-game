@@ -59,6 +59,7 @@ const bubble = (kind) => {
   if (now - lastBubbleAt < 380) return; // visual calm: at most ~2.5 bubbles/second
   lastBubbleAt = now;
   const head = renderer.getHeadRect();
+  if (!head.w) return; // first draw hasn't landed yet (no anchors) — skip rather than spawn at the corner
   const b = document.createElement("span");
   b.className = "bubble";
   b.textContent = texts[(Math.random() * texts.length) | 0];
@@ -130,13 +131,21 @@ const menu = new SettingsMenu(document.getElementById("menu"), {
   onSettingChange: (id) => {
     store.save({ setting: id });
     renderer.setSetting(id);
+    sound.unlock(); // the click is a valid audio gesture — menu acks were silently no-opping before unlock
     sound.soft(); // tiny acknowledgment blip
   },
 });
 menu.init();
 renderer.setSetting(store.data.setting); // restore persisted environment
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") menu.toggle();
+  if (e.key !== "Escape") return;
+  if (menu.isOpen) { menu.close(); return; }   // the modal menu is on top — it owns ESC first
+  if (!calendarEl.hidden) {                    // then the calendar dialog (a11y: ESC dismisses)
+    calendarEl.hidden = true;
+    clockChip.setAttribute("aria-expanded", "false");
+    return;
+  }
+  menu.open();
 });
 
 // corner menu button (mobile pass 2026-10-24): phones have no ESC key
@@ -144,6 +153,11 @@ const menuBtn = document.getElementById("menu-btn");
 menuBtn.addEventListener("click", () => menu.toggle());
 menu.root.addEventListener("menutoggle", () => {
   menuBtn.setAttribute("aria-expanded", String(menu.isOpen));
+  // opening the modal settings card also dismisses the calendar underneath it
+  if (menu.isOpen && !calendarEl.hidden) {
+    calendarEl.hidden = true;
+    clockChip.setAttribute("aria-expanded", "false");
+  }
 });
 
 // --- clock & calendar (UC-7, 2026-10-24): desk accessories, off by default ---
@@ -180,7 +194,11 @@ const drawClock = () => {
 clockChip.addEventListener("click", () => {
   calendarEl.hidden = !calendarEl.hidden;
   clockChip.setAttribute("aria-expanded", String(!calendarEl.hidden));
-  if (!calendarEl.hidden) { calRef = new Date(); drawCalendar(); }
+  if (!calendarEl.hidden) {
+    calRef = new Date();
+    calDayShown = new Date().getDate(); // anchor the day-rollover detector at open
+    drawCalendar();
+  }
 });
 document.getElementById("cal-prev").addEventListener("click", () => drawCalendar(-1));
 document.getElementById("cal-next").addEventListener("click", () => drawCalendar(1));
@@ -188,6 +206,7 @@ optClock.addEventListener("click", () => {
   store.save({ clock: !store.data.clock });
   syncClock();
   drawClock(); // immediate — never show the placeholder for a second
+  sound.unlock(); // same fix as the setting picker: the click unlocks the ack sound
   sound.soft(); // tiny acknowledgment, same as the Setting picker
 });
 setInterval(drawClock, 1000);
