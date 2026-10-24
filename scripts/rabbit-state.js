@@ -42,17 +42,36 @@ export class RabbitState {
     return { noise: "munch", hiccup: this.hiccup };
   }
 
-  /** One pet tick (stroke chunk or gentle tap). Returns the noise event to play. */
-  pet() {
+  /**
+   * One pet tick (stroke chunk or gentle tap). Returns the noise event to play.
+   * quality: 0..1 stroke grade (IDEA-001 — pet well and she melts); default 0.5
+   * keeps the increment at exactly 1 heat (backward-compatible with v0.1).
+   */
+  pet(quality = 0.5) {
     const t = this.now();
-    if (this.state === "happy" || this.petHeat + 1 >= AMBIENT.PET_THRESHOLD) {
+    const inc = 0.5 + quality; // default 0.5 → exactly 1 heat (v0.1-compatible); perfect scritch → 1.5
+    if (this.state === "happy" || this.petHeat + inc >= AMBIENT.PET_THRESHOLD) {
       this.petHeat = 0;
       this.state = "happy";
       this.animStart = t;
       return { noise: "chirrup" };
     }
-    this.petHeat += 1;
+    this.petHeat += inc;
     return { noise: "soft" };
+  }
+
+  /**
+   * Casey notices the pointer arriving near her (IDEA-005): force one ear
+   * twitch while idle, cooldown-gated so she never spasms. Returns whether
+   * the perk fired (callers add the soft chirp + bubble).
+   */
+  perk() {
+    const t = this.now();
+    if (this.state !== "idle" || t - (this._lastPerk ?? -1e9) < 2500) return false;
+    this._lastPerk = t;
+    this.earStart = t;
+    this.earSide = Math.random() < 0.5 ? -1 : 1;
+    return true;
   }
 
   /** Advance timers. dt = seconds since previous update (0 is fine). */

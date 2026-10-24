@@ -1,5 +1,5 @@
 // rabbit-game v0.1 — input: pointer events (pet strokes, carrot drag-feed) + keyboard fallback.
-// classifyStroke/pointInRect are pure (tested by node --test). The controller is DOM-bound.
+// classifyStroke/pointInRect/petGrade are pure (tested by node --test). The controller is DOM-bound.
 
 /** Classify a pointer stroke. samples: [{x,y,t}]. Returns "pet" | "tap" | null. */
 export function classifyStroke(samples, { MIN_STROKE = 28 } = {}) {
@@ -15,6 +15,18 @@ export function classifyStroke(samples, { MIN_STROKE = 28 } = {}) {
 /** Is a client-space point inside a rect {x,y,w,h}? */
 export function pointInRect(x, y, r) {
   return !!r && x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h;
+}
+
+/**
+ * Pet-stroke quality from speed (px/ms) — IDEA-001 (pet well and she melts).
+ * Sweet spot ≈ 0.25–0.9 px/ms reads as the perfect scritch; slower = gentle,
+ * faster = excited-but-tickly. Never 0 and never "bad": no punishing feedback.
+ */
+export function petGrade(speedPxMs) {
+  if (!(speedPxMs > 0)) return 0.55;            // still/unknown: neutral-gentle
+  if (speedPxMs < 0.25) return 0.35 + speedPxMs * 0.8;
+  if (speedPxMs <= 0.9) return 1;              // the sweet spot
+  return Math.max(0.6, 1.15 - (speedPxMs - 0.9) * 0.25);
 }
 
 /**
@@ -37,6 +49,7 @@ export class InputController {
     this.cb = callbacks;
     this.samples = [];
     this.strokeAccum = 0;
+    this.petQ = 0.55; // running stroke-quality estimate (IDEA-001)
     this._bound = [];
   }
 
@@ -49,16 +62,21 @@ export class InputController {
       const head = this.cb.getHeadRect?.();
       this.samples = pointInRect(e.clientX, e.clientY, head) ? [{ x: e.clientX, y: e.clientY, t: e.timeStamp }] : [];
       this.strokeAccum = 0;
+      this.petQ = 0.55; // quality estimate restarts with the stroke
     });
 
     this._on(this.surface, "pointermove", (e) => {
       if (this.samples.length === 0) return;
       const last = this.samples[this.samples.length - 1];
       const d = Math.hypot(e.clientX - last.x, e.clientY - last.y);
+      const dtms = e.timeStamp - last.t;
       this.samples.push({ x: e.clientX, y: e.clientY, t: e.timeStamp });
       if (d > 0) {
+        // stroke quality (IDEA-001): EMA of the pet grade so one jitter sample can't whipsaw her mood
+        const q = petGrade(dtms > 0 ? d / dtms : 0);
+        this.petQ = this.petQ * 0.7 + q * 0.3;
         this.strokeAccum += d;
-        if (this.strokeAccum >= 48) { this.strokeAccum = 0; this.cb.onPetTick?.(); }
+        if (this.strokeAccum >= 48) { this.strokeAccum = 0; this.cb.onPetTick?.(this.petQ); }
       }
     });
 

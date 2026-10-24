@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light">
-  <!-- Title provisional: final name pending QUESTIONS Q-001 -->
-  <title>rabbit</title>
+  <!-- Title: her name (Q-001 ✅ 2026-10-24 — the rabbit is Casey; repo stays rabbit-game) -->
+  <title>casey</title>
   <link rel="icon" type="image/png" href="assets/character/rabbit-idle.png">
   <meta name="description" content="A tiny virtual-pet toy: feed the rabbit carrots, pet it, hear cute noises.">
   <link rel="stylesheet" href="styles/main.css">
@@ -16,7 +16,24 @@
   </main>
 
   <!-- HUD (v0.1): edges only; center third stays open for the rabbit (art bible §6) -->
-  <h1 class="wordmark">rabbit</h1>
+  <h1 class="wordmark">casey</h1>
+
+  <!-- Speech bubbles (IDEA-002, 2026-10-24): Casey's noises made visible; the mute channel -->
+  <div id="bubbles" aria-hidden="true"></div>
+
+  <!-- Clock & calendar (UC-7, 2026-10-24): off by default; settings Extras toggle shows them -->
+  <button id="clock-chip" hidden type="button" aria-label="Show the calendar" aria-expanded="false">
+    <span id="clock-time">--:--</span>
+    <span id="clock-date">…</span>
+  </button>
+  <div id="calendar" class="calendar" hidden role="dialog" aria-label="Monthly calendar">
+    <div class="cal-head">
+      <button id="cal-prev" type="button" aria-label="Previous month">‹</button>
+      <span id="cal-label" class="cal-title"></span>
+      <button id="cal-next" type="button" aria-label="Next month">›</button>
+    </div>
+    <div id="cal-grid" class="cal-grid"></div>
+  </div>
 
   <div class="hud hud-top-right">
     <!-- Corner menu button (mobile pass): phones have no ESC key; this opens/closes the settings menu -->
@@ -75,6 +92,12 @@
         <div class="setting-opts">
           <button id="opt-garden" class="setting-opt" type="button" data-setting="garden" aria-pressed="false">Garden <small>(outside)</small></button>
           <button id="opt-room" class="setting-opt" type="button" data-setting="room" aria-pressed="false">Pink room <small>(inside)</small></button>
+        </div>
+      </fieldset>
+      <fieldset class="menu-row">
+        <legend>Extras</legend>
+        <div class="setting-opts">
+          <button id="opt-clock" class="extra-opt" type="button" aria-pressed="false">Clock &amp; calendar <small>(local time + month view)</small></button>
         </div>
       </fieldset>
     </div>

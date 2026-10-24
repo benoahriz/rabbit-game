@@ -29,6 +29,12 @@ Add entries here immediately when a decision is made or a question surfaces — 
 - A) Keep "Rabbit" generic and simple — "Rabbit." as the title.
 - B) Pick a name-only pet name (e.g. "Clover", "Biscuit") — reserving character lore.
 **Blocking?** No — repo stays `rabbit-game`; cosmetics only. Resolve by v0.2 art pass.
+> ✅ **ANSWERED** · 2026-10-24
+**Answer:** The rabbit's name is **Casey** (user direction). The wordmark and
+page `<title>` become lowercase "casey" (her label; matches the toy's lowercase
+aesthetic). Repo/design name stays `rabbit-game`. Character lore stays minimal
+in v1 — the name is for the banner, metadata, and future "call her name"
+interactions.
 ---
 ### Q-002 — Art style: pixel art or smooth kawaii illustration?
 The toy must feel cute and warm. The precursor repo (`space-adventure-prototype`)
@@ -128,6 +134,19 @@ its paid asset lanes (Tripo/ElevenLabs) per rule 4. Two feel ideas queued:
 IDEA-008 (synth variance), IDEA-009 (overshoot easing). Core-loop contract
 added to PRD §1. Sequel hooks: declared-evidence + motion-capture habits feed
 the planned scripted Playwright suite (ROADMAP).
+
+### Q-018 — How do user-supplied audio clips land as higher-quality SFX?
+**Context:** User direction (2026-10-24): higher-quality recorded sound effects
+will replace/augment the WebAudio synth (Q-004 chose synthesis for v0.1/v0.2
+licensing-zero). The clips exist but are NOT yet in the working directory —
+integration is deferred until they land. The synth stays the fallback and the
+mute-mode behavior (speech bubbles, IDEA-002) carries the mute channel either way.
+**Open items when files arrive:** format/codec choice (OGG + AAC fallback vs
+MP3-only), clip inventory (which verbs: munch/chirrup/soft/purr?), provenance
+recording (source + license note — an audio equivalent of the ADR-0002 asset
+manifest), file size budget (the repo ships no audio today; keep the artifact
+light), and a graceful load-failure path back to synth.
+**Blocking?** No — synth is the shipped default; nothing waits on this.
 
 ## Testing & Release
 ---

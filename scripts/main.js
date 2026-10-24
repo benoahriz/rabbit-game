@@ -1,10 +1,11 @@
 // rabbit-game v0.1 — boot & wiring. Vanilla ES modules only (AGENTS.md rule 1).
 import { RabbitState } from "./rabbit-state.js";
-import { InputController } from "./input.js";
+import { InputController, pointInRect } from "./input.js";
 import { SoundEngine } from "./sound.js";
 import { Store } from "./store.js";
 import { SettingsMenu } from "./menu.js";
 import { Renderer } from "./render.js";
+import { renderMonth } from "./calendar.js";
 
 const canvas = document.getElementById("scene");
 const basketBtn = document.getElementById("basket"); // drag one of its carrots to the rabbit's mouth
@@ -41,18 +42,46 @@ const onInteract = () => {
   sound.startAmbience(); // tea-garden trickle bed begins after the audio-unlock gesture
 };
 
+// --- speech bubbles (IDEA-002, 2026-10-24): Casey's noises made visible; the mute channel ---
+const bubblesEl = document.getElementById("bubbles");
+let lastBubbleAt = 0;
+const BUBBLES = {
+  feed: ["nib nib", "nib nib nib", "crunch…"],
+  soft: ["pprr", "prr", "mm…"],
+  best: ["prr!", "prrr!!"],          // sweet-spot strokes (IDEA-001 grade)
+  chirrup: ["prrreet!", "weet!!", "prrr-eet!"],
+  perk: ["!", "hm?"],                // she noticed you (IDEA-005)
+};
+const bubble = (kind) => {
+  const texts = BUBBLES[kind];
+  if (!texts || !bubblesEl) return;
+  const now = performance.now();
+  if (now - lastBubbleAt < 380) return; // visual calm: at most ~2.5 bubbles/second
+  lastBubbleAt = now;
+  const head = renderer.getHeadRect();
+  const b = document.createElement("span");
+  b.className = "bubble";
+  b.textContent = texts[(Math.random() * texts.length) | 0];
+  b.style.left = `${head.x + head.w * 0.55 + (Math.random() * 28 - 14)}px`;
+  b.style.top = `${head.y - 4}px`;
+  bubblesEl.appendChild(b);
+  setTimeout(() => b.remove(), 1500);
+};
+
 const playFeed = ({ hiccup }) => {
   if (hiccup) sound.soft();
   sound.munch();
+  bubble("feed");
   store.save({ fed: state.fed });
   syncFed();
 };
 
 // SoundEngine gates chirrup spam internally (lastChirrup cooldown); handler just plays.
-const playPetTick = () => {
-  const ev = state.pet();
-  if (ev.noise === "chirrup") sound.chirrup(performance.now());
-  else sound.soft();
+// quality: stroke grade from the input controller (IDEA-001) — better scratches melt her faster.
+const playPetTick = (quality = 0.5) => {
+  const ev = state.pet(quality);
+  if (ev.noise === "chirrup") { sound.chirrup(performance.now()); bubble("chirrup"); }
+  else { sound.soft(); bubble(quality > 0.85 ? "best" : "soft"); }
 };
 
 const onFeed = () => { playFeed(state.feed()); };
@@ -67,6 +96,22 @@ new InputController(canvas, basketBtn, {
   getHeadRect: () => renderer.getHeadRect(),     // pet target (head + ears only)
   getMouthPoint: () => renderer.getMouthPoint(), // ghost-carrot snap target on a successful drop
 }).attach();
+
+// --- she notices you (IDEA-005, perk-at-cursor): lean + ear twitch when the pointer arrives ---
+let pointerNear = false;
+canvas.addEventListener("pointermove", (e) => {
+  renderer.pointer = { x: e.clientX, y: e.clientY };
+  const head = renderer.getHeadRect();
+  const near = pointInRect(e.clientX, e.clientY,
+    { x: head.x - 70, y: head.y - 70, w: head.w + 140, h: head.h + 140 });
+  if (near && !pointerNear) {
+    pointerNear = true;
+    if (state.perk()) { sound.soft(); bubble("perk"); } // one soft notice per approach
+  } else if (!near) {
+    pointerNear = false;
+  }
+});
+canvas.addEventListener("pointerleave", () => { renderer.pointer = null; pointerNear = false; });
 
 muteBtn.addEventListener("click", () => {
   onInteract(); // allow unmuting-by-click to also be the audio unlock gesture
@@ -101,6 +146,52 @@ menu.root.addEventListener("menutoggle", () => {
   menuBtn.setAttribute("aria-expanded", String(menu.isOpen));
 });
 
+// --- clock & calendar (UC-7, 2026-10-24): desk accessories, off by default ---
+const clockChip = document.getElementById("clock-chip");
+const clockTime = document.getElementById("clock-time");
+const clockDate = document.getElementById("clock-date");
+const calendarEl = document.getElementById("calendar");
+const calGrid = document.getElementById("cal-grid");
+const calLabel = document.getElementById("cal-label");
+const optClock = document.getElementById("opt-clock");
+let calRef = new Date();
+let calDayShown = -1;
+
+const syncClock = () => {
+  optClock.setAttribute("aria-pressed", String(store.data.clock));
+  clockChip.hidden = !store.data.clock;
+  if (!store.data.clock) { calendarEl.hidden = true; clockChip.setAttribute("aria-expanded", "false"); }
+};
+const drawCalendar = (delta = 0) => {
+  calRef = new Date(calRef.getFullYear(), calRef.getMonth() + delta, 1);
+  calLabel.textContent = renderMonth(calGrid, calRef.getFullYear(), calRef.getMonth());
+};
+const drawClock = () => {
+  if (!store.data.clock) return;
+  const now = new Date();
+  clockTime.textContent = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  clockDate.textContent = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  if (!calendarEl.hidden && now.getDate() !== calDayShown) { // a desk calendar follows the real date
+    calDayShown = now.getDate();
+    calRef = new Date();
+    drawCalendar();
+  }
+};
+clockChip.addEventListener("click", () => {
+  calendarEl.hidden = !calendarEl.hidden;
+  clockChip.setAttribute("aria-expanded", String(!calendarEl.hidden));
+  if (!calendarEl.hidden) { calRef = new Date(); drawCalendar(); }
+});
+document.getElementById("cal-prev").addEventListener("click", () => drawCalendar(-1));
+document.getElementById("cal-next").addEventListener("click", () => drawCalendar(1));
+optClock.addEventListener("click", () => {
+  store.save({ clock: !store.data.clock });
+  syncClock();
+  drawClock(); // immediate — never show the placeholder for a second
+  sound.soft(); // tiny acknowledgment, same as the Setting picker
+});
+setInterval(drawClock, 1000);
+
 // --- sizing + main loop ---
 const fit = () => renderer.resize(canvas.clientWidth, canvas.clientHeight);
 if ("ResizeObserver" in window) new ResizeObserver(fit).observe(document.documentElement);
@@ -108,6 +199,8 @@ else window.addEventListener("resize", fit);
 fit();
 syncFed();
 syncMute();
+syncClock();
+drawClock();
 
 // real-art load (v0.2): promoted pipeline assets; draw() shows the labeled placeholder until ready
 renderer.load();

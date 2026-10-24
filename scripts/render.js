@@ -38,6 +38,7 @@ export class Renderer {
     this._loadPromise = null;
     this._fx = [];            // transient reward particles (crumbs/heart), purge-wrapped
     this._lastState = "idle"; // transition detector for crumb/heart spawns
+    this.pointer = null;     // last known pointer position (perk-at-cursor lean, IDEA-005)
   }
 
   /** Load promoted art assets. Call once at boot; draw() degrades to placeholder until it resolves. */
@@ -216,6 +217,14 @@ export class Renderer {
       tilt = Math.sin(t / 1000 * 9) * 0.045 * Math.min(1, s.petHeat * 2);
     } else {
       breathe = 1 + (reducedMotion ? 0 : Math.sin(t / 1000 * 1.6) * 0.015);
+      // she notices you (IDEA-005): a gentle lean toward the pointer when it lingers nearby
+      const p = this.pointer;
+      if (p && !reducedMotion) {
+        const dx = p.x - (box.x + box.w / 2);
+        if (Math.abs(dx) < box.w * 1.6) {
+          tilt = Math.max(-1, Math.min(1, dx / box.w)) * 0.055;
+        }
+      }
     }
 
     // expression frame swap — priority: happy joy > eating chomp cycle (the idle master's

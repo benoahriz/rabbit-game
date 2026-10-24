@@ -1,7 +1,7 @@
 // tests/input.test.js — pure gesture classification (no DOM).
 import test from "node:test";
 import assert from "node:assert";
-import { classifyStroke, pointInRect } from "../scripts/input.js";
+import { classifyStroke, pointInRect, petGrade } from "../scripts/input.js";
 
 test("single sample = tap", () => {
   assert.equal(classifyStroke([{ x: 1, y: 1, t: 0 }]), "tap");
@@ -29,4 +29,22 @@ test("pointInRect hit-testing", () => {
   assert.equal(pointInRect(10, 10, r), true, "corner inclusive");
   assert.equal(pointInRect(9, 50, r), false);
   assert.equal(pointInRect(50, 50, null), false);
+});
+
+// --- pet-stroke quality (IDEA-001): sweet-spot curve, never punishing ---
+test("petGrade: sweet spot reads as the perfect scritch", () => {
+  assert.equal(petGrade(0.5), 1);
+  assert.equal(petGrade(0.25), 1);
+  assert.equal(petGrade(0.9), 1);
+});
+
+test("petGrade: slow is gentle, fast is tickly — never 0, never negative", () => {
+  assert.ok(petGrade(0.1) < 1 && petGrade(0.1) >= 0.35, "slow pets still count");
+  assert.ok(petGrade(3) >= 0.6 && petGrade(3) < 1, "fast pets stay excited, not bad");
+  assert.ok(petGrade(20) >= 0.6, "even wild pats stay positive");
+});
+
+test("petGrade: unknown/still pointer is a neutral-gentle default", () => {
+  assert.equal(petGrade(0), 0.55);
+  assert.equal(petGrade(-1), 0.55);
 });

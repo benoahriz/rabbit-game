@@ -70,3 +70,37 @@ test("blink ramps 0→(peak)→0 within BLINK_MS", () => {
   r.update(0);
   assert.equal(r.blink(), 0, "blink finished");
 });
+
+// --- pet-quality + perk (IDEA-001 / IDEA-005, 2026-10-24) ---
+test("pet(quality) scales heat: default stays exactly 1 like v0.1", () => {
+  const ck = fakeClock();
+  const r = new RabbitState({ now: () => ck.now });
+  r.update(0);
+  r.pet();
+  assert.equal(r.petHeat, 1);
+});
+
+test("pet(quality): sweet-spot strokes melt her faster, slow ones gently", () => {
+  const ckA = fakeClock(), ckB = fakeClock();
+  const a = new RabbitState({ now: () => ckA.now });
+  const b = new RabbitState({ now: () => ckB.now });
+  a.update(0); b.update(0);
+  a.pet(1);    // perfect scritch
+  b.pet(0.35); // very slow
+  assert.equal(a.petHeat, 1.5);
+  assert.ok(b.petHeat < 1, "gentle pets still accumulate, just slower");
+});
+
+test("perk(): idle ear twitch with cooldown; never during other states", () => {
+  const ck = fakeClock();
+  const r = new RabbitState({ now: () => ck.now });
+  r.update(0);
+  assert.equal(r.perk(), true);
+  assert.ok(r.earStart >= 0, "ear window opened");
+  assert.equal(r.perk(), false, "cooldown blocks an immediate second perk");
+  ck.advance(3000);
+  assert.equal(r.perk(), true, "cooldown passed");
+  r.feed(); // eating
+  ck.advance(3000);
+  assert.equal(r.perk(), false, "no perk while eating");
+});

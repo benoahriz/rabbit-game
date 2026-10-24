@@ -1,4 +1,4 @@
-// rabbit-game v0.2 — tiny persistence (PRD §6.2): { muted, fed, setting } in localStorage.
+// rabbit-game v0.2 — tiny persistence (PRD §6.2): { muted, fed, setting, clock } in localStorage.
 // Injected storage keeps it testable; private-mode failures degrade to in-memory only.
 
 const KEY = "rabbit-game:v1";
@@ -7,7 +7,7 @@ const SETTINGS = ["garden", "room"]; // canonical environment ids (Q-env user di
 export class Store {
   constructor(storage) {
     this.storage = storage ?? null; // pass globalThis.localStorage at call site
-    this.data = { muted: false, fed: 0, setting: "garden" };
+    this.data = { muted: false, fed: 0, setting: "garden", clock: false };
     this.load();
   }
 
@@ -19,6 +19,7 @@ export class Store {
         if (typeof parsed.muted === "boolean") this.data.muted = parsed.muted;
         if (Number.isFinite(parsed.fed) && parsed.fed >= 0) this.data.fed = Math.floor(parsed.fed);
         if (SETTINGS.includes(parsed.setting)) this.data.setting = parsed.setting;
+        if (typeof parsed.clock === "boolean") this.data.clock = parsed.clock;
       }
     } catch { /* fail closed: defaults are fine */ }
     return this.data;
