@@ -40,7 +40,7 @@ body {
 }
 
 .hud, .dock { position: fixed; z-index: 2; }
-.hud-top-right { top: calc(8px + var(--aria)); right: 10px; }
+.hud-top-right { top: calc(8px + var(--aria)); right: 10px; display: flex; gap: 8px; align-items: center; }
 
 button {
   font: inherit;
@@ -55,20 +55,25 @@ button:focus-visible {
   border-radius: 12px;
 }
 
-#mute {
+/* corner control chips (mute + menu): 44px touch targets (mobile pass 2026-10-24) */
+#mute,
+#menu-btn {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
   background: var(--chip);
   backdrop-filter: blur(6px);
   box-shadow: 0 1px 4px rgba(90, 70, 80, 0.12);
 }
+#menu-btn[aria-expanded="true"] {
+  background: rgba(240, 130, 160, 0.22);
+}
 #mute .icon-sound-off { display: none; }
 #mute.is-muted .icon-sound-on { display: none; }
 #mute.is-muted .icon-sound-off { display: block; }
-#mute .icon { width: 20px; height: 20px; color: var(--ink); }
+.hud .icon { width: 22px; height: 22px; color: var(--ink); }
 
 .dock {
   bottom: calc(12px + var(--safe-bottom));

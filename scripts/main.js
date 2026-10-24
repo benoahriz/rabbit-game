@@ -94,6 +94,13 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") menu.toggle();
 });
 
+// corner menu button (mobile pass 2026-10-24): phones have no ESC key
+const menuBtn = document.getElementById("menu-btn");
+menuBtn.addEventListener("click", () => menu.toggle());
+menu.root.addEventListener("menutoggle", () => {
+  menuBtn.setAttribute("aria-expanded", String(menu.isOpen));
+});
+
 // --- sizing + main loop ---
 const fit = () => renderer.resize(canvas.clientWidth, canvas.clientHeight);
 if ("ResizeObserver" in window) new ResizeObserver(fit).observe(document.documentElement);

@@ -1,4 +1,4 @@
-// rabbit-game v0.2 — settings menu (ESC toggles). Minimal vanilla module.
+// rabbit-game v0.2 — settings menu (ESC or the corner button toggles). Minimal vanilla module.
 // Hosts the Setting picker (garden ⇄ pink room, user direction 2026-10-23);
 // future settings join as .menu-row blocks. Keyboard + click-outside + focus-light handling.
 export class SettingsMenu {
@@ -29,12 +29,15 @@ export class SettingsMenu {
    *  so toggle and close can never race. */
   open() {
     this.root.hidden = false;
+    // menutoggle lets any opener (corner button, ESC key, backdrop close) sync external aria state
+    this.root.dispatchEvent(new CustomEvent("menutoggle"));
     const first = this.root.querySelector(".setting-opt");
     if (first) first.focus();
   }
 
   close() {
     this.root.hidden = true;
+    this.root.dispatchEvent(new CustomEvent("menutoggle"));
   }
 
   /** Reflect the current setting onto the option buttons' aria-pressed state. */
