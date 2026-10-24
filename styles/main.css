@@ -16,8 +16,14 @@ body {
   color: var(--ink);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   overscroll-behavior: none;
+  /* iOS/WKWebView polish (2026-10-24): no long-press callouts or selection,
+     no semi-transparent tap flash on the fixed HUD controls */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
-#stage { height: 100dvh; }
+#stage { height: 100%; height: 100dvh; /* dvh needs iOS 16.4+; older drops to 100% */ }
 #scene {
   display: block;
   width: 100%;
