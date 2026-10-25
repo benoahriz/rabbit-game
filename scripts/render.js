@@ -17,7 +17,11 @@
 const SPRITE_FACE = {
   eye: [0.392, 0.477], // the one OPEN eye (the other is the canon wink)
   mouth: [0.505, 0.525],
+  nose: [0.500, 0.492], // muzzle tip (boop target, IDEA-012) — forgiving radius at hit-test time
 };
+
+/** Celebration confetti palette (IDEA-014) — canon colors only. */
+const CONFETTI = ["#f2803c", "#6bbf59", "#7fca70", "#f08fae", "#fbb7b9", "#ffffff"];
 
 export class Renderer {
   constructor(canvas) {
@@ -36,9 +40,10 @@ export class Renderer {
     this._spriteUsed = "idle"; // debug/verification: which frame the last draw picked
     this.artFailed = false;
     this._loadPromise = null;
-    this._fx = [];            // transient reward particles (crumbs/heart), purge-wrapped
+    this._fx = [];            // transient reward particles (crumbs/heart/confetti), purge-wrapped
     this._lastState = "idle"; // transition detector for crumb/heart spawns
     this.pointer = null;     // last known pointer position (perk-at-cursor lean, IDEA-005)
+    this._ambient = { petals: [], nextPetalAt: 0, butterfly: null, nextButterflyAt: 0 }; // garden life, IDEA-016
   }
 
   /** Load promoted art assets. Call once at boot; draw() degrades to placeholder until it resolves. */
@@ -175,14 +180,47 @@ export class Renderer {
   /** CSS-pixel mouth position (drag-feed snap target for the carried carrot ghost). */
   getMouthPoint() { return this.mouthPoint; }
 
+  /** CSS-pixel nose position (boop target — IDEA-012). */
+  getNosePoint() { return this.nosePoint; }
+
+  /** One-shot heart poof above her head (boop reaction — IDEA-012). */
+  spawnHeart() {
+    const box = this._rabbitBox();
+    this._fx.push({ kind: "heart", x: box.x + box.w * 0.60, y: box.y + box.h * 0.16,
+                    vx: 0, vy: -box.h * 0.06, born: performance.now(), life: 900 });
+  }
+
+  /** Milestone celebration (IDEA-014): canon-palette confetti fluttering from above her. */
+  spawnConfetti() {
+    if (this.reducedMotion) return; // celebrations stay audible + bubbled; motion honors the setting
+    const box = this._rabbitBox();
+    for (let i = 0; i < 16; i++) {
+      this._fx.push({
+        kind: "confetti",
+        x: box.x + box.w * 0.5 + (Math.random() - 0.5) * box.w * 0.9,
+        y: box.y - 10 - Math.random() * 40,
+        vx: (Math.random() - 0.5) * 40,
+        vy: 40 + Math.random() * 50,
+        born: performance.now(),
+        life: 1200 + Math.random() * 700,
+        c: CONFETTI[(Math.random() * CONFETTI.length) | 0],
+        spin: Math.random() * 6,
+      });
+    }
+  }
+
   draw(state) {
     const { ctx, w, h } = this;
     const t = performance.now();
+    const dt = Math.min(0.05, (t - (this._lastT || t)) / 1000); // one clock for rabbit + ambient
+    this._lastT = t;
     ctx.clearRect(0, 0, w, h);
     const bg = this.setting === "room" ? this.roomImg : this.sceneImg;
     if (bg && this.rabbitSprite) {
       this._drawScene(bg);
-      this._drawRabbit(state, t);
+      this._updateAmbient(state, t, dt, false); // petals drift behind Casey
+      this._drawRabbit(state, t, dt);
+      this._updateAmbient(state, t, dt, true);  // the butterfly flies in front
       return;
     }
     // art still downloading → draw nothing (the cream page + "casey" wordmark carry
@@ -207,12 +245,10 @@ export class Renderer {
    * carrot-at-mouth + crumb/heart particles. Face anchors are fractions of the sprite
    * frame, pixel-measured from the canon master (r3-fullbody-flat-matte, 2026-10-23).
    */
-  _drawRabbit(s, t) {
+  _drawRabbit(s, t, dt) {
     const { ctx, w, h, reducedMotion } = this;
     const box = this._rabbitBox();
     const baseY = box.y + box.h;
-    const dt = Math.min(0.05, (t - (this._lastT || t)) / 1000);
-    this._lastT = t;
 
     // sprite-level motion
     let bounce = 0, breathe = 1, tilt = 0;
@@ -286,6 +322,7 @@ export class Renderer {
       h: 0.56 * box.h,
     };
     this.mouthPoint = { x: mx, y: my };
+    this.nosePoint = { x: box.x + SPRITE_FACE.nose[0] * box.w, y: box.y + SPRITE_FACE.nose[1] * box.h };
     this._lastState = s.state;
   }
 
@@ -333,7 +370,7 @@ export class Renderer {
     }
   }
 
-  /** Tiny particle pool (crumbs + heart); crumbs get gravity, the heart floats and fades. */
+  /** Tiny particle pool (crumbs + heart + confetti); crumbs get gravity, hearts float. */
   _updateFx(t, dt, boxW) {
     const { ctx } = this;
     for (let i = this._fx.length - 1; i >= 0; i--) {
@@ -341,9 +378,10 @@ export class Renderer {
       const age = t - f.born;
       if (age > f.life) { this._fx.splice(i, 1); continue; }
       const p = age / f.life;
-      f.x += f.vx * dt;
+      f.x += (f.vx + (f.kind === "confetti" ? Math.sin(age / 280 + f.spin) * 26 : 0)) * dt;
       f.y += f.vy * dt;
       if (f.kind === "crumb") f.vy += boxW * 0.9 * dt; // gravity, scaled to the canvas
+      if (f.kind === "confetti") f.vy += 80 * dt;      // flutter-fall, lighter than crumbs
       ctx.save();
       ctx.globalAlpha = 1 - p * p;
       if (f.kind === "crumb") {
@@ -352,6 +390,17 @@ export class Renderer {
         ctx.beginPath();
         ctx.ellipse(f.x, f.y, r, r * 0.75, p * 4, 0, Math.PI * 2);
         ctx.fill();
+      } else if (f.kind === "confetti") {
+        ctx.fillStyle = f.c;
+        ctx.translate(f.x, f.y);
+        ctx.rotate(p * 9 + f.spin);
+        if (f.spin > 3) { // some petals read as dots, some as little paper strips
+          ctx.beginPath();
+          ctx.arc(0, 0, Math.max(2, boxW * 0.008), 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(-1.6, -3, 3.2, 6);
+        }
       } else {
         this._heartPath(f.x, f.y, boxW * 0.03);
         ctx.fillStyle = "#f08fae";
@@ -373,6 +422,110 @@ export class Renderer {
     ctx.bezierCurveTo(x - s * 1.5, y - s * 0.2, x - s * 0.55, y - s * 1.05, x, y - s * 0.3);
     ctx.bezierCurveTo(x + s * 0.55, y - s * 1.05, x + s * 1.5, y - s * 0.2, x, y + s * 0.95);
     ctx.closePath();
+  }
+
+  /**
+   * Garden ambient life (IDEA-016): blush petals drift behind Casey, and a small
+   * butterfly visits every so often — it flies in, rests between her ears for a few
+   * seconds, then leaves on its own (or flutters away if she's being petted).
+   * Garden only; the pink room stays still. front=false draws petals, front=true the butterfly.
+   */
+  _updateAmbient(s, t, dt, front) {
+    const { ctx, w, h } = this;
+    const a = this._ambient;
+    if (this.setting !== "garden") { a.petals.length = 0; a.butterfly = null; return; }
+
+    if (!front) {
+      // petals: sparse and calm; half rate for reduced-motion users
+      const every = (this.reducedMotion ? 3.2 : 1.6) * 1000;
+      if (t > a.nextPetalAt && a.petals.length < 6) {
+        a.nextPetalAt = t + every * (0.7 + Math.random() * 0.6);
+        a.petals.push({
+          x: Math.random() * w, y: -8,
+          vy: 14 + Math.random() * 16, sway: Math.random() * Math.PI * 2,
+          c: ["#fbb7b9", "#f8d8de", "#ffffff"][(Math.random() * 3) | 0],
+          r: 3 + Math.random() * 2,
+        });
+      }
+      for (let i = a.petals.length - 1; i >= 0; i--) {
+        const p = a.petals[i];
+        p.y += p.vy * dt;
+        p.x += Math.sin(t / 900 + p.sway) * 12 * dt;
+        if (p.y > h + 10) { a.petals.splice(i, 1); continue; }
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(Math.sin(t / 700 + p.sway) * 0.8);
+        ctx.fillStyle = p.c;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.r * 1.5, p.r, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+      return;
+    }
+
+    // ---- butterfly ----
+    if (!a.nextButterflyAt) a.nextButterflyAt = t + 8000 + Math.random() * 6000; // first visit arrives soon
+    const box = this._rabbitBox();
+    const lx = box.x + box.w * 0.42, ly = box.y + box.h * 0.14; // between her ears
+    let b = a.butterfly;
+
+    if (!b) {
+      if (t > a.nextButterflyAt) {
+        a.butterfly = b = { phase: "in", born: t, from: Math.random() < 0.5 ? -30 : w + 30, x: 0, y: 0 };
+      }
+      return;
+    }
+
+    if (b.phase === "in") {
+      const p = Math.min(1, (t - b.born) / 2800);
+      const e = p * p * (3 - 2 * p); // smoothstep
+      b.x = b.from + (lx - b.from) * e;
+      b.y = ly - 46 * (1 - e) + Math.sin(t / 260) * 10 * e;
+      if (p >= 1) { b.phase = "landed"; b.born = t; b.stay = 4000 + Math.random() * 3000; }
+    } else if (b.phase === "landed") {
+      b.x = lx;
+      b.y = ly + Math.sin(t / 600) * 1.5;
+      // petting her flutters it away — a tiny cause-and-effect moment
+      if (s.petHeat > 0.5 || t - b.born > b.stay) { b.phase = "out"; b.born = t; }
+    } else { // out
+      const p = Math.min(1, (t - b.born) / 2200);
+      b.x = b.x + 70 * dt;
+      b.y = b.y - 64 * dt + Math.sin(t / 220) * 8 * dt;
+      if (p >= 1) {
+        a.butterfly = null;
+        a.nextButterflyAt = t + 20000 + Math.random() * 25000;
+        return;
+      }
+    }
+
+    // draw: kawaii top-down butterfly, canon palette, wings flutter
+    const flapHz = b.phase === "landed" ? 3.2 : 10;
+    const flap = 0.25 + 0.75 * Math.abs(Math.sin(t / 1000 * flapHz * Math.PI));
+    const ang = b.phase === "in" ? (lx > b.x ? -0.4 : 0.4) : -0.3;
+    ctx.save();
+    ctx.translate(b.x, b.y);
+    ctx.rotate(ang);
+    ctx.fillStyle = "#f08fae";
+    for (const side of [-1, 1]) {
+      ctx.beginPath();
+      ctx.ellipse(side * 5 * flap, -2, 5 * flap, 4, side * -0.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.fillStyle = "#fbb7b9";
+    for (const side of [-1, 1]) {
+      ctx.beginPath();
+      ctx.ellipse(side * 4 * flap, 3, 3.4 * flap, 2.6, side * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.strokeStyle = "#6b301d"; // canon brown
+    ctx.lineWidth = 1.6;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(0, -4);
+    ctx.lineTo(0, 5);
+    ctx.stroke();
+    ctx.restore();
   }
 
 

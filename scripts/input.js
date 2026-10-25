@@ -17,6 +17,11 @@ export function pointInRect(x, y, r) {
   return !!r && x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h;
 }
 
+/** Is a client-space point within r px of p {x,y}? (forgiving tap targets — e.g. boop the nose, IDEA-012) */
+export function pointInRadius(x, y, p, r) {
+  return !!p && Math.hypot(x - p.x, y - p.y) <= r;
+}
+
 /**
  * Pet-stroke quality from speed (px/ms) — IDEA-001 (pet well and she melts).
  * Sweet spot ≈ 0.25–0.9 px/ms reads as the perfect scritch; slower = gentle,
@@ -31,6 +36,7 @@ export function petGrade(speedPxMs) {
 
 /**
  * Gestures:
+ * - TAP ON THE NOSE                       -> onBoop() instantly (IDEA-012 — boop the nose)
  * - Stroke STARTING ON THE RABBIT'S HEAD  -> onPetTick() while moving (immediate wiggle), onPetDone("pet") on release
  * - Plain tap on the head                 -> onPetDone("tap") (a gentle head-pet)
  * - Strokes that start on the body        -> ignored (petting is a head ritual; non-punishing no-op)
@@ -39,8 +45,8 @@ export function petGrade(speedPxMs) {
  *   (a floating ghost carrot follows the pointer; a successful drop snaps it to the
  *   mouth, a miss returns it to the basket)
  * - Any first gesture                     -> onInteract() (audio unlock, mandatory before sound)
- * callbacks: { onPetTick, onPetDone, onFeed, onInteract, getHeadRect, getRabbitRect, getMouthPoint }
- * getHeadRect()/getRabbitRect()/getMouthPoint() -> CSS-pixel geometry (from the renderer).
+ * callbacks: { onPetTick, onPetDone, onFeed, onBoop, onInteract, getHeadRect, getRabbitRect, getMouthPoint, getNosePoint }
+ * getHeadRect()/getRabbitRect()/getMouthPoint()/getNosePoint() -> CSS-pixel geometry (from the renderer).
  */
 export class InputController {
   constructor(surface, basketButton, callbacks) {
@@ -59,6 +65,13 @@ export class InputController {
   attach() {
     this._on(this.surface, "pointerdown", (e) => {
       this.cb.onInteract?.();
+      // boop the nose (IDEA-012): fires on press — instant reaction (Feel rule: ≤100ms)
+      const nose = this.cb.getNosePoint?.();
+      if (pointInRadius(e.clientX, e.clientY, nose, 30)) {
+        this.cb.onBoop?.();
+        this.samples = [];
+        return;
+      }
       const head = this.cb.getHeadRect?.();
       this.samples = pointInRect(e.clientX, e.clientY, head) ? [{ x: e.clientX, y: e.clientY, t: e.timeStamp }] : [];
       this.strokeAccum = 0;

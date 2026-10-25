@@ -1,7 +1,7 @@
 // tests/input.test.js — pure gesture classification (no DOM).
 import test from "node:test";
 import assert from "node:assert";
-import { classifyStroke, pointInRect, petGrade } from "../scripts/input.js";
+import { classifyStroke, pointInRect, pointInRadius, petGrade } from "../scripts/input.js";
 
 test("single sample = tap", () => {
   assert.equal(classifyStroke([{ x: 1, y: 1, t: 0 }]), "tap");
@@ -47,4 +47,13 @@ test("petGrade: slow is gentle, fast is tickly — never 0, never negative", () 
 test("petGrade: unknown/still pointer is a neutral-gentle default", () => {
   assert.equal(petGrade(0), 0.55);
   assert.equal(petGrade(-1), 0.55);
+});
+
+// --- boop hit-testing (IDEA-012): forgiving radius around the nose point ---
+test("pointInRadius: forgiving circular tap targets", () => {
+  const nose = { x: 600, y: 700 };
+  assert.equal(pointInRadius(615, 712, nose, 30), true, "inside radius");
+  assert.equal(pointInRadius(600 - 30, 700, nose, 30), true, "edge inclusive");
+  assert.equal(pointInRadius(650, 700, nose, 30), false);
+  assert.equal(pointInRadius(600, 700, null, 30), false, "missing anchor is a no-op");
 });

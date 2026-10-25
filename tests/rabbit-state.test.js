@@ -1,7 +1,7 @@
 // tests/rabbit-state.test.js — FSM behavior with an injectable fake clock.
 import test from "node:test";
 import assert from "node:assert";
-import { RabbitState, AMBIENT } from "../scripts/rabbit-state.js";
+import { RabbitState, AMBIENT, isMilestone } from "../scripts/rabbit-state.js";
 
 function fakeClock() {
   let t = 1000;
@@ -103,4 +103,10 @@ test("perk(): idle ear twitch with cooldown; never during other states", () => {
   r.feed(); // eating
   ck.advance(3000);
   assert.equal(r.perk(), false, "no perk while eating");
+});
+
+// --- fed milestones (IDEA-014): celebrations, never streak pressure ---
+test("isMilestone: exactly the celebration numbers", () => {
+  for (const n of [10, 25, 50, 100, 200, 300]) assert.equal(isMilestone(n), true, `${n} celebrates`);
+  for (const n of [0, 1, 7, 9, 11, 24, 26, 33, 99, 101, 150]) assert.equal(isMilestone(n), false, `${n} is an ordinary day`);
 });

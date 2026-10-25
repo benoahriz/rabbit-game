@@ -10,6 +10,8 @@ export class SoundEngine {
     this.master = null;
     this.getMuted = getMuted;
     this.lastChirrup = 0;
+    this._purring = false;   // continuous purr state (IDEA-013)
+    this._purrNodes = null;
     this._amb = null;         // ambient water bed (tea-garden water feature)
   }
 
@@ -90,6 +92,50 @@ export class SoundEngine {
   /** Very soft blip (small pet tick / idle acknowledgments, kept non-annoying). */
   soft() {
     this._blip({ freq: 780, to: 760, dur: 0.06, vol: 0.05, when: 0 });
+  }
+
+  /**
+   * Continuous soft purr while being petted (IDEA-013): looped noise bed through a
+   * low-pass, ramped in/out so starts and stops never click. Idempotent per call —
+   * drive it every frame with the pet-heat state. Mute and tab-hidden both silence it
+   * (master gain + context suspend).
+   */
+  setPurr(on) {
+    if (!this.ctx || this._purring === !!on) return;
+    if (on && !this.getMuted()) {
+      this._purring = true;
+      const t0 = this.ctx.currentTime;
+      const sr = this.ctx.sampleRate;
+      const buf = this.ctx.createBuffer(1, Math.round(sr * 1.2), sr);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      const src = this.ctx.createBufferSource();
+      src.buffer = buf;
+      src.loop = true;
+      const lp = this.ctx.createBiquadFilter();
+      lp.type = "lowpass";
+      lp.frequency.value = 260; // felt more than heard — a chest rumble, not a hiss
+      lp.Q.value = 0.8;
+      const g = this.ctx.createGain();
+      g.gain.value = 0.0001;
+      src.connect(lp); lp.connect(g); g.connect(this.master);
+      src.start(t0);
+      g.gain.exponentialRampToValueAtTime(0.05, t0 + 0.5);
+      this._purrNodes = { src, g };
+    } else {
+      this._purring = false;
+      const n = this._purrNodes;
+      if (n) {
+        this._purrNodes = null;
+        try {
+          const t0 = this.ctx.currentTime;
+          n.g.gain.cancelScheduledValues(t0);
+          n.g.gain.setValueAtTime(Math.max(n.g.gain.value, 0.0001), t0);
+          n.g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.6);
+          n.src.stop(t0 + 0.7);
+        } catch { /* already stopped */ }
+      }
+    }
   }
 
   // ---- ambient cozy trickling water (tea-garden water feature; synthesis, no assets) ----

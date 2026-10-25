@@ -1,5 +1,5 @@
 // rabbit-game v0.1 — boot & wiring. Vanilla ES modules only (AGENTS.md rule 1).
-import { RabbitState } from "./rabbit-state.js";
+import { RabbitState, isMilestone } from "./rabbit-state.js";
 import { InputController, pointInRect } from "./input.js";
 import { SoundEngine } from "./sound.js";
 import { Store } from "./store.js";
@@ -51,12 +51,14 @@ const BUBBLES = {
   best: ["prr!", "prrr!!"],          // sweet-spot strokes (IDEA-001 grade)
   chirrup: ["prrreet!", "weet!!", "prrr-eet!"],
   perk: ["!", "hm?"],                // she noticed you (IDEA-005)
+  boop: ["boop!", "!!", "♡"],       // nose boop (IDEA-012)
+  milestone: ["yay!!", "✦ ✦ ✦"],     // fed milestone (IDEA-014)
 };
-const bubble = (kind) => {
+const bubble = (kind, force = false) => {
   const texts = BUBBLES[kind];
   if (!texts || !bubblesEl) return;
   const now = performance.now();
-  if (now - lastBubbleAt < 380) return; // visual calm: at most ~2.5 bubbles/second
+  if (!force && now - lastBubbleAt < 380) return; // visual calm: at most ~2.5 bubbles/second
   lastBubbleAt = now;
   const head = renderer.getHeadRect();
   if (!head.w) return; // first draw hasn't landed yet (no anchors) — skip rather than spawn at the corner
@@ -75,6 +77,11 @@ const playFeed = ({ hiccup }) => {
   bubble("feed");
   store.save({ fed: state.fed });
   syncFed();
+  if (isMilestone(state.fed)) { // one-shot celebration, never streak pressure (IDEA-014)
+    sound.chirrup(performance.now());
+    bubble("milestone", true);
+    renderer.spawnConfetti();
+  }
 };
 
 // SoundEngine gates chirrup spam internally (lastChirrup cooldown); handler just plays.
@@ -88,14 +95,24 @@ const playPetTick = (quality = 0.5) => {
 const onFeed = () => { playFeed(state.feed()); };
 const onPetDone = () => playPetTick();
 
+// boop the nose (IDEA-012): instant surprise — ear twitch, chirrup, heart, a word
+const onBoop = () => {
+  state.perk();
+  sound.chirrup(performance.now());
+  bubble("boop", true);
+  renderer.spawnHeart();
+};
+
 new InputController(canvas, basketBtn, {
   onPetTick: playPetTick,
   onPetDone,
   onFeed,
+  onBoop,
   onInteract,
   getRabbitRect: () => renderer.getRabbitRect(), // drag-feed drop target (whole body)
   getHeadRect: () => renderer.getHeadRect(),     // pet target (head + ears only)
   getMouthPoint: () => renderer.getMouthPoint(), // ghost-carrot snap target on a successful drop
+  getNosePoint: () => renderer.getNosePoint(),   // boop target (muzzle tip)
 }).attach();
 
 // --- she notices you (IDEA-005, perk-at-cursor): lean + ear twitch when the pointer arrives ---
@@ -230,6 +247,7 @@ const frame = () => {
   const dt = Math.min(0.05, (t - last) / 1000); // clamp: background tab jumps are not physics
   last = t;
   state.update(dt);
+  sound.setPurr(!document.hidden && state.petHeat > 0.3); // purr while she melts under your hand (IDEA-013)
   if (!document.hidden) renderer.draw(state);
   requestAnimationFrame(frame);
 };

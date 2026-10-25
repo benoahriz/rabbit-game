@@ -1,8 +1,7 @@
 // rabbit-game v0.1 — rabbit behavior FSM (pure module, no DOM; tested by node --test in tests/).
 // The rabbit never "demands": idle chatter is delight, not need (PRD §8 Non-Goals).
 
-export const AMBIENT = {
-  EAT_MS: 1600,          // eating animation duration
+export const AMBIENT = {  EAT_MS: 1600,          // eating animation duration
   HAPPY_MS: 2000,        // happy wiggle duration
   RAPID_FEED_MS: 900,    // feeding again within this = hiccup (cute, not punishing)
   BLINK_EVERY: [2600, 5200], // random blink interval range (ms)
@@ -12,6 +11,12 @@ export const AMBIENT = {
   PET_DECAY_PER_S: 0.6,  // pet heat decay per second (head-only strokes accumulate slower than full-body did)
   MIN_STROKE: 28,        // pointer travel that turns a touch into a stroke (px)
 };
+
+/** Fed-count milestones (IDEA-014): one-shot celebrations, never streak pressure. */
+export function isMilestone(fed) {
+  return fed === 10 || fed === 25 || fed === 50 || fed === 100 ||
+    (fed > 100 && fed % 100 === 0);
+}
 
 export class RabbitState {
   constructor({ now = () => performance.now(), fed = 0 } = {}) {
