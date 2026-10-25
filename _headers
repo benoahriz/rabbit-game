@@ -1,0 +1,14 @@
+# Cloudflare Pages headers (also harmless on any other host).
+# Filenames stay stable across art promotions and code edits, so everything
+# revalidates against the edge etag — cheap 304s, never a stale Casey.
+/scripts/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/styles/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
