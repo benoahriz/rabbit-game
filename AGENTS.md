@@ -13,8 +13,11 @@ Then `docs/design/rabbit-game/PRD-20261023.md` and the open questions in `QUESTI
    (`docs/design/rabbit-game/art/adrs/ADR-0002`): spec → immutable generation
    rounds → pixel-verified critique → acceptance → promotion into `assets/`.
    Never hand-draw or silently substitute final art; never mutate a round.
-4. **This repo becomes a public GitHub repo.** Never commit secrets or keys.
-   Paid-cloud art generation requires explicit user instruction, every session.
+4. **This repo is a public GitHub repo** (github.com/benoahriz/rabbit-game; live at
+   https://rabbit.brainvault.xyz/). Never commit secrets or keys. Paid-cloud art
+   generation requires explicit user instruction, every session. **Pushing to
+   `main` auto-deploys the live site** (~1 min via Cloudflare Workers Git
+   integration) — treat `main` as production and verify before pushing.
 5. **Doc hygiene.** New questions → `QUESTIONS-20261023.md` (next Q-NNN);
    ideas → `IDEAS-20261023.md`; at session end update the current `HANDOFF-*.md`.
    Keep every doc's References section current.
@@ -29,3 +32,11 @@ Then `docs/design/rabbit-game/PRD-20261023.md` and the open questions in `QUESTI
 - Provisional placeholders live in `assets/placeholder/` and may never appear in a v1 release.
 - Prototype/exploration code goes to `prototypes/` with a header comment
   (`what it tests` + status WORKING/BROKEN/ABANDONED).
+- Deploy config: `wrangler.jsonc` + `.assetsignore` (Cloudflare Workers static
+  assets; the deployed URL space is the runtime artifact only). README screenshots
+  live in `docs/screenshots/` — documentation, not game art, so not subject to
+  the art-pipeline provenance rule.
+- `import/` is the user's local-only import lane (audio clips, gitignored —
+  see Q-018). Never commit or deploy it.
+- The iOS wrapper is the sibling repo `../rabbit-game-ios` (Capacitor/WKWebView,
+  tooling only — never edit game code from there).
