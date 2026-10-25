@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers static-assets deploy (Workers Builds Git integration).
+  // Pure static artifact (constitution rule 1: no build step) — no `main`, no bundler.
+  // The deploy command is the default `npx wrangler deploy`; the build command stays EMPTY.
+  // NOTE: `name` must match the connected Cloudflare project — change it here if your
+  // dashboard project is named differently, or the deploy creates a second Worker.
+  "name": "rabbit-game",
+  "compatibility_date": "2026-10-25",
+  "assets": {
+    // The repo root IS the site; .assetsignore trims it to the runtime artifact
+    "directory": "."
+  }
+}

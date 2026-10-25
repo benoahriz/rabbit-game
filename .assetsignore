@@ -1,0 +1,25 @@
+# .assetsignore — keep the deployed URL space to the runtime artifact only
+# (same discipline as the iOS wrapper's sync script). Everything excluded here
+# stays in the repo — it just never ships to the Worker.
+
+# the deploy/tooling files themselves
+wrangler.jsonc
+.assetsignore
+_headers
+package.json
+
+# design + pipeline trees (public on GitHub, not part of the game)
+docs/
+art/
+tests/
+tools/
+
+# local-only lanes (never deploy)
+import/
+deno.lock
+.DS_Store
+
+# agent/repo docs
+README.md
+AGENTS.md
+.gitignore
