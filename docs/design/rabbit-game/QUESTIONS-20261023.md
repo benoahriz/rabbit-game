@@ -148,6 +148,13 @@ manifest), file size budget (the repo ships no audio today; keep the artifact
 light), and a graceful load-failure path back to synth.
 **Blocking?** No — synth is the shipped default; nothing waits on this.
 
+**Status update (2026-10-25): clips landed.** User dropped four clips into
+`import/` (gitignored, local-only): `petting.m4a`, `petmeandfeedme.m4a`,
+`seeyouagain.aif`, `thisisforwhenyouleave.m4a`, plus the Logic source project
+(`import/rabbit-game.logicx`). Intent read from the names: petting + feed SFX,
+a greeting on return, a farewell on leave. Provenance/format/integration still
+to define before anything ships from `import/` into the game.
+
 ## Testing & Release
 ---
 ### Q-008 — Test tooling for the browser toy?

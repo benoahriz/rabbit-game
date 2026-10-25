@@ -11,3 +11,9 @@ art/production/**/generations/*.png
 art/calibration/*/references/*.jpeg
 art/calibration/*/references/*.jpg
 art/calibration/*/references/*.webp
+
+# user-supplied audio import lane (Q-018): stays local until the audio provenance
+# lane is defined; nothing in import/ ships or is committed
+import/
+# MCP tooling debris (a deno-based server occasionally materializes this here)
+deno.lock
