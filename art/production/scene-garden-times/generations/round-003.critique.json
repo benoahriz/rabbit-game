@@ -1,0 +1,20 @@
+{
+  "round": 3,
+  "critique_at": "2026-10-25T19:20:00Z",
+  "method": "same as rounds 1-2 (48px grayscale correlation vs the day master)",
+  "context": "Final night attempt: the day master AND the accepted sunset variant passed together, the sunset as a worked example of a position-frozen light-only edit.",
+  "verdicts": [
+    {
+      "option": "garden-night-v4",
+      "verdict": "REVISE — lane closed",
+      "evidence": { "structure_corr": -0.239, "sky_avg": [79, 85, 113] },
+      "notes": [
+        "Worse than previous attempts (-0.239). Four rounds, four composition failures — the nano-banana lane cannot recolor this scene for night while preserving layout (sunset froze at 0.973 first try, so it is specifically the night prior that regenerates).",
+        "DECISION: stop spending on the lane (total session art spend $0.23, at the authorized ceiling). Night is DERIVED at runtime from the day master by a deterministic cool-dark grade in render.js (_nightGrade: r*0.34+8, g*0.42+10, b*0.66+22) — processing, not art, the same constitutional lane as the runtime chroma-key: applied to provenance-tracked art, deterministic, zero composition drift by construction, zero extra download. Fireflies are code-drawn ambient VFX on top (canon-adjacent warm gold).",
+        "If a generated night master is ever wanted: use a different generator lane or generate from the sunset variant; do not retry this exact framing."
+      ],
+      "fix_type": "none (fallback decision recorded)"
+    }
+  ],
+  "round_summary": "Night generation abandoned after 4 failures; procedural derivation shipped instead. Total lane spend: $0.232 (7 images across 3 rounds + doze)."
+}

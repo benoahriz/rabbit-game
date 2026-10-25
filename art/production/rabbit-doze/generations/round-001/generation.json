@@ -1,0 +1,50 @@
+{
+  "spec_id": "rabbit-doze",
+  "created_at": "2026-10-25T16:10:01.969Z",
+  "engine": "OpenRouter image model (google/gemini-2.5-flash-image) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "doze-asleep",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical body pose and proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, or new objects. Change only this: she is deeply, peacefully asleep — BOTH eyes closed as soft curved downward lash lines (matching the closed-eye wink line she already has), both long ears relaxed and gently drooped sideways, and her mouth a tiny relaxed closed smile. The bow, blush, and body stay pixel-identical.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/assets/character/rabbit-idle.png",
+          "sha256": "1ef3fd2b16a463bbc4f9c14e82fb3d31f25acfff6976a1da9b08ab96d91c15bb"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1432,
+        "completion_tokens": 1290,
+        "total_tokens": 2722,
+        "cost": 0.038738304,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391296,
+          "upstream_inference_prompt_cost": 0.0004296,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "doze-asleep.png",
+      "sha256": "e337e5326d196e7e8097993baa73dfad5beb17a59e15d1b9023a2892aca6c5cf"
+    }
+  ]
+}

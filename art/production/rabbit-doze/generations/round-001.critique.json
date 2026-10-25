@@ -1,0 +1,27 @@
+{
+  "round": 1,
+  "critique_at": "2026-10-25T18:40:00Z",
+  "method": "programmatic pixel-probe (expression-sheet method): body cross-correlation alignment (±10px search), eye/mouth dark-cluster geometry vs the idle master, palette invariants (fur/bow), background corner uniformity",
+  "context": "Doze frame (IDEA-017): Casey asleep — both eyes closed, ears relaxed, tiny relaxed smile. Frame-coherent swap with the canon idle master.",
+  "verdicts": [
+    {
+      "option": "doze-asleep",
+      "verdict": "ACCEPT",
+      "evidence": {
+        "align_dxy": [0, 0], "body_residual_frac": 0.004,
+        "eyeL_dark": { "idle": 872, "doze": 414 },
+        "eyeR_dark": { "idle": 695, "doze": 561 },
+        "mouth_dark": { "idle": 466, "doze": 265 },
+        "fur": { "idle": [254, 254, 254], "doze": [254, 253, 253] },
+        "bow": { "idle": [218, 161, 162], "doze": [217, 160, 160] },
+        "bg_corner": [248, 225, 227]
+      },
+      "notes": [
+        "Best alignment of any expression frame yet: (0,0) at residual 0.004.",
+        "Both eyes closed (left-eye dark mass halved to lash lines; right wink softened consistently), relaxed closed mouth (265 ≈ the chomp-closed frame's 261), palette frozen, same keyable ground."
+      ],
+      "fix_type": "none-blocking"
+    }
+  ],
+  "round_summary": "ACCEPTED; promoted as assets/character/rabbit-doze.png. Wired as the dozing state (idle ≥ 3 min → doze frame + slow breathing + z bubbles; feed/pet/perk wake her). Round cost $0.039."
+}

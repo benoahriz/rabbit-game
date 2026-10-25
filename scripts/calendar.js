@@ -3,6 +3,17 @@
 // Local device time only — no network, no timezone fetching.
 
 /**
+ * Which garden variant the real hour calls for (IDEA-018): Casey's world
+ * follows the player's day. 17:00–19:59 golden hour; 20:00–05:59 night
+ * (runtime-derived scene + fireflies); otherwise day.
+ */
+export function sceneForHour(h) {
+  if (h >= 20 || h < 6) return "night";
+  if (h >= 17 && h < 20) return "sunset";
+  return "day";
+}
+
+/**
  * Month grid for a given year/month (monthIdx 0–11), Sunday-start weeks.
  * Blank cells are null. Structural contract (tested):
  *   - every week has exactly 7 cells

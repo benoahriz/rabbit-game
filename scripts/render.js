@@ -1,12 +1,18 @@
 // rabbit-game v0.2 — canvas renderer driven by REAL pipeline art (ADR-0002 promoted assets):
-//   assets/scene/background.png     — canon tea-garden master (Q-015 + amendment)
-//   assets/scene/pink-room.png      — second environment (ESC menu)
-//   assets/character/rabbit-idle.png — canon bunny master (Q-014; opaque; chroma-keyed at load)
-//   assets/character/rabbit-{blink,ear-twitch,chomp-closed,happy}.png — expression frames
-//     (position/palette-frozen swaps per the expression-sheet round critiques)
-// The runtime border flood-fill key is a deliberate simplification (lean-ctx ceiling): it now
+//   assets/scene/background.png        — canon tea-garden master (Q-015 + amendment)
+//   assets/scene/background-sunset.png  — golden-hour variant (composition-frozen, IDEA-018)
+//   assets/scene/pink-room.png         — second environment (ESC menu)
+//   assets/character/rabbit-idle.png   — canon bunny master (Q-014; opaque; chroma-keyed at load)
+//   assets/character/rabbit-{blink,ear-twitch,chomp-closed,happy,doze}.png — expression frames
+//     (position/palette-frozen swaps per the expression-sheet + doze round critiques)
+// The NIGHT garden is derived at runtime from the day master by a deterministic
+// cool-dark grade (IDEA-018 fallback after 4 failed night generation rounds —
+// processing, not art: same lane as the runtime chroma-key; see round-003 critique).
+// The runtime border flood-fill key is a deliberate simplification (lean-ctx ceiling): it
 // runs per frame at boot; upgrade to pre-baked alpha cutouts via an offline mechanical key.
 // If assets fail to load, falls back to the labeled v0.1 code-drawn placeholder (dev fallback only).
+
+import { sceneForHour } from "./calendar.js";
 
 /**
  * Face anchors as fractions of the canon sprite frame (r3-fullbody-flat-matte),
@@ -34,6 +40,9 @@ export class Renderer {
     this.reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     this.sceneImg = null;
     this.roomImg = null;        // pink-room master (second environment)
+    this.sunsetImg = null;      // golden-hour garden (IDEA-018, promoted PNG)
+    this.nightImg = null;       // night garden — runtime-derived from the day master
+    this._hourOverride = null;  // debug/verification hook (forces a scene-for-hour pick)
     this.setting = "garden";    // current environment: "garden" | "room"
     this.rabbitSprite = null;   // ImageBitmap, ground keyed to transparent
     this.frames = null;         // keyed expression frames: { blink, ear, chompClosed, happy }
@@ -43,12 +52,13 @@ export class Renderer {
     this._fx = [];            // transient reward particles (crumbs/heart/confetti), purge-wrapped
     this._lastState = "idle"; // transition detector for crumb/heart spawns
     this.pointer = null;     // last known pointer position (perk-at-cursor lean, IDEA-005)
-    this._ambient = { petals: [], nextPetalAt: 0, butterfly: null, nextButterflyAt: 0 }; // garden life, IDEA-016
+    this._ambient = { petals: [], nextPetalAt: 0, butterfly: null, nextButterflyAt: 0, flies: [], nextFlyAt: 0 }; // garden life + night fireflies, IDEA-016/018
   }
 
   /** Load promoted art assets. Call once at boot; draw() degrades to placeholder until it resolves. */
   async load({
     sceneSrc = "assets/scene/background.png",
+    sunsetSrc = "assets/scene/background-sunset.png",
     roomSrc = "assets/scene/pink-room.png",
     rabbitSrc = "assets/character/rabbit-idle.png",
     frameSrcs = {
@@ -56,28 +66,38 @@ export class Renderer {
       ear: "assets/character/rabbit-ear-twitch.png",
       chompClosed: "assets/character/rabbit-chomp-closed.png",
       happy: "assets/character/rabbit-happy.png",
+      doze: "assets/character/rabbit-doze.png",
     },
   } = {}) {
     // Progressive load (2026-10-25 flash fix): the critical pair for the CURRENT
-    // setting renders the moment it lands (~2 MB); the other environment + the
-    // expression frames (~4.5 MB) stream in behind — the swap logic is already
-    // graceful about late/missing frames. Before this, all 7 images had to arrive
-    // before any real art painted, and the v0.1 placeholder flashed in the gap.
+    // setting renders the moment it lands (~2 MB); the other environment, the
+    // golden-hour master, and the expression frames stream in behind — the swap
+    // logic is already graceful about late/missing frames. Night needs no extra
+    // bytes: it derives from the day master at load.
     this._loadPromise = (async () => {
       const wantRoomFirst = this.setting === "room";
+      const wantSunsetFirst = !wantRoomFirst && sceneForHour(this._hour()) === "sunset";
       const frameKeys = Object.keys(frameSrcs);
-      const [scene, opaque] = await Promise.all([
+      const [scene, opaque, sunsetCritical] = await Promise.all([
         this._loadImg(wantRoomFirst ? roomSrc : sceneSrc),
         this._loadImg(rabbitSrc),
+        wantSunsetFirst ? this._loadImg(sunsetSrc).catch(() => null) : Promise.resolve(null),
       ]);
-      if (wantRoomFirst) this.roomImg = scene; else this.sceneImg = scene;
+      if (wantRoomFirst) this.roomImg = scene;
+      else { this.sceneImg = scene; this.nightImg = await this._nightGrade(scene); }
+      if (sunsetCritical) this.sunsetImg = sunsetCritical;
       this.rabbitSprite = await this._keyRabbit(opaque);
-      // secondary wave: the other environment + expression frames, failures tolerated
-      const [other, ...frameImgs] = await Promise.all([
+      // secondary wave: the other environment, sunset (if not critical), expression frames
+      const [other, sunset, ...frameImgs] = await Promise.all([
         this._loadImg(wantRoomFirst ? sceneSrc : roomSrc).catch(() => null),
+        wantSunsetFirst ? Promise.resolve(null) : this._loadImg(sunsetSrc).catch(() => null),
         ...frameKeys.map((k) => this._loadImg(frameSrcs[k]).catch(() => null)),
       ]);
-      if (other) { if (wantRoomFirst) this.sceneImg = other; else this.roomImg = other; }
+      if (other) {
+        if (wantRoomFirst) { this.sceneImg = other; this.nightImg = await this._nightGrade(other); }
+        else this.roomImg = other;
+      }
+      if (sunset) this.sunsetImg = sunset;
       // expression frames: same border flood-fill key; a failed frame just skips that swap
       const keyed = await Promise.all(frameImgs.map((img) => (img ? this._keyRabbit(img) : null)));
       this.frames = Object.fromEntries(frameKeys.map((k, i) => [k, keyed[i]]));
@@ -171,6 +191,44 @@ export class Renderer {
     if (id === "garden" || id === "room") this.setting = id;
   }
 
+  /** Current hour — the debug override lets verification force a time of day. */
+  _hour() { return this._hourOverride ?? new Date().getHours(); }
+
+  /** The scene image for this moment: room by setting, garden by the player's real hour. */
+  _currentScene() {
+    if (this.setting === "room") return this.roomImg;
+    const t = sceneForHour(this._hour());
+    if (t === "sunset") return this.sunsetImg || this.sceneImg;
+    if (t === "night") return this.nightImg || this.sceneImg;
+    return this.sceneImg;
+  }
+
+  /**
+   * Night garden, derived at runtime from the day master (IDEA-018 fallback):
+   * a deterministic cool-dark grade. Processing, not art — the same lane as the
+   * runtime chroma-key (the generation lane could not recolor this scene for
+   * night without re-imagining the composition; 4 rounds failed the structure
+   * check while sunset froze at 0.973 on the first try). Provenance recorded in
+   * the scene-garden-times round critiques + manifest note.
+   */
+  async _nightGrade(img) {
+    const n = img.naturalWidth, m = img.naturalHeight;
+    const c = document.createElement("canvas");
+    c.width = n; c.height = m;
+    const cx = c.getContext("2d", { willReadFrequently: true });
+    cx.drawImage(img, 0, 0);
+    const data = cx.getImageData(0, 0, n, m);
+    const px = data.data;
+    for (let i = 0; i < px.length; i += 4) {
+      px[i]     = Math.min(255, px[i] * 0.34 + 8);  // dim + cool → deep blue-lavender
+      px[i + 1] = Math.min(255, px[i + 1] * 0.42 + 10);
+      px[i + 2] = Math.min(255, px[i + 2] * 0.66 + 22);
+    }
+    cx.putImageData(data, 0, 0);
+    if ("createImageBitmap" in window) return createImageBitmap(c);
+    return c;
+  }
+
   /** CSS-pixel rect around the rabbit's whole body (drag-feed drop target). */
   getRabbitRect() { return this.rabbitRect; }
 
@@ -215,7 +273,7 @@ export class Renderer {
     const dt = Math.min(0.05, (t - (this._lastT || t)) / 1000); // one clock for rabbit + ambient
     this._lastT = t;
     ctx.clearRect(0, 0, w, h);
-    const bg = this.setting === "room" ? this.roomImg : this.sceneImg;
+    const bg = this._currentScene();
     if (bg && this.rabbitSprite) {
       this._drawScene(bg);
       this._updateAmbient(state, t, dt, false); // petals drift behind Casey
@@ -233,8 +291,10 @@ export class Renderer {
 
   _drawScene(img) {
     const { ctx, w, h } = this;
-    const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight);
-    const dw = img.naturalWidth * scale, dh = img.naturalHeight * scale;
+    // HTMLImageElement exposes naturalWidth; ImageBitmap (the derived night scene) only width
+    const iw = img.naturalWidth ?? img.width, ih = img.naturalHeight ?? img.height;
+    const scale = Math.max(w / iw, h / ih);
+    const dw = iw * scale, dh = ih * scale;
     ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
   }
 
@@ -264,10 +324,12 @@ export class Renderer {
       // wiggle under the hand while being petted (heat resets on entering happy, so no overlap)
       tilt = Math.sin(t / 1000 * 9) * 0.045 * Math.min(1, s.petHeat * 2);
     } else {
-      breathe = 1 + (reducedMotion ? 0 : Math.sin(t / 1000 * 1.6) * 0.015);
+      // dozing: slower, shallower breathing (IDEA-017); awake: gentle idle breath + pointer lean
+      const slow = s.dozing;
+      breathe = 1 + (reducedMotion ? 0 : Math.sin(t / (slow ? 2100 : 1000) * 1.6) * (slow ? 0.010 : 0.015));
       // she notices you (IDEA-005): a gentle lean toward the pointer when it lingers nearby
       const p = this.pointer;
-      if (p && !reducedMotion) {
+      if (p && !reducedMotion && !s.dozing) {
         const dx = p.x - (box.x + box.w / 2);
         if (Math.abs(dx) < box.w * 1.6) {
           tilt = Math.max(-1, Math.min(1, dx / box.w)) * 0.055;
@@ -284,8 +346,9 @@ export class Renderer {
     if (F) {
       if (s.state === "happy" && F.happy) { sprite = F.happy; used = "happy"; }
       else if (s.state === "eating" && nib > 0 && F.chompClosed) { sprite = F.chompClosed; used = "chompClosed"; }
-      else if (s.blink() > 0.6 && s.state !== "eating" && F.blink) { sprite = F.blink; used = "blink"; }
-      else if (s.state !== "eating" && Math.abs(s.earTwitch()) > 0.3 && F.ear) { sprite = F.ear; used = "ear"; }
+      else if (s.blink() > 0.6 && s.state !== "eating" && !s.dozing && F.blink) { sprite = F.blink; used = "blink"; }
+      else if (s.dozing && F.doze) { sprite = F.doze; used = "doze"; } // IDEA-017: asleep overrides the idle face
+      else if (s.state !== "eating" && !s.dozing && Math.abs(s.earTwitch()) > 0.3 && F.ear) { sprite = F.ear; used = "ear"; }
     }
     this._spriteUsed = used; // browser-assert hook (paired with globalThis.__rabbit_game)
 
@@ -436,6 +499,35 @@ export class Renderer {
     if (this.setting !== "garden") { a.petals.length = 0; a.butterfly = null; return; }
 
     if (!front) {
+      // fireflies first (IDEA-018): night garden only — warm drifting motes, gently pulsing
+      const isNight = sceneForHour(this._hour()) === "night";
+      if (isNight && t > a.nextFlyAt && a.flies.length < (this.reducedMotion ? 3 : 5)) {
+        a.nextFlyAt = t + 900 + Math.random() * 1400;
+        a.flies.push({
+          x: Math.random() * w, y: h * (0.25 + Math.random() * 0.6),
+          vx: (Math.random() - 0.5) * 18, vy: (Math.random() - 0.5) * 10,
+          ph: Math.random() * Math.PI * 2,
+        });
+      }
+      for (let i = a.flies.length - 1; i >= 0; i--) {
+        const fl = a.flies[i];
+        fl.x += (fl.vx + Math.sin(t / 1300 + fl.ph) * 9) * dt;
+        fl.y += (fl.vy + Math.cos(t / 1100 + fl.ph) * 6) * dt;
+        if (!isNight || fl.x < -20 || fl.x > w + 20 || fl.y < -20 || fl.y > h + 20) { a.flies.splice(i, 1); continue; }
+        const pulse = 0.45 + 0.55 * Math.abs(Math.sin(t / 900 + fl.ph));
+        ctx.save();
+        ctx.fillStyle = "#ffd98a"; // warm firefly gold
+        ctx.globalAlpha = pulse * 0.25; // soft halo disc — flat alpha, no bloom
+        ctx.beginPath();
+        ctx.arc(fl.x, fl.y, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = pulse * 0.9;
+        ctx.beginPath();
+        ctx.arc(fl.x, fl.y, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
       // petals: sparse and calm; half rate for reduced-motion users
       const every = (this.reducedMotion ? 3.2 : 1.6) * 1000;
       if (t > a.nextPetalAt && a.petals.length < 6) {

@@ -1,0 +1,26 @@
+{
+  "id": "scene-garden-times",
+  "purpose": "v0.2 time-of-day scenes (IDEA-018): golden-hour and night variants of the canon tea-garden master (Q-015). Composition-frozen light edits — the layout (lawn, stream, koi pool, path, plants, rabbit rest space) must not move so all existing placement anchors stay valid. Selected automatically by the player's real local hour; night adds code-drawn fireflies (no art).",
+  "style_reference_note": "Reference = the promoted garden master (assets/scene/background.png). Only the time of day changes: palette and light, nothing else. No rabbit/people/text ever (she renders on top).",
+  "acceptance_criteria": [
+    "Composition match vs the day master: coarse structure correlation on a 64px grayscale thumbnail stays high (layout frozen) while the sky-region palette clearly shifts (warm amber/rose for sunset; deep blue-lavender + moon/stars for night)",
+    "The rabbit rest space stays EMPTY (no characters/text); flat matte style, no glow/bloom effects",
+    "Full-bleed cover-crop safe (same framing as the day master)",
+    "Still no water-feature changes: rock formation + koi pool + bubbler + stream stay in place"
+  ],
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "reference_files": ["/Users/brizkowsky/github/benoahriz/rabbit-game/assets/scene/background.png"]
+  },
+  "options": [
+    {
+      "id": "garden-sunset",
+      "prompt": "Edit the reference image. Keep this EXACT same tea garden scene: identical composition and layout — same positions of the quiet lawn, meandering stream, koi pool, rock formation, bubbling water feature, pathway, plants and trees. Nothing moves, nothing is added or removed. Do not add any animals, people, or text. Change only the time of day: warm golden-hour light — soft amber and rose sky, gentle long warm shadows across the grass, foliage warmed to amber and soft orange tones, the pool reflecting warm sky colors. Same flat matte kawaii illustration style with thick warm brown outlines; warm the whole palette but keep it flat — no glow effects, no photorealism."
+    },
+    {
+      "id": "garden-night",
+      "prompt": "Edit the reference image. Keep this EXACT same tea garden scene: identical composition and layout — same positions of the quiet lawn, meandering stream, koi pool, rock formation, bubbling water feature, pathway, plants and trees. Nothing moves, nothing is added or removed. Do not add any animals, people, or text. Change only the time of day: a calm cozy night — deep soft blue-lavender palette throughout, a dark indigo sky with a small gentle crescent moon and a few tiny stars, dark cozy greens in the foliage, the pool reflecting pale moonlight. Same flat matte kawaii illustration style with thick warm brown outlines; keep it flat — no glow effects, no photorealism, no fireflies."
+    }
+  ]
+}

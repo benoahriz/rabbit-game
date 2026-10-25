@@ -1,0 +1,92 @@
+{
+  "spec_id": "scene-garden-times",
+  "created_at": "2026-10-25T16:11:36.501Z",
+  "engine": "OpenRouter image model (google/gemini-2.5-flash-image) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "garden-night-v2",
+      "prompt": "Recolor this image for nighttime. This is NOT a new scene: it is the SAME picture painted in night colors — every element must stay in its EXACT current position, shape, and size: the quiet lawn, the meandering stream, the koi pool, the rock formation, the bubbling water feature, the pathway, every plant and tree stays exactly where it is. Do not move, add, remove, or redraw anything. Do not add animals, people, or text. Only change the colors: a dark indigo sky with a small crescent moon and a few tiny stars, deep blue-lavender tones across the grass and foliage, dark cozy greens, the pool reflecting pale moonlight, warm brown outlines dimmed to deep brown. Same flat matte kawaii illustration style — no glow effects, no photorealism, no fireflies.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/assets/scene/background.png",
+          "sha256": "6c6c62a3277a79928a77a9d969f374811ddf7e4e32053ecb5b8bca14c144d7ca"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1455,
+        "completion_tokens": 1290,
+        "total_tokens": 2745,
+        "cost": 0.038745135,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391365,
+          "upstream_inference_prompt_cost": 0.0004365,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "garden-night-v2.png",
+      "sha256": "544365418508ad1cc9a8bd3ca2b66219b86287492cb191db707d94002e0f4df7"
+    },
+    {
+      "option": "garden-night-v3",
+      "prompt": "Take this exact illustration and repaint every color as a calm nighttime version, keeping the composition 100 percent identical — same positions and shapes for the lawn, stream, koi pool, rocks, water feature, path, and all plants; nothing moves or changes except the colors. The sky becomes deep indigo with one small crescent moon and tiny stars; grass and leaves become deep blue-greens; the pool reflects pale moonlight; outlines become deep warm brown. Flat matte kawaii style, thick outlines, no glow, no animals, no people, no text, no fireflies.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/assets/scene/background.png",
+          "sha256": "6c6c62a3277a79928a77a9d969f374811ddf7e4e32053ecb5b8bca14c144d7ca"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1405,
+        "completion_tokens": 1290,
+        "total_tokens": 2695,
+        "cost": 0.038730285,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391215,
+          "upstream_inference_prompt_cost": 0.0004215,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "garden-night-v3.png",
+      "sha256": "ee684a1fc0ca2ee1a3a16eae70dae3699d30ebf43eafa8b54effc7bfc3fb5291"
+    }
+  ]
+}

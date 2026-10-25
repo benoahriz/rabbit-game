@@ -110,3 +110,42 @@ test("isMilestone: exactly the celebration numbers", () => {
   for (const n of [10, 25, 50, 100, 200, 300]) assert.equal(isMilestone(n), true, `${n} celebrates`);
   for (const n of [0, 1, 7, 9, 11, 24, 26, 33, 99, 101, 150]) assert.equal(isMilestone(n), false, `${n} is an ordinary day`);
 });
+
+// --- dozing (IDEA-017): sleeps after long idle, wakes on any interaction ---
+test("dozes after dozeAfterMs of quiet idle; wakes on feed/pet", () => {
+  const ck = fakeClock();
+  const r = new RabbitState({ now: () => ck.now, dozeAfterMs: 300 });
+  r.update(0);
+  assert.equal(r.dozing, false);
+  ck.advance(299);
+  r.update(0);
+  assert.equal(r.dozing, false, "not yet");
+  ck.advance(2);
+  r.update(0);
+  assert.equal(r.dozing, true, "idle long enough → dozing");
+  r.feed();
+  assert.equal(r.dozing, false, "feeding wakes her");
+  ck.advance(100);
+  r.pet(); // a pat during eating is a harmless heat tick — the chomp owns the state
+  assert.equal(r.dozing, false);
+  assert.equal(r.state, "eating", "a pat during eating doesn't interrupt the chomp");
+  ck.advance(2200); // past EAT_MS → idle again, and quiet long past dozeAfterMs
+  r.update(0);
+  assert.equal(r.dozing, true, "dozes again after the quiet spell");
+  r.perk();
+  assert.equal(r.dozing, false, "the pointer arriving wakes her gently");
+});
+
+test("no dozing mid-chomp (activity resets the quiet clock)", () => {
+  const ck = fakeClock();
+  const r = new RabbitState({ now: () => ck.now, dozeAfterMs: 200 });
+  r.update(0);
+  r.feed();
+  ck.advance(200); // long past dozeAfterMs, but she is still eating
+  r.update(0);
+  assert.equal(r.state, "eating");
+  assert.equal(r.dozing, false, "no dozing mid-chomp");
+  ck.advance(1600); // eating ends → idle; quiet elapsed since the feed → dozes
+  r.update(0);
+  assert.equal(r.dozing, true);
+});

@@ -1,0 +1,22 @@
+{
+  "id": "scene-garden-times",
+  "purpose": "round-003: night variant, final attempt on the nano-banana lane. Rounds 1-2 failed composition preservation (corr -0.086 / 0.036 / -0.073 — the model re-imagines the garden at night). This round passes the ACCEPTED sunset variant (corr 0.973) alongside the day master as a worked example of a position-frozen light-only edit.",
+  "acceptance_criteria": [
+    "Structure correlation vs the day master on a 48px grayscale thumbnail > 0.75",
+    "Sky region: deep blue-lavender night palette; no animals/people/text; flat matte; no glow"
+  ],
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "reference_files": [
+      "/Users/brizkowsky/github/benoahriz/rabbit-game/assets/scene/background.png",
+      "/Users/brizkowsky/github/benoahriz/rabbit-game/art/production/scene-garden-times/generations/round-001/garden-sunset.png"
+    ]
+  },
+  "options": [
+    {
+      "id": "garden-night-v4",
+      "prompt": "The first image is the day version of a tea garden scene. The second image is the sunset version of the SAME scene: notice how it keeps the composition exactly identical to the first image — every plant, rock, pool, stream, and path is in the exact same place; only the colors and light changed. Now produce the NIGHT version of the same scene with the exact same discipline: the composition must match the first image exactly, element for element, position for position — nothing moves, nothing is added, nothing is removed. Only the colors change: deep indigo sky with a small crescent moon and a few tiny stars, deep blue-lavender grass and foliage, dark cozy greens, the pool reflecting pale moonlight, outlines deep warm brown. Flat matte kawaii style, no glow, no animals, no people, no text, no fireflies."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "scene-garden-times",
+  "purpose": "round-002 REVISE of garden-night (round-001 critique: night palette correct but structure correlation -0.086 vs the day master — the model re-imagined the garden instead of recoloring it). This round frames the edit as a strict recoloring of the SAME picture.",
+  "acceptance_criteria": [
+    "Structure correlation vs the day master on a 48px grayscale thumbnail > 0.75 (round-001 sunset scored 0.973)",
+    "Sky region: deep blue-lavender night palette with moon/stars cues",
+    "No animals/people/text; layout untouched; flat matte, no glow effects"
+  ],
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "reference_files": ["/Users/brizkowsky/github/benoahriz/rabbit-game/assets/scene/background.png"]
+  },
+  "options": [
+    {
+      "id": "garden-night-v2",
+      "prompt": "Recolor this image for nighttime. This is NOT a new scene: it is the SAME picture painted in night colors — every element must stay in its EXACT current position, shape, and size: the quiet lawn, the meandering stream, the koi pool, the rock formation, the bubbling water feature, the pathway, every plant and tree stays exactly where it is. Do not move, add, remove, or redraw anything. Do not add animals, people, or text. Only change the colors: a dark indigo sky with a small crescent moon and a few tiny stars, deep blue-lavender tones across the grass and foliage, dark cozy greens, the pool reflecting pale moonlight, warm brown outlines dimmed to deep brown. Same flat matte kawaii illustration style — no glow effects, no photorealism, no fireflies."
+    },
+    {
+      "id": "garden-night-v3",
+      "prompt": "Take this exact illustration and repaint every color as a calm nighttime version, keeping the composition 100 percent identical — same positions and shapes for the lawn, stream, koi pool, rocks, water feature, path, and all plants; nothing moves or changes except the colors. The sky becomes deep indigo with one small crescent moon and tiny stars; grass and leaves become deep blue-greens; the pool reflects pale moonlight; outlines become deep warm brown. Flat matte kawaii style, thick outlines, no glow, no animals, no people, no text, no fireflies."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "spec_id": "scene-garden-times",
+  "spec_execution": "openrouter",
+  "created_at": "2026-10-25T16:11:36.499Z",
+  "options": [
+    "garden-night-v2",
+    "garden-night-v3"
+  ]
+}

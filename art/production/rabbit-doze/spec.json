@@ -1,0 +1,23 @@
+{
+  "id": "rabbit-doze",
+  "purpose": "v0.2 doze frame (IDEA-017): Casey deeply asleep — used after long idle; any interaction wakes her gently. Frame-coherent with the canon idle master (position/palette freeze), same lane as the expression sheet.",
+  "style_reference_note": "Reference = the canon idle master (assets/character/rabbit-idle.png source). The doze frame is a coherent asleep pose: closed eyes + relaxed drooped ears + tiny relaxed smile. Position/scale/body/palette must stay frozen so the swap is in-place.",
+  "acceptance_criteria": [
+    "Content bbox/alignment within ~6px of the idle master (body cross-correlation, expression-sheet method)",
+    "Both eye regions lose their dark mass (closed lash lines like the canon wink)",
+    "Ear zone changes (relaxed/drooped) while face+body palette invariants match (fur white, bow pink)",
+    "Background stays a uniform flat keyable solid; no text/watermarks/objects",
+    "Reads as 'asleep' at game scale (~378px tall render)"
+  ],
+  "base": {
+    "execution": "openrouter",
+    "cloud_model": "google/gemini-2.5-flash-image",
+    "reference_files": ["/Users/brizkowsky/github/benoahriz/rabbit-game/assets/character/rabbit-idle.png"]
+  },
+  "options": [
+    {
+      "id": "doze-asleep",
+      "prompt": "Edit the reference image. Keep this EXACT same kawaii rabbit character: identical position in the frame, identical scale, identical body pose and proportions, identical flat matte style with thick warm brown outlines and the same pastel palette, and the same solid flat background color kept perfectly uniform (the background gets removed later; no shadows or gradients on it). Do not add text, watermarks, or new objects. Change only this: she is deeply, peacefully asleep — BOTH eyes closed as soft curved downward lash lines (matching the closed-eye wink line she already has), both long ears relaxed and gently drooped sideways, and her mouth a tiny relaxed closed smile. The bow, blush, and body stay pixel-identical."
+    }
+  ]
+}

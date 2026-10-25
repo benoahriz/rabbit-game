@@ -10,6 +10,7 @@ export const AMBIENT = {  EAT_MS: 1600,          // eating animation duration
   PET_THRESHOLD: 3,      // accumulated pet heat that triggers a happy hop
   PET_DECAY_PER_S: 0.6,  // pet heat decay per second (head-only strokes accumulate slower than full-body did)
   MIN_STROKE: 28,        // pointer travel that turns a touch into a stroke (px)
+  DOZE_AFTER_MS: 180000, // idle minutes before Casey dozes off (IDEA-017; any interaction wakes her)
 };
 
 /** Fed-count milestones (IDEA-014): one-shot celebrations, never streak pressure. */
@@ -19,9 +20,10 @@ export function isMilestone(fed) {
 }
 
 export class RabbitState {
-  constructor({ now = () => performance.now(), fed = 0 } = {}) {
+  constructor({ now = () => performance.now(), fed = 0, dozeAfterMs = AMBIENT.DOZE_AFTER_MS } = {}) {
     this.now = now;
     this.fed = fed;
+    this.dozeAfterMs = dozeAfterMs; // injectable for tests
     this.state = "idle";          // idle | eating | happy
     this.animStart = this.now();  // when the current state was entered (drives animations)
     this.petHeat = 0;             // accumulates pet ticks; decays over time
@@ -34,11 +36,20 @@ export class RabbitState {
     this.earAt = t + 3500;
     this.earStart = -1;
     this.earSide = 0;
+    this.dozing = false;       // IDEA-017: idle long enough and she naps (no demand — sleeping is state, not guilt)
+    this._lastAwakeAt = t;
+  }
+
+  /** Any interaction gently wakes her (IDEA-017). */
+  wake() {
+    this.dozing = false;
+    this._lastAwakeAt = this.now();
   }
 
   /** Feed a carrot. Returns the noise event to play. */
   feed() {
     const t = this.now();
+    this.wake();
     this.hiccup = t - this.lastFeedAt < AMBIENT.RAPID_FEED_MS;
     this.lastFeedAt = t;
     this.fed += 1;
@@ -54,6 +65,7 @@ export class RabbitState {
    */
   pet(quality = 0.5) {
     const t = this.now();
+    this.wake();
     const inc = 0.5 + quality; // default 0.5 → exactly 1 heat (v0.1-compatible); perfect scritch → 1.5
     if (this.state === "happy" || this.petHeat + inc >= AMBIENT.PET_THRESHOLD) {
       this.petHeat = 0;
@@ -72,6 +84,7 @@ export class RabbitState {
    */
   perk() {
     const t = this.now();
+    this.wake(); // the pointer arriving near her is a gentle wake (IDEA-005 + IDEA-017)
     if (this.state !== "idle" || t - (this._lastPerk ?? -1e9) < 2500) return false;
     this._lastPerk = t;
     this.earStart = t;
@@ -110,6 +123,11 @@ export class RabbitState {
 
     // stroking regularly keeps petHeat alive; it decays otherwise
     this.petHeat = Math.max(0, this.petHeat - AMBIENT.PET_DECAY_PER_S * dt);
+
+    // dozing: idle + quiet long enough (IDEA-017); feeding/petting/perking all wake her
+    if (this.state === "idle" && !this.dozing && t - this._lastAwakeAt >= this.dozeAfterMs) {
+      this.dozing = true;
+    }
     return this;
   }
 

@@ -1,0 +1,11 @@
+{
+  "round": 2,
+  "critique_at": "2026-10-25T19:00:00Z",
+  "method": "same as round-001 (48px grayscale correlation vs the day master)",
+  "context": "Night revise with strict recolor framing: 'the SAME picture painted in night colors', positions frozen.",
+  "verdicts": [
+    { "option": "garden-night-v2", "verdict": "REVISE", "evidence": { "structure_corr": 0.036, "sky_avg": [74, 78, 103] }, "notes": ["Recolor language alone did not hold the composition."], "fix_type": "revise" },
+    { "option": "garden-night-v3", "verdict": "REVISE", "evidence": { "structure_corr": -0.073, "sky_avg": [66, 68, 93] }, "notes": ["Same failure mode as v2."], "fix_type": "revise" }
+  ],
+  "round_summary": "Both night attempts failed the composition check again. Round-003 tries different leverage: the accepted sunset variant passed as a worked example. Round cost $0.077."
+}

@@ -53,6 +53,7 @@ const BUBBLES = {
   perk: ["!", "hm?"],                // she noticed you (IDEA-005)
   boop: ["boop!", "!!", "♡"],       // nose boop (IDEA-012)
   milestone: ["yay!!", "✦ ✦ ✦"],     // fed milestone (IDEA-014)
+  doze: ["z…", "z z z", "zzz…"],     // she drifted off (IDEA-017)
 };
 const bubble = (kind, force = false) => {
   const texts = BUBBLES[kind];
@@ -242,12 +243,14 @@ drawClock();
 renderer.load();
 
 let last = performance.now();
+let lastZAt = 0; // doze bubble pacing (IDEA-017)
 const frame = () => {
   const t = performance.now();
   const dt = Math.min(0.05, (t - last) / 1000); // clamp: background tab jumps are not physics
   last = t;
   state.update(dt);
   sound.setPurr(!document.hidden && state.petHeat > 0.3); // purr while she melts under your hand (IDEA-013)
+  if (state.dozing && t - lastZAt > 4200) { lastZAt = t; bubble("doze"); }
   if (!document.hidden) renderer.draw(state);
   requestAnimationFrame(frame);
 };

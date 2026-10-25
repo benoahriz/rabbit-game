@@ -98,8 +98,37 @@
         "art/production/rabbit-expression-sheet/generations/round-001/generation.json",
         "art/production/rabbit-expression-sheet/generations/round-001.critique.json"
       ]
+    },
+    {
+      "role": "character/doze (expression frame: asleep — eyes closed, ears relaxed)",
+      "file": "assets/character/rabbit-doze.png",
+      "sha256": "e337e5326d196e7e8097993baa73dfad5beb17a59e15d1b9023a2892aca6c5cf",
+      "source": "art/production/rabbit-doze/generations/round-001/doze-asleep.png",
+      "source_sha": "see source round generation.json (doze-asleep)",
+      "picked": "critique ACCEPT per spec acceptance criteria (pixel-probe: PERFECT align (0,0) residual 0.004; both eyes closed; relaxed mouth 265≈chomp's 261; palette frozen)",
+      "provenance_note": "IDEA-017: idle ≥ 3 min → dozing (doze frame + slow breathing + z bubbles); any interaction wakes her. Wired 2026-10-25.",
+      "provenance_files": [
+        "art/production/rabbit-doze/spec.json",
+        "art/production/rabbit-doze/generations/round-001/generation.json",
+        "art/production/rabbit-doze/generations/round-001.critique.json"
+      ]
+    },
+    {
+      "role": "scene/background-sunset (golden-hour garden, composition-frozen light edit)",
+      "file": "assets/scene/background-sunset.png",
+      "sha256": "98bf169774565e1219332ab6d23c41aabea8256f379caac9aa5d8c14388dd557",
+      "source": "art/production/scene-garden-times/generations/round-001/garden-sunset.png",
+      "source_sha": "see source round generation.json (garden-sunset)",
+      "picked": "critique ACCEPT per spec acceptance criteria (pixel-probe: structure correlation 0.973 vs the day master; warm sky shift (241,221,200)→(240,193,150))",
+      "provenance_note": "IDEA-018: selected automatically 17:00-19:59 local (sceneForHour). The NIGHT variant is derived at runtime from the day master by a deterministic cool-dark grade (see scene-garden-times round-003 critique — 4 generation rounds failed the composition check; the derivation is processing, not art, same lane as the runtime chroma-key). Fireflies at night are code-drawn ambient VFX.",
+      "provenance_files": [
+        "art/production/scene-garden-times/spec.json",
+        "art/production/scene-garden-times/generations/round-001/generation.json",
+        "art/production/scene-garden-times/generations/round-001.critique.json",
+        "art/production/scene-garden-times/generations/round-003.critique.json"
+      ]
     }
   ],
-  "renderer_consumption": "scripts/render.js loads all five character frames at boot and swaps them per FSM signals (blink / ear-twitch / eating chomp cycle: idle-open ↔ chomp-closed / happy); each opaque frame is chroma-keyed at runtime with the same border flood-fill (pre-baked alpha cutouts remain a future mechanical-key upgrade). Scene backgrounds load per environment setting.",
-  "updated": "2026-10-23"
+  "renderer_consumption": "scripts/render.js loads the character frame set (idle/blink/ear/chomp/happy/doze — keyed at boot) and swaps them per FSM signals; garden scenes pick by the player's real hour (day master, promoted sunset PNG, runtime-derived night from the day master); the pink room loads per setting. Each opaque frame is chroma-keyed at runtime with the same border flood-fill (pre-baked alpha cutouts remain a future mechanical-key upgrade).",
+  "updated": "2026-10-25"
 }

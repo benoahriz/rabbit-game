@@ -1,0 +1,28 @@
+{
+  "round": 1,
+  "critique_at": "2026-10-25T18:50:00Z",
+  "method": "programmatic pixel-probe: 48px grayscale thumbnail correlation vs the day master (composition-freeze check), sky-region average palette, size match",
+  "context": "Time-of-day scenes (IDEA-018): light-only edits of the canon garden master — layout must not move (rabbit placement anchors depend on it). Selected by the player's real local hour.",
+  "verdicts": [
+    {
+      "option": "garden-sunset",
+      "verdict": "ACCEPT",
+      "evidence": { "structure_corr": 0.973, "sky_avg": { "day": [241, 221, 200], "sunset": [240, 193, 150] } },
+      "notes": [
+        "Composition frozen (0.973) with a clear warm amber/rose sky shift — a textbook light-only edit on the first try.",
+        "Promoted as assets/scene/background-sunset.png; picked automatically 17:00-19:59 local."
+      ],
+      "fix_type": "none-blocking"
+    },
+    {
+      "option": "garden-night",
+      "verdict": "REVISE",
+      "evidence": { "structure_corr": -0.086, "sky_avg": [74, 84, 119] },
+      "notes": [
+        "Night palette correct, but the model re-imagined the garden instead of recoloring it — composition does not match the day master (corr -0.086). The rabbit's rest space cannot be trusted at its measured position."
+      ],
+      "fix_type": "revise"
+    }
+  ],
+  "round_summary": "Sunset promoted; night sent to round-002 with recolor-framing. Round cost $0.077."
+}

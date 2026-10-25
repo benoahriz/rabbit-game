@@ -1,0 +1,92 @@
+{
+  "spec_id": "scene-garden-times",
+  "created_at": "2026-10-25T16:10:22.933Z",
+  "engine": "OpenRouter image model (google/gemini-2.5-flash-image) — nano-banana lane",
+  "execution_note": "paid cloud lane; paid-per-image; no seed control; usage recorded per record",
+  "records": [
+    {
+      "option": "garden-sunset",
+      "prompt": "Edit the reference image. Keep this EXACT same tea garden scene: identical composition and layout — same positions of the quiet lawn, meandering stream, koi pool, rock formation, bubbling water feature, pathway, plants and trees. Nothing moves, nothing is added or removed. Do not add any animals, people, or text. Change only the time of day: warm golden-hour light — soft amber and rose sky, gentle long warm shadows across the grass, foliage warmed to amber and soft orange tones, the pool reflecting warm sky colors. Same flat matte kawaii illustration style with thick warm brown outlines; warm the whole palette but keep it flat — no glow effects, no photorealism.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/assets/scene/background.png",
+          "sha256": "6c6c62a3277a79928a77a9d969f374811ddf7e4e32053ecb5b8bca14c144d7ca"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1427,
+        "completion_tokens": 1317,
+        "total_tokens": 2744,
+        "cost": 0.038803644,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391956,
+          "upstream_inference_prompt_cost": 0.0004281,
+          "upstream_inference_completions_cost": 0.0387675
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "garden-sunset.png",
+      "sha256": "98bf169774565e1219332ab6d23c41aabea8256f379caac9aa5d8c14388dd557"
+    },
+    {
+      "option": "garden-night",
+      "prompt": "Edit the reference image. Keep this EXACT same tea garden scene: identical composition and layout — same positions of the quiet lawn, meandering stream, koi pool, rock formation, bubbling water feature, pathway, plants and trees. Nothing moves, nothing is added or removed. Do not add any animals, people, or text. Change only the time of day: a calm cozy night — deep soft blue-lavender palette throughout, a dark indigo sky with a small gentle crescent moon and a few tiny stars, dark cozy greens in the foliage, the pool reflecting pale moonlight. Same flat matte kawaii illustration style with thick warm brown outlines; keep it flat — no glow effects, no photorealism, no fireflies.",
+      "seed": "not-applicable (cloud lane)",
+      "model": "google/gemini-2.5-flash-image",
+      "served_model": "google/gemini-2.5-flash-image",
+      "execution": "openrouter",
+      "execution_location": "openrouter.ai",
+      "paid": true,
+      "authorization": "explicit per-session user instruction (2026-10-23 question prompt)",
+      "reference_files": [
+        {
+          "path": "/Users/brizkowsky/github/benoahriz/rabbit-game/assets/scene/background.png",
+          "sha256": "6c6c62a3277a79928a77a9d969f374811ddf7e4e32053ecb5b8bca14c144d7ca"
+        }
+      ],
+      "openrouter_usage": {
+        "prompt_tokens": 1433,
+        "completion_tokens": 1290,
+        "total_tokens": 2723,
+        "cost": 0.038738601,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0391299,
+          "upstream_inference_prompt_cost": 0.0004299,
+          "upstream_inference_completions_cost": 0.0387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1290,
+          "audio_tokens": 0
+        }
+      },
+      "file": "garden-night.png",
+      "sha256": "3a663f480b7a7819b0894df38fd2eb48adb00aee872b440af7817e4d053b9a73"
+    }
+  ]
+}
