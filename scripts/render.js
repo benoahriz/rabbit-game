@@ -53,17 +53,26 @@ export class Renderer {
       happy: "assets/character/rabbit-happy.png",
     },
   } = {}) {
+    // Progressive load (2026-10-25 flash fix): the critical pair for the CURRENT
+    // setting renders the moment it lands (~2 MB); the other environment + the
+    // expression frames (~4.5 MB) stream in behind — the swap logic is already
+    // graceful about late/missing frames. Before this, all 7 images had to arrive
+    // before any real art painted, and the v0.1 placeholder flashed in the gap.
     this._loadPromise = (async () => {
+      const wantRoomFirst = this.setting === "room";
       const frameKeys = Object.keys(frameSrcs);
-      const [scene, room, opaque, ...frameImgs] = await Promise.all([
-        this._loadImg(sceneSrc),
-        this._loadImg(roomSrc).catch(() => null), // room is optional until promoted; garden keeps working
+      const [scene, opaque] = await Promise.all([
+        this._loadImg(wantRoomFirst ? roomSrc : sceneSrc),
         this._loadImg(rabbitSrc),
+      ]);
+      if (wantRoomFirst) this.roomImg = scene; else this.sceneImg = scene;
+      this.rabbitSprite = await this._keyRabbit(opaque);
+      // secondary wave: the other environment + expression frames, failures tolerated
+      const [other, ...frameImgs] = await Promise.all([
+        this._loadImg(wantRoomFirst ? sceneSrc : roomSrc).catch(() => null),
         ...frameKeys.map((k) => this._loadImg(frameSrcs[k]).catch(() => null)),
       ]);
-      this.sceneImg = scene;
-      if (room) this.roomImg = room;
-      this.rabbitSprite = await this._keyRabbit(opaque);
+      if (other) { if (wantRoomFirst) this.sceneImg = other; else this.roomImg = other; }
       // expression frames: same border flood-fill key; a failed frame just skips that swap
       const keyed = await Promise.all(frameImgs.map((img) => (img ? this._keyRabbit(img) : null)));
       this.frames = Object.fromEntries(frameKeys.map((k, i) => [k, keyed[i]]));
@@ -176,7 +185,10 @@ export class Renderer {
       this._drawRabbit(state, t);
       return;
     }
-    this._drawFallbackLegacy(state, t);
+    // art still downloading → draw nothing (the cream page + "casey" wordmark carry
+    // the moment). The placeholder paints ONLY on a real load failure — before
+    // 2026-10-25 it flashed here for the whole cold-load window.
+    if (this.artFailed) this._drawFallbackLegacy(state, t);
   }
 
   // ---- real art path ----

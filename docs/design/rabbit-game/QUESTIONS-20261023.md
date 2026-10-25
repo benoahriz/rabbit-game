@@ -173,7 +173,13 @@ tests (pet without errors, feed increments counter, mute persists) need a driver
 - A) GitHub Pages from repo root (no `package.json` build needed).
 - B) Keep local-only; share via zip.
 **Blocking?** No — decide by start of v0.3/v1 release.
-**Resolution direction:** (A).
+> ✅ **ANSWERED** · 2026-10-25
+**Answer:** **Cloudflare Workers static assets** with Git integration (push =
+deploy), custom domain **https://rabbit.brainvault.xyz/**. Chose Cloudflare over
+GitHub Pages for unlimited bandwidth + the `wrangler.jsonc`/`.assetsignore`
+config-as-code deploy (repo root IS the site, trimmed to the runtime artifact).
+Source stays public at `github.com/benoahriz/rabbit-game` (both, per rule 4 —
+the repo public AND the URL live).
 ---
 ### Q-010 — Offline behavior in v1: plain static hosting vs PWA installability?
 **Context:** Static assets load once; after that, refresh needs network unless a

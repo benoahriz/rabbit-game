@@ -22,6 +22,10 @@ python3 -m http.server 8000     # then open http://localhost:8000
 Controls: drag a carrot from the basket onto Casey (or tap the basket / press F);
 stroke her head (or press P); ESC or the corner button opens settings.
 
+**Live:** https://rabbit.brainvault.xyz/ — deployed via Cloudflare Workers
+static assets (Git integration: `git push` = deploy; config in `wrangler.jsonc`
++ `.assetsignore`).
+
 ## Layout
 
 The repo root IS the shipped artifact (Q-003 ✅ — split layout, never bundled):
