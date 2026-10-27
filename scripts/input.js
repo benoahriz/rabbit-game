@@ -45,7 +45,8 @@ export function petGrade(speedPxMs) {
  *   (a floating ghost carrot follows the pointer; a successful drop snaps it to the
  *   mouth, a miss returns it to the basket)
  * - Any first gesture                     -> onInteract() (audio unlock, mandatory before sound)
- * callbacks: { onPetTick, onPetDone, onFeed, onBoop, onInteract, getHeadRect, getRabbitRect, getMouthPoint, getNosePoint }
+ * - Keyboard: F feeds, P pets, Z tucks her in (doze, user direction 2026-10-27)
+ * callbacks: { onPetTick, onPetDone, onFeed, onBoop, onSleep, onInteract, getHeadRect, getRabbitRect, getMouthPoint, getNosePoint }
  * getHeadRect()/getRabbitRect()/getMouthPoint()/getNosePoint() -> CSS-pixel geometry (from the renderer).
  */
 export class InputController {
@@ -101,12 +102,13 @@ export class InputController {
 
     this._on(this.surface, "pointercancel", () => { this.samples = []; this.strokeAccum = 0; });
 
-    // Keyboard fallback (PRD §6.1): F feeds, P pets. No hold-repeat spam.
+    // Keyboard fallback (PRD §6.1): F feeds, P pets, Z tucks her in. No hold-repeat spam.
     this._on(window, "keydown", (e) => {
       if (e.repeat) return;
       this.cb.onInteract?.();
       if (e.key === "f" || e.key === "F") this.cb.onFeed();
       else if (e.key === "p" || e.key === "P") this.cb.onPetDone("pet");
+      else if (e.key === "z" || e.key === "Z") this.cb.onSleep?.();
     });
 
     // Carrot basket: plain click = feed (a11y). Drag a carrot: a ghost follows the

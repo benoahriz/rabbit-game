@@ -149,3 +149,20 @@ test("no dozing mid-chomp (activity resets the quiet clock)", () => {
   r.update(0);
   assert.equal(r.dozing, true);
 });
+
+test("sleep() on demand (Z key): from idle yes, mid-activity no; wake still works", () => {
+  const ck = fakeClock();
+  const r = new RabbitState({ now: () => ck.now });
+  r.update(0);
+  assert.equal(r.sleep(), true, "idle → tucks in instantly");
+  assert.equal(r.dozing, true);
+  assert.equal(r.sleep(), false, "already asleep is a no-op");
+  r.pet();
+  assert.equal(r.dozing, false, "petting wakes her");
+  r.feed();
+  assert.equal(r.sleep(), false, "no tucking in mid-chomp");
+  ck.advance(2000);
+  r.update(0);
+  assert.equal(r.state, "idle");
+  assert.equal(r.sleep(), true, "idle again → Z works");
+});

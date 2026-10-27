@@ -22,7 +22,8 @@ python3 -m http.server 8000     # then open http://localhost:8000
 ```
 
 Controls: drag a carrot from the basket onto Casey (or tap the basket / press F);
-stroke her head (or press P); ESC or the corner button opens settings.
+stroke her head (or press P); boop her nose; press Z to tuck her in;
+ESC or the corner button opens settings.
 
 **Live:** https://rabbit.brainvault.xyz/ 🐰 — v1 deployed (Cloudflare Workers
 static assets; Git integration: `git push` = deploy; config in `wrangler.jsonc`

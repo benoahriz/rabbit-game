@@ -46,6 +46,13 @@ export class RabbitState {
     this._lastAwakeAt = this.now();
   }
 
+  /** Drift off right now (Z key, user direction 2026-10-27) — only from idle, no-op if already asleep. */
+  sleep() {
+    if (this.state !== "idle" || this.dozing) return false;
+    this.dozing = true;
+    return true;
+  }
+
   /** Feed a carrot. Returns the noise event to play. */
   feed() {
     const t = this.now();

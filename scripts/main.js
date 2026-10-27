@@ -105,11 +105,17 @@ const onBoop = () => {
   renderer.spawnHeart();
 };
 
+// Z: tuck her in right now (user direction 2026-10-27) — only works from idle
+const onSleep = () => {
+  if (state.sleep()) { sound.soft(); bubble("doze"); }
+};
+
 new InputController(canvas, basketBtn, {
   onPetTick: playPetTick,
   onPetDone,
   onFeed,
   onBoop,
+  onSleep,
   onInteract,
   getRabbitRect: () => renderer.getRabbitRect(), // drag-feed drop target (whole body)
   getHeadRect: () => renderer.getHeadRect(),     // pet target (head + ears only)
