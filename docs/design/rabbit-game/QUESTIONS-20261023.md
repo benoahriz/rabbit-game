@@ -113,6 +113,9 @@ variant (revisit in v0.2 polish).
 the garden (rabbit off-center left) and add the pastel-pink "original idea"
 room (rabbit CENTERED), behind an ESC settings menu.
 > ✅ **ANSWERED** · 2026-10-23
+**Amendment (2026-10-27):** the **pink room is now the DEFAULT environment**
+for fresh players (user direction; the garden remains one tap away and
+time-of-day still applies there). Existing persisted choices are untouched.
 **Answer:** Shipped in v0.2-alpha: `scripts/menu.js` + `#menu` card (ESC
 toggle, backdrop click close); store gains persisted `setting` ("garden" |
 "room", validated on load); renderer keeps both scene images and switches

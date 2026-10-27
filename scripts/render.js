@@ -39,11 +39,11 @@ export class Renderer {
     this.mouthPoint = { x: 0, y: 0 };
     this.reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     this.sceneImg = null;
-    this.roomImg = null;        // pink-room master (second environment)
+    this.roomImg = null;        // pink-room master (second environment — the DEFAULT, user direction 2026-10-27)
     this.sunsetImg = null;      // golden-hour garden (IDEA-018, promoted PNG)
     this.nightImg = null;       // night garden — runtime-derived from the day master
     this._hourOverride = null;  // debug/verification hook (forces a scene-for-hour pick)
-    this.setting = "garden";    // current environment: "garden" | "room"
+    this.setting = "room";      // current environment: "garden" | "room" (boot syncs from the store)
     this.rabbitSprite = null;   // ImageBitmap, ground keyed to transparent
     this.frames = null;         // keyed expression frames: { blink, ear, chompClosed, happy }
     this._spriteUsed = "idle"; // debug/verification: which frame the last draw picked

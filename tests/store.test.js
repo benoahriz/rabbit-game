@@ -13,27 +13,28 @@ function fakeStorage() {
 
 test("defaults when storage is empty", () => {
   const s = new Store(fakeStorage());
-  assert.deepEqual(s.data, { muted: false, fed: 0, setting: "garden", clock: false });
+  assert.deepEqual(s.data, { muted: false, fed: 0, setting: "room", clock: false, captions: false });
 });
 
 test("saves and reloads state across instances", () => {
   const storage = fakeStorage();
-  new Store(storage).save({ muted: true, fed: 7, setting: "room", clock: true });
+  new Store(storage).save({ muted: true, fed: 7, setting: "garden", clock: true, captions: true });
   const s = new Store(storage);
   assert.equal(s.data.muted, true);
   assert.equal(s.data.fed, 7);
-  assert.equal(s.data.setting, "room");
+  assert.equal(s.data.setting, "garden");
   assert.equal(s.data.clock, true);
+  assert.equal(s.data.captions, true);
 });
 
 test("rejects corrupt/negative data harmlessly", () => {
   const storage = fakeStorage();
   storage.setItem("rabbit-game:v1", "{not json");
-  assert.deepEqual(new Store(storage).data, { muted: false, fed: 0, setting: "garden", clock: false });
+  assert.deepEqual(new Store(storage).data, { muted: false, fed: 0, setting: "room", clock: false, captions: false });
 
   const storage2 = fakeStorage();
-  storage2.setItem("rabbit-game:v1", JSON.stringify({ fed: -3, muted: 42, setting: "castle", clock: "yes" }));
-  assert.deepEqual(new Store(storage2).data, { muted: false, fed: 0, setting: "garden", clock: false });
+  storage2.setItem("rabbit-game:v1", JSON.stringify({ fed: -3, muted: 42, setting: "castle", clock: "yes", captions: "no" }));
+  assert.deepEqual(new Store(storage2).data, { muted: false, fed: 0, setting: "room", clock: false, captions: false });
 });
 
 test("works without storage (private mode) — in-memory only", () => {

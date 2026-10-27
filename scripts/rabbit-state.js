@@ -10,7 +10,7 @@ export const AMBIENT = {  EAT_MS: 1600,          // eating animation duration
   PET_THRESHOLD: 3,      // accumulated pet heat that triggers a happy hop
   PET_DECAY_PER_S: 0.6,  // pet heat decay per second (head-only strokes accumulate slower than full-body did)
   MIN_STROKE: 28,        // pointer travel that turns a touch into a stroke (px)
-  DOZE_AFTER_MS: 180000, // idle minutes before Casey dozes off (IDEA-017; any interaction wakes her)
+  DOZE_AFTER_MS: 60000,  // idle minute before Casey dozes off (IDEA-017; any interaction wakes her — tuned 2026-10-27, was 3 min)
 };
 
 /** Fed-count milestones (IDEA-014): one-shot celebrations, never streak pressure. */

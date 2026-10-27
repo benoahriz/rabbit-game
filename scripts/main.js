@@ -46,7 +46,7 @@ const onInteract = () => {
 const bubblesEl = document.getElementById("bubbles");
 let lastBubbleAt = 0;
 const BUBBLES = {
-  feed: ["nib nib", "nib nib nib", "crunch…"],
+  feed: ["nom nom nom", "nom nom", "nom nom!"], // the chomp words (user direction 2026-10-27)
   soft: ["pprr", "prr", "mm…"],
   best: ["prr!", "prrr!!"],          // sweet-spot strokes (IDEA-001 grade)
   chirrup: ["prrreet!", "weet!!", "prrr-eet!"],
@@ -58,6 +58,7 @@ const BUBBLES = {
 const bubble = (kind, force = false) => {
   const texts = BUBBLES[kind];
   if (!texts || !bubblesEl) return;
+  if (!store.data.captions) return; // captions toggle (user direction 2026-10-27): default off, Extras menu turns her words on
   const now = performance.now();
   if (!force && now - lastBubbleAt < 380) return; // visual calm: at most ~2.5 bubbles/second
   lastBubbleAt = now;
@@ -227,6 +228,19 @@ optClock.addEventListener("click", () => {
   sound.unlock(); // same fix as the setting picker: the click unlocks the ack sound
   sound.soft(); // tiny acknowledgment, same as the Setting picker
 });
+
+// captions toggle (user direction 2026-10-27): her little words, default off
+const optCaptions = document.getElementById("opt-captions");
+const syncCaptions = () => {
+  optCaptions.setAttribute("aria-pressed", String(store.data.captions));
+};
+optCaptions.addEventListener("click", () => {
+  store.save({ captions: !store.data.captions });
+  syncCaptions();
+  sound.unlock();
+  sound.soft();
+  if (store.data.captions) bubble("soft"); // turning her words on gets a word
+});
 setInterval(drawClock, 1000);
 
 // --- sizing + main loop ---
@@ -238,6 +252,7 @@ syncFed();
 syncMute();
 syncClock();
 drawClock();
+syncCaptions();
 
 // real-art load (v0.2): promoted pipeline assets; draw() shows the labeled placeholder until ready
 renderer.load();
