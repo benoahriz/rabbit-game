@@ -151,12 +151,19 @@ manifest), file size budget (the repo ships no audio today; keep the artifact
 light), and a graceful load-failure path back to synth.
 **Blocking?** No — synth is the shipped default; nothing waits on this.
 
-**Status update (2026-10-25): clips landed.** User dropped four clips into
-`import/` (gitignored, local-only): `petting.m4a`, `petmeandfeedme.m4a`,
-`seeyouagain.aif`, `thisisforwhenyouleave.m4a`, plus the Logic source project
-(`import/rabbit-game.logicx`). Intent read from the names: petting + feed SFX,
-a greeting on return, a farewell on leave. Provenance/format/integration still
-to define before anything ships from `import/` into the game.
+> ✅ **ANSWERED** · 2026-10-27
+**Answer:** **Casey has a voice.** The user re-exported the set as five short
+AIFF voice lines (Logic project in `import/`); converted to AAC-256 via
+afconvert and promoted to `assets/audio/` (provenance + triggers + captions in
+`assets/manifest.json` §audio). Mapping: `hi im casey` → first-ever
+interaction; `i can be shy sometimes` → first perk of a session (consumes only
+if audio was unlocked — a hover can't voice); `im only eating at my house` →
+1-in-3 feeds; `petmeandfeedme` → idle hum every 2-4 min while awake;
+`seeyouagain` → return from a ≥3s absence. The old long-piece set
+(petting/thisisforwhenyouleave m4a) was disregarded at user direction. The
+instant synth stays for crunches/chirps/purr and as the per-clip fallback;
+every line has a matching caption bubble (captions default off). All five
+verified live (playback-state + captions).
 
 ## Testing & Release
 ---

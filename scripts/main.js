@@ -40,6 +40,12 @@ const syncMute = () => {
 const onInteract = () => {
   sound.unlock();
   sound.startAmbience(); // tea-garden trickle bed begins after the audio-unlock gesture
+  // the first-ever meeting: she introduces herself (Q-018 voice lines)
+  if (!store.data.met) {
+    store.save({ met: true });
+    sound.playClip("hello");
+    bubble("hello", true);
+  }
 };
 
 // --- speech bubbles (IDEA-002, 2026-10-24): Casey's noises made visible; the mute channel ---
@@ -54,6 +60,11 @@ const BUBBLES = {
   boop: ["boop!", "!!", "♡"],       // nose boop (IDEA-012)
   milestone: ["yay!!", "✦ ✦ ✦"],     // fed milestone (IDEA-014)
   doze: ["z…", "z z z", "zzz…"],     // she drifted off (IDEA-017)
+  hello: ["hi!! i'm casey"],
+  shy: ["i can be shy sometimes…"],
+  eatLine: ["i only eat at MY house!"],
+  ask: ["pet me… and feed me?"],
+  greet: ["see you again!!"],
 };
 const bubble = (kind, force = false) => {
   const texts = BUBBLES[kind];
@@ -84,6 +95,7 @@ const playFeed = ({ hiccup }) => {
     bubble("milestone", true);
     renderer.spawnConfetti();
   }
+  if (Math.random() < 0.34) sound.playClip("eatLine"); // her picky-eater line, now and then
 };
 
 // SoundEngine gates chirrup spam internally (lastChirrup cooldown); handler just plays.
@@ -125,6 +137,7 @@ new InputController(canvas, basketBtn, {
 
 // --- she notices you (IDEA-005, perk-at-cursor): lean + ear twitch when the pointer arrives ---
 let pointerNear = false;
+let firstPerkDone = false; // her shy line plays only the first time (Q-018)
 canvas.addEventListener("pointermove", (e) => {
   renderer.pointer = { x: e.clientX, y: e.clientY };
   const head = renderer.getHeadRect();
@@ -132,7 +145,15 @@ canvas.addEventListener("pointermove", (e) => {
     { x: head.x - 70, y: head.y - 70, w: head.w + 140, h: head.h + 140 });
   if (near && !pointerNear) {
     pointerNear = true;
-    if (state.perk()) { sound.soft(); bubble("perk"); } // one soft notice per approach
+    const first = !firstPerkDone;
+    if (state.perk()) {
+      const voiced = sound.playClip("shy");
+      if (first && voiced) bubble("shy", true);
+      else { sound.soft(); bubble("perk"); }
+      // consume the shy moment only if she could actually voice it (a hover-only
+      // approach can't unlock audio — she gets to say it at the next approach)
+      if (first && (voiced || sound.ctx)) firstPerkDone = true;
+    }
   } else if (!near) {
     pointerNear = false;
   }
@@ -147,8 +168,12 @@ muteBtn.addEventListener("click", () => {
   syncMute();
 });
 
-// battery politeness: no audio while the tab is backgrounded
-document.addEventListener("visibilitychange", () => sound.setHidden(document.hidden));
+// battery politeness: no audio while the tab is backgrounded — and when you come
+// back after a real absence, she greets you (voice line + caption, Q-018)
+document.addEventListener("visibilitychange", () => {
+  const greeted = sound.setHidden(document.hidden);
+  if (greeted) bubble("greet", true);
+});
 
 // --- settings menu (ESC) + environment picker (user direction 2026-10-23) ---
 const menu = new SettingsMenu(document.getElementById("menu"), {
@@ -262,9 +287,11 @@ syncCaptions();
 
 // real-art load (v0.2): promoted pipeline assets; draw() shows the labeled placeholder until ready
 renderer.load();
+sound.loadClips(); // Casey's voice lines (Q-018) — decode at boot, own-file fetches only
 
 let last = performance.now();
 let lastZAt = 0; // doze bubble pacing (IDEA-017)
+let nextAskAt = 60000 + Math.random() * 60000; // her idle hum, 1-2 min in, then every 2-4 min (Q-018)
 const frame = () => {
   const t = performance.now();
   const dt = Math.min(0.05, (t - last) / 1000); // clamp: background tab jumps are not physics
@@ -272,6 +299,11 @@ const frame = () => {
   state.update(dt);
   sound.setPurr(!document.hidden && state.petHeat > 0.3); // purr while she melts under your hand (IDEA-013)
   if (state.dozing && t - lastZAt > 4200) { lastZAt = t; bubble("doze"); }
+  if (!document.hidden && state.state === "idle" && !state.dozing && t > nextAskAt) {
+    nextAskAt = t + 120000 + Math.random() * 120000;
+    sound.playClip("ask");
+    bubble("ask");
+  }
   if (!document.hidden) renderer.draw(state);
   requestAnimationFrame(frame);
 };

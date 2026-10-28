@@ -4,6 +4,21 @@
 
 const AMBIENCE_VOL = 0.09; // cozy trickle bed; master gain sits on top
 
+/**
+ * Casey's voice lines (Q-018, user-supplied AIF exports 2026-10-27, converted to
+ * AAC-256 via afconvert and promoted to assets/audio/). These are EVENT pieces —
+ * she speaks at the moments her lines name; the instant synth (munch/chirrup/
+ * soft/purr) keeps the ≤100ms response layer and stays the fallback whenever a
+ * clip is missing.
+ */
+const CLIPS = {
+  hello: "assets/audio/hi-im-casey.m4a",                  // 1.5s — the first-ever meeting
+  shy: "assets/audio/i-can-be-shy.m4a",                   // 1.8s — the first time she notices you
+  eatLine: "assets/audio/im-only-eating-at-my-house.m4a", // 1.7s — occasionally while eating
+  ask: "assets/audio/petmeandfeedme.m4a",                 // 2.6s — her rare idle hum
+  greet: "assets/audio/seeyouagain.m4a",                  // 2.9s — when you come back
+};
+
 export class SoundEngine {
   constructor({ getMuted = () => false } = {}) {
     this.ctx = null;          // created lazily on first user gesture (autoplay policy)
@@ -12,6 +27,11 @@ export class SoundEngine {
     this.lastChirrup = 0;
     this._purring = false;   // continuous purr state (IDEA-013)
     this._purrNodes = null;
+    this.clips = {};              // decoded voice lines (Q-018); missing ones degrade to synth
+    this._playingClips = new Set(); // a line never restarts while playing
+    this._hiddenTimer = null;     // (kept for future farewell scheduling)
+    this._hiddenAt = 0;
+    this._clipsLoaded = false;
     this._amb = null;         // ambient water bed (tea-garden water feature)
   }
 
@@ -221,9 +241,63 @@ export class SoundEngine {
   }
 
   /** Battery courtesy: no audio while the tab is backgrounded. */
+  /**
+   * Fetch + decode the promoted voice lines at boot (Q-018). Own-file fetches only
+   * (the page's own static files — constitution-clean). A missing/failing clip
+   * degrades that moment to the synth fallback; decoding works before the audio
+   * unlock because a suspended context can still decode.
+   */
+  async loadClips() {
+    if (this._clipsLoaded) return;
+    this._clipsLoaded = true; // one attempt per session; keep boot quiet and cheap
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      const dc = this.ctx ?? (AC ? new AC() : null); // suspended scratch context for decoding
+      if (!dc) return;
+      for (const [name, src] of Object.entries(CLIPS)) {
+        try {
+          const res = await fetch(src);
+          if (!res.ok) continue;
+          this.clips[name] = await dc.decodeAudioData(await res.arrayBuffer());
+        } catch { /* clip unavailable → that moment falls back to synth */ }
+      }
+    } catch { /* never breaks boot */ }
+  }
+
+  /**
+   * Play one of Casey's voice lines. Returns true when the line is handled
+   * (played, or already playing — a line never restarts mid-word); false means
+   * "not available" and callers use their synth/bubble fallback.
+   */
+  playClip(name, vol = 0.9) {
+    if (!this.ctx || this.getMuted()) return false;
+    const buf = this.clips[name];
+    if (!buf) return false;
+    if (this._playingClips.has(name)) return true;
+    const src = this.ctx.createBufferSource();
+    const g = this.ctx.createGain();
+    src.buffer = buf;
+    g.gain.value = vol;
+    src.connect(g); g.connect(this.master);
+    src.start();
+    this._playingClips.add(name);
+    src.onended = () => this._playingClips.delete(name);
+    return true;
+  }
+
   setHidden(hidden) {
-    if (!this.ctx) return;
-    if (hidden) this.ctx.suspend().catch(() => {});
-    else this.ctx.resume().catch(() => {});
+    if (!this.ctx) return false;
+    if (hidden) {
+      this._hiddenAt = performance.now();
+      this.ctx.suspend().catch(() => {});
+      return false;
+    }
+    this.ctx.resume().catch(() => {});
+    // she greets you when you come back — but alt-tab flicker stays quiet;
+    // returns whether the greeting voiced (caller may add the caption bubble)
+    if (performance.now() - this._hiddenAt > 3000) {
+      return this.playClip("greet", 0.9) || !this._blip({ freq: 640, to: 830, dur: 0.11, vol: 0.12 });
+    }
+    return false;
   }
 }

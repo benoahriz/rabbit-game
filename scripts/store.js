@@ -7,7 +7,7 @@ const SETTINGS = ["garden", "room"]; // canonical environment ids (Q-env user di
 export class Store {
   constructor(storage) {
     this.storage = storage ?? null; // pass globalThis.localStorage at call site
-    this.data = { muted: false, fed: 0, setting: "room", clock: false, captions: false };
+    this.data = { muted: false, fed: 0, setting: "room", clock: false, captions: false, met: false };
     this.load();
   }
 
@@ -21,6 +21,7 @@ export class Store {
         if (SETTINGS.includes(parsed.setting)) this.data.setting = parsed.setting;
         if (typeof parsed.clock === "boolean") this.data.clock = parsed.clock;
         if (typeof parsed.captions === "boolean") this.data.captions = parsed.captions;
+        if (typeof parsed.met === "boolean") this.data.met = parsed.met;
       }
     } catch { /* fail closed: defaults are fine */ }
     return this.data;

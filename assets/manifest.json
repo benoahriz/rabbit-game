@@ -129,6 +129,16 @@
       ]
     }
   ],
+  "audio": {
+    "policy": "Casey's voice lines (Q-018 ✅): user-composed in Logic (source AIFs gitignored in import/), converted to AAC-256 via afconvert (mechanical), promoted here. Voice plays at the moments the lines name; the synth stays the ≤100ms instant layer and the fallback per clip.",
+    "lines": [
+      { "file": "assets/audio/hi-im-casey.m4a", "seconds": 1.46, "trigger": "first-ever interaction (store.met flag)", "caption": "hi!! i'm casey" },
+      { "file": "assets/audio/i-can-be-shy.m4a", "seconds": 1.75, "trigger": "first perk of a session (waits until audio is unlocked)", "caption": "i can be shy sometimes…" },
+      { "file": "assets/audio/im-only-eating-at-my-house.m4a", "seconds": 1.65, "trigger": "occasionally on feed (1-in-3)", "caption": "i only eat at MY house!" },
+      { "file": "assets/audio/petmeandfeedme.m4a", "seconds": 2.6, "trigger": "rare idle hum (1-2 min in, then every 2-4 min while awake)", "caption": "pet me… and feed me?" },
+      { "file": "assets/audio/seeyouagain.m4a", "seconds": 2.92, "trigger": "return from a ≥3s absence", "caption": "see you again!!" }
+    ]
+  },
   "renderer_consumption": "scripts/render.js loads the character frame set (idle/blink/ear/chomp/happy/doze — keyed at boot) and swaps them per FSM signals; garden scenes pick by the player's real hour (day master, promoted sunset PNG, runtime-derived night from the day master); the pink room loads per setting. Each opaque frame is chroma-keyed at runtime with the same border flood-fill (pre-baked alpha cutouts remain a future mechanical-key upgrade).",
-  "updated": "2026-10-25"
+  "updated": "2026-10-27"
 }
