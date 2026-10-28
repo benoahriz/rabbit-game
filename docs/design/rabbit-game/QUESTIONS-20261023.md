@@ -101,6 +101,12 @@ the shipped artifact: `index.html` + `styles/` + `scripts/*.js` (native ES modul
 **Context:** User direction (2026-10-23): cozy Japanese tea garden scene with a
 small water feature and "cozy trickling water background noise." Q-004 set the
 v1 audio approach to WebAudio synthesis; ambient water is the first ambience need.
+> 🗄️ **SUPERSEDED** · 2026-10-28
+**Amendment:** the ambience bed (synthesized trickling water + droplets) was
+**removed at user direction** ("remove the background noise of the atmosphere").
+The soundscape is now Casey's voice lines + the synth SFX only — nothing loops
+in the background. The water feature stays in the ART (visual); it just makes
+no sound.
 > ✅ **ANSWERED** · 2026-10-23
 **Answer:** Synthesized (v0.2 build): brown-noise trickle bed + bandpassed random
 droplet accents from `scripts/sound.js`. Zero assets, mute-aware, tab-hidden -

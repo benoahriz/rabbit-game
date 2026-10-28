@@ -2,7 +2,7 @@
 // Fails closed and quiet: a missing/blocked AudioContext never breaks gameplay.
 // lean-ctx ceiling: oscillator blips; upgrade to recorded SFX only via the art pipeline (Q-004 option B).
 
-const AMBIENCE_VOL = 0.09; // cozy trickle bed; master gain sits on top
+// rabbit-game v0.2 — synthesized cute noises + Casey's voice lines (WebAudio; no ambience bed since 2026-10-28).
 
 /**
  * Casey's voice lines (Q-018, user-supplied AIF exports 2026-10-27, converted to
@@ -32,7 +32,6 @@ export class SoundEngine {
     this._hiddenTimer = null;     // (kept for future farewell scheduling)
     this._hiddenAt = 0;
     this._clipsLoaded = false;
-    this._amb = null;         // ambient water bed (tea-garden water feature)
   }
 
   /** Must be called from a user-gesture handler (browser autoplay policy). Idempotent. */
@@ -158,87 +157,8 @@ export class SoundEngine {
     }
   }
 
-  // ---- ambient cozy trickling water (tea-garden water feature; synthesis, no assets) ----
-
-  /** Continuous soft trickling-water bed + random droplets. Call after unlock(). Idempotent. */
-  startAmbience() {
-    if (!this.ctx || (this._amb && this._amb.ready)) return;
-    const ctx = this.ctx;
-    const amb = { ready: false, dropletTimer: null };
-
-    // brown-noise bed = the water's body
-    const len = ctx.sampleRate * 2;
-    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    let lastOut = 0;
-    for (let i = 0; i < len; i++) {
-      const white = Math.random() * 2 - 1;
-      lastOut = (lastOut + 0.02 * white) / 1.02;
-      d[i] = lastOut * 3.2;
-    }
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.loop = true;
-    const lp = ctx.createBiquadFilter();
-    lp.type = "lowpass";
-    lp.frequency.value = 620; // muffled, cozy — reads as water far across the garden
-    const bed = ctx.createGain();
-    bed.gain.value = 0.5;
-    const ambGain = ctx.createGain();
-    ambGain.gain.value = 0.0001;
-    src.connect(lp); lp.connect(bed); bed.connect(ambGain); ambGain.connect(this.master);
-    src.start();
-
-    // gentle fade-in so the garden "arrives" instead of blaring on unlock
-    ambGain.gain.linearRampToValueAtTime(this.getMuted() ? 0.0001 : AMBIENCE_VOL, ctx.currentTime + 3);
-    amb.ambGain = ambGain;
-    amb.ready = true;
-    this._amb = amb;
-    this._scheduleDroplet();
-  }
-
-  /** Random droplet accents; skipped (cheaply) while muted or page-hidden. */
-  _scheduleDroplet() {
-    const wait = 160 + Math.random() * 560;
-    this._amb.dropletTimer = setTimeout(() => {
-      if (this.ctx && !this.getMuted() && !document.hidden) this._droplet();
-      this._scheduleDroplet();
-    }, wait);
-  }
-
-  /** One little water tick — a bandpassed decaying noise splish. */
-  _droplet() {
-    const ctx = this.ctx;
-    if (!ctx) return;
-    const t0 = ctx.currentTime;
-    const dur = 0.03 + Math.random() * 0.03;
-    const len = Math.floor(ctx.sampleRate * dur);
-    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    const bp = ctx.createBiquadFilter();
-    bp.type = "bandpass";
-    bp.frequency.value = 1300 + Math.random() * 1400;
-    bp.Q.value = 6;
-    const g = ctx.createGain();
-    const v = 0.04 + Math.random() * 0.05;
-    g.gain.setValueAtTime(v, t0);
-    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur + 0.02);
-    src.connect(bp); bp.connect(g); g.connect(this.master);
-    src.start(t0);
-  }
-
-  /** Ramp the ambience with mute; effect sounds are gated independently upstream. */
-  setAmbienceMuted(muted) {
-    if (!this._amb?.ready || !this.ctx || !this._amb.ambGain) return;
-    const g = this._amb.ambGain.gain;
-    const t = this.ctx.currentTime;
-    g.cancelScheduledValues(t);
-    g.setValueAtTime(g.value, t);
-    g.linearRampToValueAtTime(muted ? 0.0001 : AMBIENCE_VOL, t + 0.8);
-  }
+  // ---- ambient cozy trickling water ---- REMOVED 2026-10-28 (user direction: the
+  // background bed is gone; Casey's voice lines + the synth SFX carry the soundscape)
 
   /** Battery courtesy: no audio while the tab is backgrounded. */
   /**

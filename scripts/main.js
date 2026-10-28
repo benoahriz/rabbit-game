@@ -39,7 +39,6 @@ const syncMute = () => {
 // --- interaction plumbing ---
 const onInteract = () => {
   sound.unlock();
-  sound.startAmbience(); // tea-garden trickle bed begins after the audio-unlock gesture
   // the first-ever meeting: she introduces herself (Q-018 voice lines)
   if (!store.data.met) {
     store.save({ met: true });
@@ -168,9 +167,8 @@ canvas.addEventListener("pointermove", (e) => {
 canvas.addEventListener("pointerleave", () => { renderer.pointer = null; pointerNear = false; });
 
 muteBtn.addEventListener("click", () => {
-  onInteract(); // allow unmuting-by-click to also be the audio unlock gesture
+  sound.unlock(); // allow unmuting-by-click to also be the audio unlock gesture
   store.save({ muted: !store.data.muted });
-  sound.setAmbienceMuted(store.data.muted);
   sound.lastChirrup = 0;
   syncMute();
 });
