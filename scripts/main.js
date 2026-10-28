@@ -65,6 +65,8 @@ const BUBBLES = {
   ask: ["pet me… and feed me?"],
   greet: ["see you again!!"],
   gold: ["✦ a golden one!!", "✦ nom!!"],  // the rare gold carrot (IDEA-019)
+  yummy: ["that's really yummy!!"],       // post-meal (2026-10-28 drop)
+  more: ["feed me more?"],                // post-meal wants
 };
 const bubble = (kind, force = false) => {
   const texts = BUBBLES[kind];
@@ -86,7 +88,7 @@ const bubble = (kind, force = false) => {
 
 const playFeed = ({ hiccup }, { gold = false } = {}) => {
   if (hiccup) sound.soft();
-  sound.munch();
+  sound.playClip("chew") || sound.munch(); // real chewing when the clip loaded; synth is the fallback
   bubble("feed");
   store.save({ fed: state.fed });
   syncFed();
@@ -109,7 +111,12 @@ const playFeed = ({ hiccup }, { gold = false } = {}) => {
 const playPetTick = (quality = 0.5) => {
   const ev = state.pet(quality);
   if (ev.noise === "chirrup") { sound.chirrup(performance.now()); bubble("chirrup"); }
-  else { sound.soft(); bubble(quality > 0.85 ? "best" : "soft"); }
+  else {
+    // responsive layer: most ticks stay synth; some carry her petting voice (Q-018 pool)
+    const voice = Math.random() < 0.4 ? sound.petNoise() : null;
+    if (voice) sound.playClip(voice); else sound.soft();
+    bubble(quality > 0.85 ? "best" : "soft");
+  }
 };
 
 const onFeed = (opts = {}) => { playFeed(state.feed(), opts); };
@@ -308,6 +315,7 @@ sound.loadClips(); // Casey's voice lines (Q-018) — decode at boot, own-file f
 
 let last = performance.now();
 let lastZAt = 0; // doze bubble pacing (IDEA-017)
+let prevState = "idle"; // the post-meal coin-flip needs the eating→idle transition
 let nextAskAt = 60000 + Math.random() * 60000; // her idle hum, 1-2 min in, then every 2-4 min (Q-018)
 const frame = () => {
   const t = performance.now();
@@ -315,6 +323,12 @@ const frame = () => {
   last = t;
   state.update(dt);
   sound.setPurr(!document.hidden && state.petHeat > 0.3); // purr while she melts under your hand (IDEA-013)
+  // post-meal moment: the chomp just ended → "that's really yummy!" or "feed me more?"
+  if (prevState === "eating" && state.state === "idle") {
+    const line = sound.postEatNoise();
+    if (line) { sound.playClip(line); bubble(line === "yummy" ? "yummy" : "more"); }
+  }
+  prevState = state.state;
   if (state.dozing && t - lastZAt > 4200) { lastZAt = t; bubble("doze"); }
   if (!document.hidden && state.state === "idle" && !state.dozing && t > nextAskAt) {
     nextAskAt = t + 120000 + Math.random() * 120000;

@@ -17,7 +17,18 @@ const CLIPS = {
   eatLine: "assets/audio/im-only-eating-at-my-house.m4a", // 1.7s — occasionally while eating
   ask: "assets/audio/petmeandfeedme.m4a",                 // 2.6s — her rare idle hum
   greet: "assets/audio/seeyouagain.m4a",                  // 2.9s — when you come back
+  // the petting pool (2026-10-28): short noises she makes while being petted —
+  // a light sprinkle of these voices the per-tick layer
+  pet1: "assets/audio/petting-1.m4a",
+  pet3: "assets/audio/petting-3.m4a",
+  pet5: "assets/audio/petting-5.m4a",
+  // the eating set (2026-10-28, later drop): real chewing + the post-meal coin-flip
+  chew: "assets/audio/chewing.m4a",            // 3.5s — replaces the synth crunches when loaded
+  more: "assets/audio/feed-me-more.m4a",       // 1.1s — she wants another
+  yummy: "assets/audio/thats-yummy.m4a",       // 1.5s — she's satisfied
 };
+const PETTING_POOL = ["pet1", "pet3", "pet5"];
+const POST_EAT_POOL = ["yummy", "more"];
 
 export class SoundEngine {
   constructor({ getMuted = () => false } = {}) {
@@ -203,6 +214,18 @@ export class SoundEngine {
     this._playingClips.add(name);
     src.onended = () => this._playingClips.delete(name);
     return true;
+  }
+
+  /** A random petting-pool name that has actually loaded, or null (caller stays synth). */
+  petNoise() {
+    const available = PETTING_POOL.filter((n) => this.clips[n]);
+    return available.length ? available[(Math.random() * available.length) | 0] : null;
+  }
+
+  /** A random post-meal line ("yummy" or "more"), or null. */
+  postEatNoise() {
+    const available = POST_EAT_POOL.filter((n) => this.clips[n]);
+    return available.length ? available[(Math.random() * available.length) | 0] : null;
   }
 
   setHidden(hidden) {

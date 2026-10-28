@@ -136,7 +136,13 @@
       { "file": "assets/audio/i-can-be-shy.m4a", "seconds": 1.65, "trigger": "first perk of a session (waits until audio is unlocked)", "caption": "i can be shy sometimes…" },
       { "file": "assets/audio/im-only-eating-at-my-house.m4a", "seconds": 1.99, "trigger": "occasionally on feed (1-in-3)", "caption": "i only eat at MY house!" },
       { "file": "assets/audio/petmeandfeedme.m4a", "seconds": 2.6, "trigger": "rare idle hum (1-2 min in, then every 2-4 min while awake)", "caption": "pet me… and feed me?" },
-      { "file": "assets/audio/seeyouagain.m4a", "seconds": 2.92, "trigger": "return from a ≥3s absence", "caption": "see you again!!" }
+      { "file": "assets/audio/seeyouagain.m4a", "seconds": 2.92, "trigger": "return from a ≥3s absence", "caption": "see you again!!" },
+      { "file": "assets/audio/petting-1.m4a", "trigger": "petting pool — ~40% of pet ticks voice her instead of the synth" },
+      { "file": "assets/audio/petting-3.m4a", "trigger": "petting pool" },
+      { "file": "assets/audio/petting-5.m4a", "trigger": "petting pool" },
+      { "file": "assets/audio/chewing.m4a", "seconds": 3.5, "trigger": "feed (replaces the synth crunches when loaded; synth is the fallback)" },
+      { "file": "assets/audio/thats-yummy.m4a", "seconds": 1.5, "trigger": "post-meal coin-flip (eating→idle): 50/50 with feed-me-more", "caption": "that's really yummy!!" },
+      { "file": "assets/audio/feed-me-more.m4a", "seconds": 1.1, "trigger": "post-meal coin-flip", "caption": "feed me more?" }
     ]
   },
   "renderer_consumption": "scripts/render.js loads the character frame set (idle/blink/ear/chomp/happy/doze — keyed at boot) and swaps them per FSM signals; garden scenes pick by the player's real hour (day master, promoted sunset PNG, runtime-derived night from the day master); the pink room loads per setting. Each opaque frame is chroma-keyed at runtime with the same border flood-fill (pre-baked alpha cutouts remain a future mechanical-key upgrade).",
