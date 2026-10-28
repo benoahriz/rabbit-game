@@ -364,7 +364,7 @@ export class Renderer {
 
     // eating: carrot held at the mouth with a nibble bob + crumb burst on the first bite
     if (s.state === "eating") {
-      this._carrotAtMouth(mx, my, box, nib);
+      this._carrotAtMouth(mx, my, box, nib, this.goldCarrot);
       if (this._lastState !== "eating") this._spawnCrumbs(mx, my, box);
     }
     // happy entry: one heart poof (reward clarifies state — Feel rule #5)
@@ -386,20 +386,21 @@ export class Renderer {
     };
     this.mouthPoint = { x: mx, y: my };
     this.nosePoint = { x: box.x + SPRITE_FACE.nose[0] * box.w, y: box.y + SPRITE_FACE.nose[1] * box.h };
+    if (s.state !== "eating") this.goldCarrot = false; // a finished chomp returns gold to the basket
     this._lastState = s.state;
   }
 
   /** Canon-palette carrot held at the mouth's right corner while eating
-   *  (pivot outside the muzzle silhouette; nib = chomp phase). */
-  _carrotAtMouth(mx, my, box, nib) {
+   *  (pivot outside the muzzle silhouette; nib = chomp phase; gold = the rare one). */
+  _carrotAtMouth(mx, my, box, nib, gold = false) {
     const ctx = this.ctx;
     const l = box.h * 0.11, r = l * 0.26;
     ctx.save();
     ctx.translate(box.x + box.w * 0.65, my + box.h * 0.005 + nib * box.h * 0.005);
     ctx.rotate(0.72);
-    ctx.fillStyle = "#f2803c";
+    ctx.fillStyle = gold ? "#ffb347" : "#f2803c";
     this._capsule(0, -l, r, l);
-    ctx.strokeStyle = "#d9662a";
+    ctx.strokeStyle = gold ? "#d98f1d" : "#d9662a";
     ctx.lineWidth = Math.max(1, r * 0.22);
     ctx.lineCap = "round";
     ctx.beginPath();

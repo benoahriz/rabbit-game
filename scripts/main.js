@@ -65,6 +65,7 @@ const BUBBLES = {
   eatLine: ["i only eat at MY house!"],
   ask: ["pet me… and feed me?"],
   greet: ["see you again!!"],
+  gold: ["✦ a golden one!!", "✦ nom!!"],  // the rare gold carrot (IDEA-019)
 };
 const bubble = (kind, force = false) => {
   const texts = BUBBLES[kind];
@@ -84,12 +85,18 @@ const bubble = (kind, force = false) => {
   setTimeout(() => b.remove(), 1500);
 };
 
-const playFeed = ({ hiccup }) => {
+const playFeed = ({ hiccup }, { gold = false } = {}) => {
   if (hiccup) sound.soft();
   sound.munch();
   bubble("feed");
   store.save({ fed: state.fed });
   syncFed();
+  if (gold) { // a golden carrot! (IDEA-019) — bigger celebration, gold chomp
+    renderer.goldCarrot = true;
+    sound.chirrup(performance.now());
+    bubble("gold", true);
+    renderer.spawnConfetti();
+  }
   if (isMilestone(state.fed)) { // one-shot celebration, never streak pressure (IDEA-014)
     sound.chirrup(performance.now());
     bubble("milestone", true);
@@ -106,7 +113,7 @@ const playPetTick = (quality = 0.5) => {
   else { sound.soft(); bubble(quality > 0.85 ? "best" : "soft"); }
 };
 
-const onFeed = () => { playFeed(state.feed()); };
+const onFeed = (opts = {}) => { playFeed(state.feed(), opts); };
 const onPetDone = () => playPetTick();
 
 // boop the nose (IDEA-012): instant surprise — ear twitch, chirrup, heart, a word
@@ -271,6 +278,18 @@ optCaptions.addEventListener("click", () => {
   sound.unlock();
   sound.soft();
   if (store.data.captions) bubble("soft"); // turning her words on gets a word
+});
+
+// snapshot (IDEA-015): save the canvas as a PNG — share Casey
+document.getElementById("snapshot").addEventListener("click", () => {
+  sound.unlock();
+  sound.soft();
+  const a = document.createElement("a");
+  const d = new Date();
+  const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}-${d.getHours()}${String(d.getMinutes()).padStart(2, "0")}${String(d.getSeconds()).padStart(2, "0")}`;
+  a.download = `casey-${stamp}.png`;
+  a.href = canvas.toDataURL("image/png");
+  a.click();
 });
 setInterval(drawClock, 1000);
 

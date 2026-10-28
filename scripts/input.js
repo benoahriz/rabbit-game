@@ -106,7 +106,7 @@ export class InputController {
     this._on(window, "keydown", (e) => {
       if (e.repeat) return;
       this.cb.onInteract?.();
-      if (e.key === "f" || e.key === "F") this.cb.onFeed();
+      if (e.key === "f" || e.key === "F") this.cb.onFeed?.({ gold: false });
       else if (e.key === "p" || e.key === "P") this.cb.onPetDone("pet");
       else if (e.key === "z" || e.key === "Z") this.cb.onSleep?.();
     });
@@ -116,7 +116,7 @@ export class InputController {
     // return ghost to the basket. Trailing click after a drag is suppressed.
     this._on(this.basketBtn, "click", () => {
       if (this.dragMoved) { this.dragMoved = false; return; } // trailing click after drag — suppress
-      this.cb.onFeed?.();
+      this.cb.onFeed?.({ gold: false });
     });
     this._on(this.basketBtn, "pointerdown", (e) => {
       e.preventDefault();
@@ -138,7 +138,7 @@ export class InputController {
       if (this._downPt && this.dragMoved) {
         const r = this.cb.getRabbitRect?.();
         if (pointInRect(e.clientX, e.clientY, r)) {
-          this.cb.onFeed?.();
+          this.cb.onFeed?.({ gold: this.goldCarrot }); // a successful drop carries the gold-ness (IDEA-019)
           this._snapGhostToMouth();
         } else {
           this._returnGhost();
@@ -156,10 +156,12 @@ export class InputController {
 
   _ensureGhost() {
     if (this._ghost || !this.basketBtn) return;
+    const gold = Math.random() < 0.125; // IDEA-019: one in eight carries gold
+    this.goldCarrot = gold;
     const g = document.createElement("div");
     g.id = "drag-ghost";
     g.setAttribute("aria-hidden", "true");
-    g.innerHTML = GHOST_CARROT_SVG;
+    g.innerHTML = gold ? GOLD_CARROT_SVG : GHOST_CARROT_SVG;
     document.body.appendChild(g);
     this._ghost = g;
     this.basketBtn.classList.add("grabbing"); // hide the carrot being carried
@@ -184,6 +186,7 @@ export class InputController {
   }
 
   _returnGhost() {
+    this.goldCarrot = false; // it goes back to being a normal carrot
     if (this._ghost && this.basketBtn) {
       const br = this.basketBtn.getBoundingClientRect();
       const g = this._ghost;
@@ -215,4 +218,16 @@ const GHOST_CARROT_SVG = `
     <path d="M12.2 6.9c-.5-2 1-3.4 2.8-3.2-.1 1.9-.9 3-2.8 3.2z" fill="#6bbf59"/>
     <path d="M12.4 6.9c1.6-1.3 3.6-.9 4.2 1-1.8.7-3.2.3-4.2-1z" fill="#7fca70"/>
   </g>
+</svg>`;
+
+/** Rare golden variant (IDEA-019) — one in eight carried carrots shimmers. */
+const GOLD_CARROT_SVG = `
+<svg viewBox="8 0 34 30" aria-hidden="true">
+  <path d="M14 28c-1.1 0-1.9-.7-2.1-1.9l-1.4-16.1C10.2 8.4 11.8 7 14 7s3.8 1.4 3.5 3l-1.4 16.1c-.2 1.2-1 1.9-2.1 1.9z" fill="#ffb347"/>
+  <path d="M12 14.6l3-1.3M12.6 18.3l2.8-1.3" stroke="#d98f1d" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+  <g transform="translate(1.8 0.3)">
+    <path d="M12.2 6.9c-.5-2 1-3.4 2.8-3.2-.1 1.9-.9 3-2.8 3.2z" fill="#6bbf59"/>
+    <path d="M12.4 6.9c1.6-1.3 3.6-.9 4.2 1-1.8.7-3.2.3-4.2-1z" fill="#7fca70"/>
+  </g>
+  <circle cx="9" cy="12" r="1.1" fill="#fff3d6"/><circle cx="20" cy="22" r="0.9" fill="#fff3d6"/>
 </svg>`;

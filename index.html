@@ -24,7 +24,7 @@
   <!-- Clock & calendar (UC-7, 2026-10-24): off by default; settings Extras toggle shows them -->
   <button id="clock-chip" hidden type="button" aria-label="Show the calendar" aria-expanded="false">
     <span id="clock-time">--:--</span>
-    <span id="clock-date">…</span>
+    <span id="clock-date">…<span class="chip-caret" aria-hidden="true"> ▾</span></span>
   </button>
   <div id="calendar" class="calendar" hidden role="dialog" aria-label="Monthly calendar">
     <div class="cal-head">
@@ -41,6 +41,13 @@
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="3.1" fill="none" stroke="currentColor" stroke-width="1.8"/>
         <path d="M12 2.8v2.5M12 18.7v2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2.8 12h2.5M18.7 12h2.5M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <!-- Snapshot (IDEA-015): save this exact moment as a PNG -->
+    <button id="snapshot" type="button" aria-label="Save a snapshot of this moment as a picture">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 8.2A1.7 1.7 0 0 1 5.7 6.5h2l1.3-2h6l1.3 2h2A1.7 1.7 0 0 1 20 8.2v9.1a1.7 1.7 0 0 1-1.7 1.7H5.7A1.7 1.7 0 0 1 4 17.3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <circle cx="12" cy="12.6" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
       </svg>
     </button>
     <button id="mute" type="button" aria-pressed="false" aria-label="Toggle sound">

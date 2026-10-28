@@ -61,7 +61,7 @@ button:focus-visible {
   border-radius: 12px;
 }
 
-/* corner control chips (mute + menu): 44px touch targets (mobile pass 2026-10-24) */
+/* corner control chips (mute + menu): 44px desktop, 48px on touch (WCAG/Material guidance) */
 #mute,
 #menu-btn {
   display: grid;
@@ -72,7 +72,10 @@ button:focus-visible {
   background: var(--chip);
   backdrop-filter: blur(6px);
   box-shadow: 0 1px 4px rgba(90, 70, 80, 0.12);
+  transition: transform 0.12s ease, background 0.12s ease;
 }
+#mute:hover,
+#menu-btn:hover { transform: scale(1.06); } /* desktop hover cue; touch devices ignore hover */
 #menu-btn[aria-expanded="true"] {
   background: rgba(240, 130, 160, 0.22);
 }
@@ -293,19 +296,35 @@ button:focus-visible {
   background: rgba(255, 255, 255, 0.8);
   font-size: 15px;
   line-height: 1;
+  transition: transform 0.12s ease;
 }
+.cal-head button:hover { transform: scale(1.1); }
+.chip-caret { opacity: 0.45; font-size: 9px; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
 .cal-dow { font-size: 9.5px; text-align: center; opacity: 0.55; font-weight: 600; padding: 2px 0; }
 .cal-day { text-align: center; font-size: 12px; padding: 5px 0; border-radius: 9px; }
 .cal-day.today { background: rgba(240, 130, 160, 0.3); font-weight: 700; }
 .cal-day.blank { visibility: hidden; }
 
-/* extras toggle in the settings card (not a .setting-opt: menu.js binds those to the environment picker) */
+/* extras toggles in the settings card (not .setting-opt: menu.js binds those to the environment picker) */
 .extra-opt {
   flex: 1;
   padding: 10px 8px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.85);
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+.extra-opt:hover { transform: translateY(-1px); }
+.extra-opt[aria-pressed="true"] {
+  background: rgba(240, 130, 160, 0.22); /* same "on" tint as the corner menu chip */
+}
+
+@media (pointer: coarse) {
+  /* touch-primary devices: meet the 48px guidance on every small control */
+  #mute,
+  #menu-btn { width: 48px; height: 48px; }
+  .cal-head button { width: 44px; height: 44px; font-size: 17px; }
+  #clock-chip { padding: 9px 15px 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
